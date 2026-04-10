@@ -50,8 +50,8 @@ export default function Home() {
           </div>
 
           <h1 style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: "clamp(2.6rem, 6vw, 4.25rem)", lineHeight: 1.05, letterSpacing: "-0.5px", marginBottom: 22 }}>
-            Check if your inbox is<br />
-            <em style={{ color: "var(--red)" }}>helping or hurting you</em>
+            Check if your inbox<br />
+            <em style={{ color: "var(--red)" }}>is burned?</em>
           </h1>
 
           <p style={{ ...S.body, fontSize: 17, maxWidth: 540, margin: "0 auto 36px" }}>
@@ -212,25 +212,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 7. WARMINBOXES BRIDGE ── */}
-      <section style={S.section}>
-        <div style={S.wrap}>
-          <div style={{ maxWidth: 680, padding: "48px", background: "var(--red-dim)", border: "1px solid var(--red-border)", borderRadius: 16 }}>
-            <p style={S.eyebrow}>When fixing is not enough</p>
-            <h2 style={{ ...S.h2, marginBottom: 16 }}>Some setups should be repaired.<br />Others should be replaced.</h2>
-            <p style={{ ...S.body, marginBottom: 28 }}>
-              If your inboxes are underperforming, patching DNS is not always the fastest move. WarmInboxes helps you replace weak infrastructure with prewarmed inboxes and free domains so you can get back to sending faster.
-            </p>
-            <a href="https://warminboxes.com" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ marginBottom: 16 }}>
-              Get prewarmed inboxes <ExternalLink size={13} />
-            </a>
-            <p style={{ fontSize: 13, color: "var(--ink-4)", marginTop: 12 }}>
-              Built for teams that need backup infra, faster launches, or a clean reset after deliverability drops.
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* ── 8. USE CASES ── */}
       <section style={{ ...S.section, background: "var(--paper-2)" }}>
         <div style={S.wrap}>
@@ -264,8 +245,7 @@ export default function Home() {
               { q: "What does BurnedInbox check?", a: "It checks core deliverability and infrastructure signals like inbox placement, DNS records, blacklist exposure, authentication, and reputation indicators." },
               { q: "Can this tell me with certainty if an inbox is burned?", a: "Not with perfect certainty. It helps surface likely issues and risk signals that suggest whether a setup is healthy or underperforming." },
               { q: "Is the placement test free?", a: "Yes. BurnedInbox is designed to be a free diagnostic tool." },
-              { q: "What should I do if the result is critical?", a: "That depends on the issue. Some setups can be fixed. Others are better replaced entirely. If your infrastructure is underperforming, WarmInboxes can help you get back to sending faster." },
-              { q: "What is WarmInboxes?", a: "WarmInboxes provides prewarmed inboxes and free domains for teams that want to launch faster or replace weak infrastructure." },
+              { q: "What should I do if the result is critical?", a: "That depends on the issue. Some setups can be fixed with the right DNS records and a recovery plan. Others are better replaced entirely — especially if the infrastructure is old, overused, or showing blacklist exposure." },
             ].map(({ q, a }, i) => (
               <div key={q} style={{ padding: "22px 0", borderBottom: "1px solid var(--border)" }}>
                 <p style={{ fontSize: 14, fontWeight: 600, color: "var(--ink)", marginBottom: 8 }}>{q}</p>
@@ -296,6 +276,28 @@ export default function Home() {
           <a href="https://warminboxes.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>
             Need a faster fix? Explore WarmInboxes →
           </a>
+        </div>
+      </section>
+
+      {/* ── WARMINBOXES BRIDGE — end of page ── */}
+      <section style={{ ...S.section, background: "var(--paper-2)" }}>
+        <div style={S.wrap}>
+          <div style={{ maxWidth: 700, padding: "48px", background: "var(--paper)", border: "1px solid var(--border)", borderRadius: 16, boxShadow: "var(--shadow-2)" }}>
+            <p style={S.eyebrow}>When fixing is not enough</p>
+            <h2 style={{ ...S.h2, marginBottom: 16 }}>Some setups should be repaired.<br />Others should be replaced.</h2>
+            <p style={{ ...S.body, marginBottom: 12 }}>
+              If your inboxes are underperforming, patching DNS is not always the fastest move. Sometimes the infrastructure itself is the problem — old domains, overused IPs, or inboxes that have accumulated too much damage to recover quickly.
+            </p>
+            <p style={{ ...S.body, marginBottom: 28 }}>
+              In those cases, starting fresh with pre-warmed infrastructure is usually faster than waiting for a recovery that may never fully land.
+            </p>
+            <a href="https://warminboxes.com" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+              Explore prewarmed inboxes <ExternalLink size={13} />
+            </a>
+            <p style={{ fontSize: 13, color: "var(--ink-4)", marginTop: 16, lineHeight: 1.6 }}>
+              WarmInboxes provides prewarmed inboxes and free domains for teams that need to launch faster or reset after a deliverability drop.
+            </p>
+          </div>
         </div>
       </section>
 
