@@ -1,186 +1,305 @@
 import Link from "next/link";
-import { ArrowRight, Flame, CheckCircle2, XCircle, Shield, Zap, Globe, Lock, BarChart3, Mail, ExternalLink } from "lucide-react";
+import {
+  ArrowRight, Flame, CheckCircle2, XCircle, AlertTriangle,
+  Shield, Zap, Globe, Lock, BarChart3, Mail, ExternalLink,
+  Users, Building2, TrendingUp, Settings2
+} from "lucide-react";
+
+// ── Shared styles ─────────────────────────────────────────────────────────────
+const S = {
+  eyebrow: { fontSize: 11, fontWeight: 600, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: "var(--red)", marginBottom: 12 },
+  h2: { fontFamily: "'Instrument Serif', Georgia, serif", fontSize: "clamp(2rem, 4vw, 2.75rem)", lineHeight: 1.1, letterSpacing: "-0.3px", marginBottom: 0 },
+  body: { fontSize: 15, color: "var(--ink-3)", lineHeight: 1.7 },
+  label: { fontSize: 11, fontWeight: 600, textTransform: "uppercase" as const, letterSpacing: "0.07em" },
+  section: { padding: "80px 24px", borderBottom: "1px solid var(--border)" },
+  wrap: { maxWidth: 1040, margin: "0 auto" },
+};
 
 export default function Home() {
   return (
     <div style={{ background: "var(--paper)" }}>
 
-      {/* Nav */}
-      <nav style={{ borderBottom: "1px solid var(--border)", background: "rgba(255,255,255,0.95)", backdropFilter: "blur(12px)", position: "sticky", top: 0, zIndex: 50 }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      {/* ── 1. HEADER ── */}
+      <header style={{ position: "sticky", top: 0, zIndex: 50, borderBottom: "1px solid var(--border)", background: "rgba(255,255,255,0.96)", backdropFilter: "blur(12px)" }}>
+        <div style={{ ...S.wrap, maxWidth: 1100, padding: "0 24px", height: 54, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div style={{ width: 28, height: 28, background: "var(--red)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Flame size={14} color="#fff" />
+            <div style={{ width: 26, height: 26, background: "var(--red)", borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Flame size={13} color="#fff" />
             </div>
-            <span style={{ fontFamily: "Geist, sans-serif", fontWeight: 700, fontSize: 15, letterSpacing: "-0.3px" }}>
+            <span style={{ fontWeight: 700, fontSize: 14, letterSpacing: "-0.3px" }}>
               burned<span style={{ color: "var(--red)" }}>inbox</span>
             </span>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-            <a href="#how" style={{ fontSize: 14, color: "var(--ink-3)", textDecoration: "none" }}>How it works</a>
-            <a href="#checks" style={{ fontSize: 14, color: "var(--ink-3)", textDecoration: "none" }}>What we check</a>
-            <Link href="/test" className="btn btn-red" style={{ padding: "8px 16px", fontSize: 13 }}>
-              Test my inbox <ArrowRight size={13} />
+          <nav style={{ display: "flex", alignItems: "center", gap: 28 }}>
+            {[["How it works", "#how"], ["What we check", "#checks"], ["Free placement test", "#test-cta"]].map(([l, h]) => (
+              <a key={l} href={h} style={{ fontSize: 13, color: "var(--ink-3)", textDecoration: "none" }}>{l}</a>
+            ))}
+            <Link href="/test" className="btn btn-red" style={{ padding: "7px 16px", fontSize: 13 }}>
+              Test my inbox
             </Link>
-          </div>
+          </nav>
         </div>
-      </nav>
+      </header>
 
-      {/* Hero */}
-      <section style={{ borderBottom: "1px solid var(--border)", padding: "80px 24px 72px", background: "var(--paper-2)" }} className="paper-texture">
-        <div style={{ maxWidth: 760, margin: "0 auto", textAlign: "center" }}>
-
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "5px 12px", borderRadius: 100, background: "var(--red-dim)", border: "1px solid var(--red-border)", marginBottom: 28 }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--red)", display: "inline-block", animation: "blink-dot 1.5s ease-in-out infinite" }} />
-            <span style={{ fontSize: 12, fontWeight: 500, color: "var(--red)" }}>Free inbox placement testing</span>
+      {/* ── 2. HERO ── */}
+      <section style={{ padding: "96px 24px 88px", borderBottom: "1px solid var(--border)", background: "var(--paper-2)" }}>
+        <div style={{ ...S.wrap, maxWidth: 780, textAlign: "center" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 12px", borderRadius: 100, background: "var(--red-dim)", border: "1px solid var(--red-border)", marginBottom: 28 }}>
+            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--red)", display: "inline-block" }} />
+            <span style={{ fontSize: 12, fontWeight: 500, color: "var(--red)" }}>Built for cold emailers, agencies, and outbound teams</span>
           </div>
 
-          <h1 className="serif" style={{ fontSize: "clamp(3rem, 8vw, 5.5rem)", lineHeight: 1.05, marginBottom: 20, letterSpacing: "-0.5px" }}>
-            Are your emails<br />
-            <em style={{ color: "var(--red)" }}>actually landing?</em>
+          <h1 style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: "clamp(2.6rem, 6vw, 4.25rem)", lineHeight: 1.05, letterSpacing: "-0.5px", marginBottom: 22 }}>
+            Check if your inbox is<br />
+            <em style={{ color: "var(--red)" }}>helping or hurting you</em>
           </h1>
 
-          <p style={{ fontSize: 18, color: "var(--ink-3)", maxWidth: 520, margin: "0 auto 36px", lineHeight: 1.65 }}>
-            Send us a test email and find out in 30 seconds whether you're hitting the inbox, promotions, or spam. Free — no account needed.
+          <p style={{ ...S.body, fontSize: 17, maxWidth: 540, margin: "0 auto 36px" }}>
+            BurnedInbox helps cold emailers test inbox placement, check core DNS and authentication signals, and spot setup issues before they hurt campaigns.
           </p>
 
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <Link href="/test" className="btn btn-red" style={{ padding: "13px 28px", fontSize: 15 }}>
-              <Flame size={15} /> Run free placement test
+          <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
+            <Link href="/test" className="btn btn-red" style={{ padding: "12px 26px", fontSize: 15 }}>
+              <Flame size={15} /> Test my inbox
             </Link>
-            <a href="#how" className="btn btn-ghost" style={{ padding: "13px 24px", fontSize: 15 }}>
-              How it works
-            </a>
+            <Link href="/test" className="btn btn-ghost" style={{ padding: "12px 22px", fontSize: 15 }}>
+              Run free placement test <ArrowRight size={14} />
+            </Link>
           </div>
 
-          {/* Trust row */}
-          <div style={{ display: "flex", gap: 28, justifyContent: "center", marginTop: 40, flexWrap: "wrap" }}>
-            {[
-              { icon: Shield, t: "47 blacklists checked" },
-              { icon: Zap, t: "Results in ~15 seconds" },
-              { icon: Lock, t: "No data stored" },
-            ].map(({ icon: I, t }) => (
-              <div key={t} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--ink-4)" }}>
-                <I size={13} style={{ color: "var(--ink-4)" }} /> {t}
+          {/* Hero mockup */}
+          <div style={{ marginTop: 56, display: "flex", justifyContent: "center" }}>
+            <div className="card" style={{ width: "100%", maxWidth: 480, textAlign: "left", overflow: "hidden", boxShadow: "var(--shadow-3)" }}>
+              {/* Result banner */}
+              <div style={{ padding: "14px 20px", background: "#fff0f0", borderBottom: "2px solid var(--red)", display: "flex", alignItems: "center", gap: 10 }}>
+                <XCircle size={18} style={{ color: "var(--red)" }} />
+                <div>
+                  <p style={{ fontWeight: 700, fontSize: 14, color: "var(--red)" }}>Spam Folder</p>
+                  <p style={{ fontSize: 12, color: "var(--ink-4)" }}>yourcompany.com · Score: 28/100</p>
+                </div>
+                <div style={{ marginLeft: "auto", fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--red)", lineHeight: 1 }}>F</div>
               </div>
-            ))}
+              {/* Check rows */}
+              {[
+                { l: "SPF Record", s: "pass" }, { l: "DKIM Signature", s: "fail" },
+                { l: "DMARC Policy", s: "fail" }, { l: "Blacklist Status", s: "fail" },
+                { l: "Sender Reputation", s: "warn" },
+              ].map(({ l, s }) => {
+                const col = s === "pass" ? "var(--green)" : s === "fail" ? "var(--red)" : "var(--yellow)";
+                const bg  = s === "pass" ? "var(--green-dim)" : s === "fail" ? "var(--red-dim)" : "var(--yellow-dim)";
+                const Ic  = s === "pass" ? CheckCircle2 : s === "fail" ? XCircle : AlertTriangle;
+                return (
+                  <div key={l} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 20px", borderBottom: "1px solid var(--border)" }}>
+                    <Ic size={13} style={{ color: col }} />
+                    <span style={{ fontSize: 13, flex: 1, color: "var(--ink-2)" }}>{l}</span>
+                    <span style={{ ...S.label, fontSize: 10, color: col, background: bg, padding: "2px 8px", borderRadius: 100 }}>{s}</span>
+                  </div>
+                );
+              })}
+              <div style={{ padding: "12px 20px", background: "var(--red-dim)" }}>
+                <p style={{ fontSize: 12, color: "var(--red)", fontWeight: 500 }}>→ Replace weak infrastructure with pre-warmed inboxes at WarmInboxes.com</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* How it works */}
-      <section id="how" style={{ padding: "72px 24px", borderBottom: "1px solid var(--border)" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <div style={{ marginBottom: 48 }}>
-            <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--red)", marginBottom: 10 }}>Simple process</p>
-            <h2 className="serif" style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1 }}>Three steps to know where you stand</h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 2, border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" }}>
+      {/* ── 3. PROCESS ── */}
+      <section id="how" style={S.section}>
+        <div style={S.wrap}>
+          <p style={S.eyebrow}>Simple process</p>
+          <h2 style={{ ...S.h2, marginBottom: 48 }}>Three steps to know where you stand</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" }}>
             {[
-              { n: "01", title: "Enter your domain", desc: "Type your domain or email. We generate a unique seed address only you receive results for." },
-              { n: "02", title: "Send us an email", desc: "Send any email from your actual ESP, SMTP, or email client to our seed address. Uses your real setup." },
-              { n: "03", title: "Get your verdict", desc: "We detect the folder within seconds — inbox, promotions, or spam — plus a full DNS diagnostic." },
+              { n: "01", title: "Enter your domain", desc: "Type your domain or email. We generate a unique seed address so only you receive the results." },
+              { n: "02", title: "Send us an email", desc: "Send an email from your actual ESP, SMTP, or email client to the seed address. Use your real setup." },
+              { n: "03", title: "Get your verdict", desc: "We detect where it lands — inbox, promotions, or spam — plus a full DNS and setup diagnostic." },
             ].map(({ n, title, desc }, i) => (
-              <div key={n} style={{ padding: "36px 32px", background: "var(--paper)", borderRight: i < 2 ? "1px solid var(--border)" : "none" }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "var(--red)", marginBottom: 16, fontFamily: "Geist Mono, monospace" }}>{n}</div>
-                <h3 style={{ fontSize: 17, fontWeight: 600, marginBottom: 10, letterSpacing: "-0.2px" }}>{title}</h3>
-                <p style={{ fontSize: 14, color: "var(--ink-3)", lineHeight: 1.65 }}>{desc}</p>
+              <div key={n} style={{ padding: "40px 36px", background: "var(--paper)", borderRight: i < 2 ? "1px solid var(--border)" : "none" }}>
+                <p style={{ fontFamily: "'Geist Mono', monospace", fontSize: 12, fontWeight: 600, color: "var(--red)", marginBottom: 20 }}>{n}</p>
+                <h3 style={{ fontSize: 18, fontWeight: 600, letterSpacing: "-0.2px", marginBottom: 12, color: "var(--ink)" }}>{title}</h3>
+                <p style={{ ...S.body, fontSize: 14 }}>{desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* What we check */}
-      <section id="checks" style={{ padding: "72px 24px", borderBottom: "1px solid var(--border)", background: "var(--paper-2)" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <div style={{ marginBottom: 48 }}>
-            <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--red)", marginBottom: 10 }}>Comprehensive analysis</p>
-            <h2 className="serif" style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1 }}>Eight signals. One report.</h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(210px, 1fr))", gap: 12 }}>
+      {/* ── 4. DIAGNOSTIC ── */}
+      <section id="checks" style={{ ...S.section, background: "var(--paper-2)" }}>
+        <div style={S.wrap}>
+          <p style={S.eyebrow}>Comprehensive analysis</p>
+          <h2 style={{ ...S.h2, marginBottom: 14 }}>Eight signals. One report.</h2>
+          <p style={{ ...S.body, maxWidth: 520, marginBottom: 48 }}>
+            BurnedInbox checks the core technical signals that usually decide whether a cold email setup is healthy, weak, or quietly underperforming.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 10 }}>
             {[
               { icon: Shield, label: "SPF Record", tag: "Critical", desc: "Authorizes your sending servers" },
               { icon: Lock, label: "DKIM Signature", tag: "Critical", desc: "Cryptographic email authentication" },
               { icon: Shield, label: "DMARC Policy", tag: "Critical", desc: "Spoofing and BEC protection" },
-              { icon: Globe, label: "47 Blacklists", tag: "Critical", desc: "Spamhaus, SURBL, Barracuda + more" },
+              { icon: Globe, label: "47 Blacklists", tag: "Critical", desc: "Spamhaus, SURBL, Barracuda, and more" },
               { icon: Mail, label: "MX Records", tag: "Infrastructure", desc: "Mail routing configuration" },
               { icon: Zap, label: "Reverse DNS", tag: "Infrastructure", desc: "PTR record for your sending IP" },
               { icon: Lock, label: "TLS Encryption", tag: "Security", desc: "In-transit email encryption" },
-              { icon: BarChart3, label: "Sender Reputation", tag: "Reputation", desc: "ISP trust score analysis" },
-            ].map(({ icon: I, label, tag, desc }) => (
-              <div key={label} className="card" style={{ padding: "18px 20px", transition: "box-shadow 0.2s, transform 0.2s" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
-                  <div style={{ width: 32, height: 32, borderRadius: 8, background: "var(--red-dim)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <I size={14} style={{ color: "var(--red)" }} />
+              { icon: BarChart3, label: "Sender Reputation", tag: "Reputation", desc: "Trust and reputation signal analysis" },
+            ].map(({ icon: I, label, tag, desc }) => {
+              const critical = tag === "Critical";
+              return (
+                <div key={label} className="card" style={{ padding: "20px", background: "var(--paper)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
+                    <div style={{ width: 32, height: 32, borderRadius: 8, background: "var(--red-dim)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <I size={14} style={{ color: "var(--red)" }} />
+                    </div>
+                    <span style={{ ...S.label, fontSize: 10, color: critical ? "var(--red)" : "var(--ink-4)", background: critical ? "var(--red-dim)" : "var(--paper-3)", padding: "2px 8px", borderRadius: 100 }}>{tag}</span>
                   </div>
-                  <span style={{ fontSize: 10, fontWeight: 600, color: tag === "Critical" ? "var(--red)" : "var(--ink-4)", background: tag === "Critical" ? "var(--red-dim)" : "var(--paper-3)", padding: "2px 7px", borderRadius: 100, textTransform: "uppercase", letterSpacing: "0.06em" }}>{tag}</span>
+                  <p style={{ fontSize: 13, fontWeight: 600, color: "var(--ink)", marginBottom: 4 }}>{label}</p>
+                  <p style={{ fontSize: 12, color: "var(--ink-4)", lineHeight: 1.55 }}>{desc}</p>
                 </div>
-                <p style={{ fontSize: 13, fontWeight: 600, marginBottom: 4, color: "var(--ink)" }}>{label}</p>
-                <p style={{ fontSize: 12, color: "var(--ink-4)", lineHeight: 1.5 }}>{desc}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* If you're burning */}
-      <section style={{ padding: "72px 24px", borderBottom: "1px solid var(--border)" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center" }}>
-          <div>
-            <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--red)", marginBottom: 10 }}>If you're burning</p>
-            <h2 className="serif" style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1, marginBottom: 20 }}>Your inbox<br /><em>is fixable.</em></h2>
-            <p style={{ fontSize: 15, color: "var(--ink-3)", lineHeight: 1.7, marginBottom: 24 }}>
-              A burned domain is recoverable — but recovery takes weeks. The fastest path is starting fresh with pre-warmed inboxes from <strong style={{ color: "var(--ink)" }}>WarmInboxes</strong>, with established reputation and clean IPs, ready to send from day one.
-            </p>
-            <ul style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
-              {["Pre-warmed sender reputation — no cold start", "SPF, DKIM, DMARC configured out of the box", "Clean IP infrastructure, not blacklisted", "Deploy in under 10 minutes"].map(f => (
-                <li key={f} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, color: "var(--ink-3)" }}>
-                  <CheckCircle2 size={14} style={{ color: "var(--green)", flexShrink: 0 }} /> {f}
-                </li>
-              ))}
-            </ul>
-            <a href="https://warminboxes.com" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-              Get pre-warmed inboxes <ExternalLink size={13} />
-            </a>
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {[
-              { label: "Burned Domain", color: "var(--red)", items: ["Spam folder delivery", "Blacklisted IPs", "Missing auth records", "Months to recover"], bad: true },
-              { label: "WarmInboxes", color: "var(--green)", items: ["Inbox delivery from day one", "Clean infrastructure", "Auth pre-configured", "Campaigns ship today"], bad: false },
-            ].map(({ label, color, items, bad }) => (
-              <div key={label} className="card" style={{ padding: "20px 24px", borderLeft: `3px solid ${color}` }}>
-                <p style={{ fontSize: 13, fontWeight: 600, color, marginBottom: 12 }}>{label}</p>
-                {items.map(i => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--ink-3)", marginBottom: 6 }}>
-                    {bad ? <XCircle size={12} style={{ color: "var(--red)", flexShrink: 0 }} /> : <CheckCircle2 size={12} style={{ color: "var(--green)", flexShrink: 0 }} />}
-                    {i}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section style={{ padding: "72px 24px", background: "var(--ink)", textAlign: "center" }}>
-        <div style={{ maxWidth: 600, margin: "0 auto" }}>
-          <Flame size={28} color="rgba(255,255,255,0.5)" style={{ marginBottom: 20, display: "block", margin: "0 auto 20px" }} />
-          <h2 className="serif" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "#fff", lineHeight: 1.1, marginBottom: 16 }}>
-            Stop guessing.<br /><em>Know.</em>
-          </h2>
-          <p style={{ fontSize: 16, color: "rgba(255,255,255,0.55)", marginBottom: 32, lineHeight: 1.65 }}>
-            A 15-second test can save weeks of deliverability recovery.
+      {/* ── 5. WHY THIS MATTERS ── */}
+      <section style={S.section}>
+        <div style={S.wrap}>
+          <p style={S.eyebrow}>Why setups fail</p>
+          <h2 style={{ ...S.h2, marginBottom: 14 }}>Most inbox problems do not<br />look broken at first</h2>
+          <p style={{ ...S.body, maxWidth: 520, marginBottom: 48 }}>
+            Cold email setups often keep sending even when something underneath is off. Missing authentication, weak reputation, bad DNS, or poor placement can quietly drag down performance before most teams notice.
           </p>
-          <Link href="/test" className="btn" style={{ background: "#fff", color: "var(--ink)", padding: "14px 32px", fontSize: 15, fontWeight: 600, display: "inline-flex" }}>
-            Run my free test <ArrowRight size={15} />
-          </Link>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))", gap: 10 }}>
+            {[
+              { title: "Authentication gaps", desc: "Missing or weak SPF, DKIM, or DMARC can reduce trust and hurt inboxing." },
+              { title: "Placement issues", desc: "Messages may send successfully while landing in promotions or spam." },
+              { title: "Burned infrastructure", desc: "Old or overused inboxes can drag reply rates down fast." },
+              { title: "Bad scaling decisions", desc: "Scaling weak infrastructure usually makes deliverability worse." },
+            ].map(({ title, desc }) => (
+              <div key={title} className="card" style={{ padding: "24px", borderLeft: "3px solid var(--red)" }}>
+                <p style={{ fontSize: 14, fontWeight: 600, color: "var(--ink)", marginBottom: 8 }}>{title}</p>
+                <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.65 }}>{desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Footer */}
+      {/* ── 6. VERDICT ── */}
+      <section style={{ ...S.section, background: "var(--paper-2)" }}>
+        <div style={S.wrap}>
+          <p style={S.eyebrow}>Clear output</p>
+          <h2 style={{ ...S.h2, marginBottom: 14 }}>A simple verdict you can act on</h2>
+          <p style={{ ...S.body, maxWidth: 520, marginBottom: 48 }}>
+            No vague deliverability advice. Just a clear read on whether to keep sending, fix your setup, or replace weak infrastructure.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 10 }}>
+            {[
+              { verdict: "Healthy", icon: CheckCircle2, color: "var(--green)", bg: "var(--green-dim)", desc: "Your setup looks stable. Keep sending and keep monitoring." },
+              { verdict: "Needs attention", icon: AlertTriangle, color: "var(--yellow)", bg: "var(--yellow-dim)", desc: "Your setup has weak points that may reduce deliverability." },
+              { verdict: "Critical", icon: XCircle, color: "var(--red)", bg: "var(--red-dim)", desc: "Your infrastructure may be hurting campaigns already." },
+            ].map(({ verdict, icon: I, color, bg, desc }) => (
+              <div key={verdict} className="card" style={{ padding: "28px 24px", borderTop: `3px solid ${color}` }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                  <I size={18} style={{ color }} />
+                  <p style={{ fontSize: 15, fontWeight: 700, color }}>{verdict}</p>
+                </div>
+                <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.65 }}>{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 7. WARMINBOXES BRIDGE ── */}
+      <section style={S.section}>
+        <div style={S.wrap}>
+          <div style={{ maxWidth: 680, padding: "48px", background: "var(--red-dim)", border: "1px solid var(--red-border)", borderRadius: 16 }}>
+            <p style={S.eyebrow}>When fixing is not enough</p>
+            <h2 style={{ ...S.h2, marginBottom: 16 }}>Some setups should be repaired.<br />Others should be replaced.</h2>
+            <p style={{ ...S.body, marginBottom: 28 }}>
+              If your inboxes are underperforming, patching DNS is not always the fastest move. WarmInboxes helps you replace weak infrastructure with prewarmed inboxes and free domains so you can get back to sending faster.
+            </p>
+            <a href="https://warminboxes.com" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ marginBottom: 16 }}>
+              Get prewarmed inboxes <ExternalLink size={13} />
+            </a>
+            <p style={{ fontSize: 13, color: "var(--ink-4)", marginTop: 12 }}>
+              Built for teams that need backup infra, faster launches, or a clean reset after deliverability drops.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 8. USE CASES ── */}
+      <section style={{ ...S.section, background: "var(--paper-2)" }}>
+        <div style={S.wrap}>
+          <p style={S.eyebrow}>Who it's for</p>
+          <h2 style={{ ...S.h2, marginBottom: 48 }}>Built for people who rely on outbound</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 10 }}>
+            {[
+              { icon: Building2, title: "Agencies", desc: "Check client setups before campaigns go live." },
+              { icon: TrendingUp, title: "Founders", desc: "Avoid wasting lead lists on weak infrastructure." },
+              { icon: Users, title: "Outbound teams", desc: "Catch setup issues before scaling." },
+              { icon: Settings2, title: "Operators", desc: "Use BurnedInbox as a fast first-pass diagnostic." },
+            ].map(({ icon: I, title, desc }) => (
+              <div key={title} className="card" style={{ padding: "24px", background: "var(--paper)" }}>
+                <div style={{ width: 34, height: 34, borderRadius: 9, background: "var(--paper-3)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}>
+                  <I size={15} style={{ color: "var(--ink-3)" }} />
+                </div>
+                <p style={{ fontSize: 14, fontWeight: 600, marginBottom: 6, color: "var(--ink)" }}>{title}</p>
+                <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.6 }}>{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 9. FAQ ── */}
+      <section style={S.section}>
+        <div style={{ ...S.wrap, maxWidth: 680 }}>
+          <h2 style={{ ...S.h2, marginBottom: 40 }}>Common questions</h2>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {[
+              { q: "What does BurnedInbox check?", a: "It checks core deliverability and infrastructure signals like inbox placement, DNS records, blacklist exposure, authentication, and reputation indicators." },
+              { q: "Can this tell me with certainty if an inbox is burned?", a: "Not with perfect certainty. It helps surface likely issues and risk signals that suggest whether a setup is healthy or underperforming." },
+              { q: "Is the placement test free?", a: "Yes. BurnedInbox is designed to be a free diagnostic tool." },
+              { q: "What should I do if the result is critical?", a: "That depends on the issue. Some setups can be fixed. Others are better replaced entirely. If your infrastructure is underperforming, WarmInboxes can help you get back to sending faster." },
+              { q: "What is WarmInboxes?", a: "WarmInboxes provides prewarmed inboxes and free domains for teams that want to launch faster or replace weak infrastructure." },
+            ].map(({ q, a }, i) => (
+              <div key={q} style={{ padding: "22px 0", borderBottom: "1px solid var(--border)" }}>
+                <p style={{ fontSize: 14, fontWeight: 600, color: "var(--ink)", marginBottom: 8 }}>{q}</p>
+                <p style={{ fontSize: 14, color: "var(--ink-3)", lineHeight: 1.7 }}>{a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 10. FINAL CTA ── */}
+      <section id="test-cta" style={{ padding: "96px 24px", background: "var(--ink)", textAlign: "center" }}>
+        <div style={{ maxWidth: 620, margin: "0 auto" }}>
+          <h2 style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: "clamp(2rem, 5vw, 3.25rem)", color: "#fff", lineHeight: 1.1, marginBottom: 18 }}>
+            Check your setup before<br /><em>your campaigns pay for it</em>
+          </h2>
+          <p style={{ fontSize: 16, color: "rgba(255,255,255,0.5)", marginBottom: 36, lineHeight: 1.7, maxWidth: 480, margin: "0 auto 36px" }}>
+            Run a free inbox test, see where your messages land, and find out whether your infrastructure is helping you scale or quietly holding you back.
+          </p>
+          <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap", marginBottom: 20 }}>
+            <Link href="/test" className="btn" style={{ background: "#fff", color: "var(--ink)", padding: "13px 28px", fontSize: 15, fontWeight: 600 }}>
+              <Flame size={15} style={{ color: "var(--red)" }} /> Test my inbox
+            </Link>
+            <Link href="/test" className="btn" style={{ background: "rgba(255,255,255,0.1)", color: "#fff", border: "1px solid rgba(255,255,255,0.15)", padding: "13px 24px", fontSize: 15 }}>
+              Run free placement test
+            </Link>
+          </div>
+          <a href="https://warminboxes.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>
+            Need a faster fix? Explore WarmInboxes →
+          </a>
+        </div>
+      </section>
+
+      {/* ── FOOTER ── */}
       <footer style={{ borderTop: "1px solid var(--border)", padding: "24px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ width: 22, height: 22, background: "var(--red)", borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center" }}>
