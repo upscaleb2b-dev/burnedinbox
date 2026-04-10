@@ -52,6 +52,15 @@ export default function Home() {
                       <p style={{ fontSize: 11, color: "var(--ink-4)" }}>Look up any DNS record</p>
                     </div>
                   </Link>
+                  <Link href="/tools/spf" style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 10px", borderRadius: 7, textDecoration: "none", transition: "background 0.1s" }} className="resource-link">
+                    <div style={{ width: 28, height: 28, background: "rgba(200,16,46,0.08)", border: "1px solid rgba(200,16,46,0.2)", borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c8102e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <div>
+                      <p style={{ fontSize: 13, fontWeight: 600, color: "var(--ink)", marginBottom: 1 }}>SPF Generator</p>
+                      <p style={{ fontSize: 11, color: "var(--ink-4)" }}>Build and validate SPF records</p>
+                    </div>
+                  </Link>
                 </div>
               </div>
             </div>
