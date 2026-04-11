@@ -20,79 +20,54 @@ export default function Home() {
     <div style={{ background: "var(--paper)" }}>
 
       {/* ── 1. HEADER ── */}
-      <header style={{ position: "sticky", top: 0, zIndex: 50, borderBottom: "1px solid var(--border)", background: "rgba(255,255,255,0.96)", backdropFilter: "blur(12px)" }}>
-        <div style={{ ...S.wrap, maxWidth: 1100, padding: "0 24px", height: 54, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid var(--border)" }}>
+        {/* Top bar */}
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", height: 52, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
             <div style={{ width: 26, height: 26, background: "var(--red)", borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Flame size={13} color="#fff" />
             </div>
-            <span style={{ fontWeight: 700, fontSize: 14, letterSpacing: "-0.3px" }}>
+            <span style={{ fontWeight: 700, fontSize: 14, letterSpacing: "-0.3px", color: "var(--ink)" }}>
               burned<span style={{ color: "var(--red)" }}>inbox</span>
             </span>
-          </div>
-          <nav style={{ display: "flex", alignItems: "center", gap: 28 }}>
-            {[["How it works", "#how"], ["What we check", "#checks"]].map(([l, h]) => (
-              <a key={l} href={h} style={{ fontSize: 13, color: "var(--ink-3)", textDecoration: "none" }}>{l}</a>
-            ))}
-            {/* Resources dropdown */}
-            <div style={{ position: "relative" }} className="resources-menu">
-              <button style={{ fontSize: 13, color: "var(--ink-3)", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 4, padding: 0 }}>
-                Resources
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              <div className="resources-dropdown" style={{ position: "absolute", top: "calc(100% + 12px)", right: 0, background: "var(--paper)", border: "1px solid var(--border)", borderRadius: 10, boxShadow: "var(--shadow-3)", width: 220, overflow: "hidden", opacity: 0, pointerEvents: "none", transform: "translateY(-4px)", transition: "opacity 0.15s, transform 0.15s" }}>
-                <div style={{ padding: "6px" }}>
-                  <p style={{ fontSize: 10, fontWeight: 600, color: "var(--ink-4)", textTransform: "uppercase", letterSpacing: "0.08em", padding: "6px 10px 4px" }}>Tools</p>
-                  <Link href="/dns" style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 10px", borderRadius: 7, textDecoration: "none", transition: "background 0.1s" }} className="resource-link">
-                    <div style={{ width: 28, height: 28, background: "rgba(6,182,212,0.1)", border: "1px solid rgba(6,182,212,0.2)", borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-                    </div>
-                    <div>
-                      <p style={{ fontSize: 13, fontWeight: 600, color: "var(--ink)", marginBottom: 1 }}>DNS Checker</p>
-                      <p style={{ fontSize: 11, color: "var(--ink-4)" }}>Look up any DNS record</p>
-                    </div>
-                  </Link>
-                  <Link href="/tools/spf" style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 10px", borderRadius: 7, textDecoration: "none", transition: "background 0.1s" }} className="resource-link">
-                    <div style={{ width: 28, height: 28, background: "rgba(200,16,46,0.08)", border: "1px solid rgba(200,16,46,0.2)", borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c8102e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    </div>
-                    <div>
-                      <p style={{ fontSize: 13, fontWeight: 600, color: "var(--ink)", marginBottom: 1 }}>SPF Generator</p>
-                      <p style={{ fontSize: 11, color: "var(--ink-4)" }}>Build and validate SPF records</p>
-                    </div>
-                  </Link>
-                  <Link href="/tools/dmarc" style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 10px", borderRadius: 7, textDecoration: "none", transition: "background 0.1s" }} className="resource-link">
-                    <div style={{ width: 28, height: 28, background: "rgba(200,16,46,0.08)", border: "1px solid rgba(200,16,46,0.2)", borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c8102e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
-                    </div>
-                    <div>
-                      <p style={{ fontSize: 13, fontWeight: 600, color: "var(--ink)", marginBottom: 1 }}>DMARC Lookup</p>
-                      <p style={{ fontSize: 11, color: "var(--ink-4)" }}>Check policy, alignment, reporting</p>
-                    </div>
-                  </Link>
-                  <div style={{ height: 1, background: "var(--border)", margin: "4px 0" }} />
-                  <p style={{ fontSize: 10, fontWeight: 600, color: "var(--ink-4)", textTransform: "uppercase", letterSpacing: "0.08em", padding: "6px 10px 2px" }}>Domain</p>
-                  <Link href="/tools/domain-expiry" style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 10px", borderRadius: 7, textDecoration: "none", transition: "background 0.1s" }} className="resource-link">
-                    <div style={{ width: 28, height: 28, background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.25)", borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    </div>
-                    <div>
-                      <p style={{ fontSize: 13, fontWeight: 600, color: "var(--ink)", marginBottom: 1 }}>Domain Expiry</p>
-                      <p style={{ fontSize: 11, color: "var(--ink-4)" }}>Check when any domain expires</p>
-                    </div>
-                  </Link>
-                </div>
-              </div>
-            </div>
+          </Link>
+          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+            <a href="#how"    style={{ fontSize: 13, color: "var(--ink-3)", textDecoration: "none" }}>How it works</a>
+            <a href="#checks" style={{ fontSize: 13, color: "var(--ink-3)", textDecoration: "none" }}>What we check</a>
             <Link href="/test" className="btn btn-red" style={{ padding: "7px 16px", fontSize: 13 }}>
               Test my inbox
             </Link>
-          </nav>
-          <style>{`
-            .resources-menu:hover .resources-dropdown { opacity: 1 !important; pointer-events: auto !important; transform: translateY(0) !important; }
-            .resource-link:hover { background: var(--paper-2) !important; }
-          `}</style>
+          </div>
         </div>
+        {/* Tool strip */}
+        <div style={{ borderTop: "1px solid var(--border)", background: "var(--paper-2)" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", height: 38, display: "flex", alignItems: "center", gap: 2, overflowX: "auto" }}>
+            <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: "var(--ink-5)", marginRight: 10, whiteSpace: "nowrap", flexShrink: 0 }}>Free tools</span>
+            {[
+              { href: "/test",                label: "Inbox Placement",  color: "#c8102e",  icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
+              { href: "/tools/spf",           label: "SPF Generator",    color: "#c8102e",  icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" },
+              { href: "/tools/dmarc",         label: "DMARC Lookup",     color: "#c8102e",  icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" },
+              { href: "/dns",                 label: "DNS Checker",       color: "#0891b2",  icon: "M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9zM3.6 9h16.8M3.6 15h16.8" },
+              { href: "/tools/domain-expiry", label: "Domain Expiry",    color: "#d97706",  icon: "M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" },
+            ].map(({ href, label, color, icon }) => (
+              <Link key={href} href={href} style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "5px 11px", borderRadius: 6, fontSize: 12, fontWeight: 500, color: "var(--ink-3)", textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0, transition: "background 0.12s, color 0.12s" }} className="tool-strip-link">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={icon}/></svg>
+                {label}
+              </Link>
+            ))}
+            <div style={{ marginLeft: "auto", flexShrink: 0, display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{ fontSize: 11, color: "var(--ink-5)" }}>More coming soon</span>
+              <div style={{ display: "flex", gap: 3 }}>
+                {["DKIM", "Spam Score", "List Cleaner"].map(t => (
+                  <span key={t} style={{ fontSize: 10, fontWeight: 500, padding: "2px 7px", borderRadius: 4, background: "var(--paper-3)", color: "var(--ink-4)", border: "1px solid var(--border)" }}>{t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <style>{`
+          .tool-strip-link:hover { background: var(--paper-3) !important; color: var(--ink) !important; }
+        `}</style>
       </header>
 
       {/* ── 2. HERO ── */}
