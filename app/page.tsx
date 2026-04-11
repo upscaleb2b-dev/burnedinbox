@@ -63,7 +63,7 @@ export default function Home() {
             <div style={{ marginLeft: "auto", flexShrink: 0, display: "flex", alignItems: "center", gap: 6 }}>
               <span style={{ fontSize: 11, color: "var(--ink-5)" }}>More coming soon</span>
               <div style={{ display: "flex", gap: 3 }}>
-                {["Spam Score", "Blacklist", "List Cleaner"].map(t => (
+                {["List Cleaner", "Postmortem", "More soon"].map(t => (
                   <span key={t} style={{ fontSize: 10, fontWeight: 500, padding: "2px 7px", borderRadius: 4, background: "var(--paper-3)", color: "var(--ink-4)", border: "1px solid var(--border)" }}>{t}</span>
                 ))}
               </div>
