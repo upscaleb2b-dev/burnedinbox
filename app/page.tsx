@@ -51,6 +51,9 @@ export default function Home() {
               { href: "/tools/domain-expiry", label: "Domain Expiry",    color: "#d97706",  icon: "M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" },
               { href: "/tools/dkim",          label: "DKIM Checker",     color: "#7c3aed",  icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" },
               { href: "/tools/mx",            label: "MX Records",       color: "#2563eb",  icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
+              { href: "/tools/redirect",      label: "Redirect Check",   color: "#059669",  icon: "M5 12h14M12 5l7 7-7 7" },
+              { href: "/tools/rdns",          label: "Reverse DNS",      color: "#d97706",  icon: "M13 10V3L4 14h7v7l9-11h-7z" },
+              { href: "/tools/tracking-domain", label: "Tracking Domain", color: "#7c3aed", icon: "M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" },
             ].map(({ href, label, color, icon }) => (
               <Link key={href} href={href} style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "5px 11px", borderRadius: 6, fontSize: 12, fontWeight: 500, color: "var(--ink-3)", textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0, transition: "background 0.12s, color 0.12s" }} className="tool-strip-link">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={icon}/></svg>
@@ -60,7 +63,7 @@ export default function Home() {
             <div style={{ marginLeft: "auto", flexShrink: 0, display: "flex", alignItems: "center", gap: 6 }}>
               <span style={{ fontSize: 11, color: "var(--ink-5)" }}>More coming soon</span>
               <div style={{ display: "flex", gap: 3 }}>
-                {["Spam Score", "List Cleaner", "Blacklist"].map(t => (
+                {["Spam Score", "Blacklist", "List Cleaner"].map(t => (
                   <span key={t} style={{ fontSize: 10, fontWeight: 500, padding: "2px 7px", borderRadius: 4, background: "var(--paper-3)", color: "var(--ink-4)", border: "1px solid var(--border)" }}>{t}</span>
                 ))}
               </div>
