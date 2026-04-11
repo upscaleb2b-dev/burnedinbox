@@ -49,6 +49,8 @@ export default function Home() {
               { href: "/tools/dmarc",         label: "DMARC Lookup",     color: "#c8102e",  icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" },
               { href: "/dns",                 label: "DNS Checker",       color: "#0891b2",  icon: "M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9zM3.6 9h16.8M3.6 15h16.8" },
               { href: "/tools/domain-expiry", label: "Domain Expiry",    color: "#d97706",  icon: "M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" },
+              { href: "/tools/dkim",          label: "DKIM Checker",     color: "#7c3aed",  icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" },
+              { href: "/tools/mx",            label: "MX Records",       color: "#2563eb",  icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
             ].map(({ href, label, color, icon }) => (
               <Link key={href} href={href} style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "5px 11px", borderRadius: 6, fontSize: 12, fontWeight: 500, color: "var(--ink-3)", textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0, transition: "background 0.12s, color 0.12s" }} className="tool-strip-link">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={icon}/></svg>
@@ -58,7 +60,7 @@ export default function Home() {
             <div style={{ marginLeft: "auto", flexShrink: 0, display: "flex", alignItems: "center", gap: 6 }}>
               <span style={{ fontSize: 11, color: "var(--ink-5)" }}>More coming soon</span>
               <div style={{ display: "flex", gap: 3 }}>
-                {["DKIM", "Spam Score", "List Cleaner"].map(t => (
+                {["Spam Score", "List Cleaner", "Blacklist"].map(t => (
                   <span key={t} style={{ fontSize: 10, fontWeight: 500, padding: "2px 7px", borderRadius: 4, background: "var(--paper-3)", color: "var(--ink-4)", border: "1px solid var(--border)" }}>{t}</span>
                 ))}
               </div>
