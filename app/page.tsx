@@ -21,9 +21,15 @@ export default function Home() {
 
       {/* ── 1. HEADER ── */}
       <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid var(--border)" }}>
+        <style>{`
+          .nav-link:hover { color: var(--ink) !important; }
+          .mega-group a:hover { background: var(--paper-2) !important; color: var(--ink) !important; }
+          .tools-menu:hover .mega-panel { opacity: 1 !important; pointer-events: auto !important; transform: translateY(0) !important; }
+        `}</style>
+
         {/* Top bar */}
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", height: 52, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none", flexShrink: 0 }}>
             <div style={{ width: 26, height: 26, background: "var(--red)", borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Flame size={13} color="#fff" />
             </div>
@@ -31,48 +37,123 @@ export default function Home() {
               burned<span style={{ color: "var(--red)" }}>inbox</span>
             </span>
           </Link>
-          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-            <a href="#how"    style={{ fontSize: 13, color: "var(--ink-3)", textDecoration: "none" }}>How it works</a>
-            <a href="#checks" style={{ fontSize: 13, color: "var(--ink-3)", textDecoration: "none" }}>What we check</a>
-            <Link href="/test" className="btn btn-red" style={{ padding: "7px 16px", fontSize: 13 }}>
-              Test my inbox
-            </Link>
-          </div>
-        </div>
-        {/* Tool strip */}
-        <div style={{ borderTop: "1px solid var(--border)", background: "var(--paper-2)" }}>
-          <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", height: 38, display: "flex", alignItems: "center", gap: 2, overflowX: "auto" }}>
-            <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: "var(--ink-5)", marginRight: 10, whiteSpace: "nowrap", flexShrink: 0 }}>Free tools</span>
+
+          {/* Mega menu trigger */}
+          <div style={{ display: "flex", alignItems: "center", gap: 4, flex: 1, margin: "0 24px", overflowX: "auto" }}>
             {[
-              { href: "/test",                label: "Inbox Placement",  color: "#c8102e",  icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
-              { href: "/tools/spf",           label: "SPF Generator",    color: "#c8102e",  icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" },
-              { href: "/tools/dmarc",         label: "DMARC Lookup",     color: "#c8102e",  icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" },
-              { href: "/dns",                 label: "DNS Checker",       color: "#0891b2",  icon: "M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9zM3.6 9h16.8M3.6 15h16.8" },
-              { href: "/tools/domain-expiry", label: "Domain Expiry",    color: "#d97706",  icon: "M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" },
-              { href: "/tools/dkim",          label: "DKIM Checker",     color: "#7c3aed",  icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" },
-              { href: "/tools/mx",            label: "MX Records",       color: "#2563eb",  icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
-              { href: "/tools/redirect",      label: "Redirect Check",   color: "#059669",  icon: "M5 12h14M12 5l7 7-7 7" },
-              { href: "/tools/rdns",          label: "Reverse DNS",      color: "#d97706",  icon: "M13 10V3L4 14h7v7l9-11h-7z" },
-              { href: "/tools/tracking-domain", label: "Tracking Domain", color: "#7c3aed", icon: "M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" },
-            ].map(({ href, label, color, icon }) => (
-              <Link key={href} href={href} style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "5px 11px", borderRadius: 6, fontSize: 12, fontWeight: 500, color: "var(--ink-3)", textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0, transition: "background 0.12s, color 0.12s" }} className="tool-strip-link">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={icon}/></svg>
+              { label: "Placement", href: "/test" },
+              { label: "Authentication", href: "/tools/spf" },
+              { label: "DNS & Domain", href: "/dns" },
+              { label: "Deliverability", href: "/tools/blacklist" },
+              { label: "Calculators", href: "/tools/infra-calc" },
+              { label: "Recovery", href: "/tools/repair-or-replace" },
+            ].map(({ label, href }) => (
+              <Link key={label} href={href} className="nav-link" style={{ fontSize: 13, color: "var(--ink-3)", textDecoration: "none", whiteSpace: "nowrap", padding: "4px 10px", borderRadius: 6, transition: "color 0.12s" }}>
                 {label}
               </Link>
             ))}
-            <div style={{ marginLeft: "auto", flexShrink: 0, display: "flex", alignItems: "center", gap: 6 }}>
-              <span style={{ fontSize: 11, color: "var(--ink-5)" }}>More coming soon</span>
-              <div style={{ display: "flex", gap: 3 }}>
-                {["List Cleaner", "Postmortem", "More soon"].map(t => (
-                  <span key={t} style={{ fontSize: 10, fontWeight: 500, padding: "2px 7px", borderRadius: 4, background: "var(--paper-3)", color: "var(--ink-4)", border: "1px solid var(--border)" }}>{t}</span>
-                ))}
+
+            {/* All tools dropdown */}
+            <div className="tools-menu" style={{ position: "relative", marginLeft: 4 }}>
+              <button style={{ fontSize: 13, color: "var(--ink-3)", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 6, whiteSpace: "nowrap" }}>
+                All tools
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+
+              {/* Mega panel */}
+              <div className="mega-panel" style={{ position: "absolute", top: "calc(100% + 10px)", left: "50%", transform: "translateX(-50%) translateY(-4px)", width: 820, background: "var(--paper)", border: "1px solid var(--border)", borderRadius: 14, boxShadow: "var(--shadow-3)", padding: "20px 24px", opacity: 0, pointerEvents: "none", transition: "opacity 0.15s, transform 0.15s", zIndex: 100 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24 }}>
+
+                  {/* Col 1: Placement + Deliverability */}
+                  <div className="mega-group">
+                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: "var(--red)", marginBottom: 10 }}>Placement</p>
+                    {[
+                      { href: "/test",               label: "Inbox placement test",    desc: "Inbox or spam?" },
+                      { href: "/tools/burn-score",   label: "Burn score",              desc: "Health rating" },
+                      { href: "/tools/warmup-ready", label: "Warmup readiness",        desc: "Ready to send?" },
+                      { href: "/tools/blacklist",    label: "Blacklist checker",       desc: "16 RBLs" },
+                      { href: "/tools/header-parser",label: "Email header parser",     desc: "Analyze headers" },
+                      { href: "/tools/subject-check",label: "Subject spam tester",     desc: "Trigger words" },
+                      { href: "/tools/link-check",   label: "Link checker",            desc: "URL reputation" },
+                    ].map(({ href, label, desc }) => (
+                      <Link key={href} href={href} style={{ display: "block", padding: "6px 8px", borderRadius: 7, textDecoration: "none", transition: "background 0.1s", marginBottom: 1 }}>
+                        <p style={{ fontSize: 12, fontWeight: 500, color: "var(--ink)", marginBottom: 1 }}>{label}</p>
+                        <p style={{ fontSize: 11, color: "var(--ink-4)" }}>{desc}</p>
+                      </Link>
+                    ))}
+                  </div>
+
+                  {/* Col 2: Authentication + DNS */}
+                  <div className="mega-group">
+                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: "var(--red)", marginBottom: 10 }}>Authentication & DNS</p>
+                    {[
+                      { href: "/tools/spf",            label: "SPF generator",           desc: "Build & validate" },
+                      { href: "/tools/dkim",            label: "DKIM checker",            desc: "Auto-discover keys" },
+                      { href: "/tools/dmarc",           label: "DMARC lookup",            desc: "Policy & reporting" },
+                      { href: "/dns",                   label: "DNS record checker",       desc: "All record types" },
+                      { href: "/tools/mx",              label: "MX records",              desc: "Mail routing" },
+                      { href: "/tools/rdns",            label: "Reverse DNS",             desc: "PTR + FCrDNS" },
+                      { href: "/tools/tracking-domain", label: "Tracking domain",         desc: "CNAME & Cloudflare" },
+                      { href: "/tools/redirect",        label: "Redirect checker",        desc: "All 4 variants" },
+                      { href: "/tools/domain-expiry",   label: "Domain expiry",           desc: "Renewal dates" },
+                    ].map(({ href, label, desc }) => (
+                      <Link key={href} href={href} style={{ display: "block", padding: "6px 8px", borderRadius: 7, textDecoration: "none", transition: "background 0.1s", marginBottom: 1 }}>
+                        <p style={{ fontSize: 12, fontWeight: 500, color: "var(--ink)", marginBottom: 1 }}>{label}</p>
+                        <p style={{ fontSize: 11, color: "var(--ink-4)" }}>{desc}</p>
+                      </Link>
+                    ))}
+                  </div>
+
+                  {/* Col 3: Calculators */}
+                  <div className="mega-group">
+                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: "var(--red)", marginBottom: 10 }}>Calculators</p>
+                    {[
+                      { href: "/tools/infra-calc",       label: "Infrastructure calc",    desc: "Domains & inboxes" },
+                      { href: "/tools/send-limits",      label: "Sending limit planner",  desc: "Safe daily limits" },
+                      { href: "/tools/launch-checklist", label: "Launch checklist",        desc: "Pre-send checks" },
+                      { href: "/tools/repair-or-replace",label: "Repair or replace",       desc: "What to do?" },
+                      { href: "/tools/recovery-time",    label: "Recovery time estimator", desc: "How long will it take?" },
+                      { href: "/tools/emergency",        label: "Emergency calculator",    desc: "Infra burned?" },
+                    ].map(({ href, label, desc }) => (
+                      <Link key={href} href={href} style={{ display: "block", padding: "6px 8px", borderRadius: 7, textDecoration: "none", transition: "background 0.1s", marginBottom: 1 }}>
+                        <p style={{ fontSize: 12, fontWeight: 500, color: "var(--ink)", marginBottom: 1 }}>{label}</p>
+                        <p style={{ fontSize: 11, color: "var(--ink-4)" }}>{desc}</p>
+                      </Link>
+                    ))}
+
+                    <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--border)" }}>
+                      <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: "var(--ink-4)", marginBottom: 8 }}>Coming soon</p>
+                      {["List cleaner", "Postmortem generator", "BIMI checker", "Backup planner"].map(l => (
+                        <p key={l} style={{ fontSize: 11, color: "var(--ink-5)", padding: "3px 8px" }}>{l}</p>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Col 4: Highlight */}
+                  <div>
+                    <div style={{ background: "var(--red-dim)", border: "1px solid var(--red-border)", borderRadius: 10, padding: "16px" }}>
+                      <p style={{ fontSize: 11, fontWeight: 700, color: "var(--red)", marginBottom: 6 }}>Free placement test</p>
+                      <p style={{ fontSize: 12, color: "var(--ink-3)", lineHeight: 1.6, marginBottom: 12 }}>Send a test email and see exactly where it lands — inbox, promotions, or spam.</p>
+                      <Link href="/test" className="btn btn-red" style={{ fontSize: 12, padding: "7px 14px", display: "inline-flex", alignItems: "center", gap: 5 }}>
+                        Test now <ArrowRight size={11} />
+                      </Link>
+                    </div>
+                    <div style={{ marginTop: 14 }}>
+                      <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: "var(--ink-4)", marginBottom: 8 }}>Total tools live</p>
+                      <p style={{ fontSize: 28, fontWeight: 700, color: "var(--ink)", fontFamily: "'Geist Mono', monospace", lineHeight: 1 }}>23</p>
+                      <p style={{ fontSize: 11, color: "var(--ink-4)", marginTop: 3 }}>All free. No account needed.</p>
+                    </div>
+                  </div>
+
+                </div>
               </div>
             </div>
           </div>
+
+          <Link href="/test" className="btn btn-red" style={{ padding: "7px 16px", fontSize: 13, flexShrink: 0 }}>
+            Test my inbox
+          </Link>
         </div>
-        <style>{`
-          .tool-strip-link:hover { background: var(--paper-3) !important; color: var(--ink) !important; }
-        `}</style>
       </header>
 
       {/* ── 2. HERO ── */}
@@ -334,17 +415,99 @@ export default function Home() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer style={{ borderTop: "1px solid var(--border)", padding: "24px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <div style={{ width: 22, height: 22, background: "var(--red)", borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <Flame size={11} color="#fff" />
+      <footer style={{ borderTop: "1px solid var(--border)", background: "var(--paper-2)", padding: "48px 24px 32px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+
+          {/* Tool grid */}
+          <div style={{ display: "grid", gridTemplateColumns: "2fr repeat(3, 1fr)", gap: 40, marginBottom: 40 }}>
+
+            {/* Brand */}
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+                <div style={{ width: 26, height: 26, background: "var(--red)", borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Flame size={13} color="#fff" />
+                </div>
+                <span style={{ fontWeight: 700, fontSize: 15, letterSpacing: "-0.3px", color: "var(--ink)" }}>
+                  burned<span style={{ color: "var(--red)" }}>inbox</span>
+                </span>
+              </div>
+              <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7, maxWidth: 260, marginBottom: 16 }}>
+                Free email deliverability tools for cold emailers, agencies, and outbound teams. No account required.
+              </p>
+              <div style={{ display: "flex", gap: 8 }}>
+                <Link href="/test" className="btn btn-red" style={{ fontSize: 12, padding: "6px 14px" }}>Test my inbox</Link>
+              </div>
+            </div>
+
+            {/* Placement & Deliverability */}
+            <div>
+              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--ink-4)", marginBottom: 14 }}>Placement</p>
+              {[
+                { href: "/test",                label: "Inbox placement test" },
+                { href: "/tools/burn-score",    label: "Burn score" },
+                { href: "/tools/warmup-ready",  label: "Warmup readiness" },
+                { href: "/tools/blacklist",     label: "Blacklist checker" },
+                { href: "/tools/header-parser", label: "Email header parser" },
+                { href: "/tools/subject-check", label: "Subject spam tester" },
+                { href: "/tools/link-check",    label: "Link reputation checker" },
+              ].map(({ href, label }) => (
+                <Link key={href} href={href} style={{ display: "block", fontSize: 13, color: "var(--ink-3)", textDecoration: "none", padding: "4px 0", transition: "color 0.12s" }} className="footer-link">
+                  {label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Auth & DNS */}
+            <div>
+              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--ink-4)", marginBottom: 14 }}>Auth & DNS</p>
+              {[
+                { href: "/tools/spf",             label: "SPF generator" },
+                { href: "/tools/dkim",             label: "DKIM checker" },
+                { href: "/tools/dmarc",            label: "DMARC lookup" },
+                { href: "/dns",                    label: "DNS record checker" },
+                { href: "/tools/mx",               label: "MX records" },
+                { href: "/tools/rdns",             label: "Reverse DNS (PTR)" },
+                { href: "/tools/tracking-domain",  label: "Tracking domain" },
+                { href: "/tools/redirect",         label: "Redirect checker" },
+                { href: "/tools/domain-expiry",    label: "Domain expiry" },
+              ].map(({ href, label }) => (
+                <Link key={href} href={href} style={{ display: "block", fontSize: 13, color: "var(--ink-3)", textDecoration: "none", padding: "4px 0", transition: "color 0.12s" }} className="footer-link">
+                  {label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Calculators */}
+            <div>
+              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--ink-4)", marginBottom: 14 }}>Calculators</p>
+              {[
+                { href: "/tools/infra-calc",        label: "Infrastructure calculator" },
+                { href: "/tools/send-limits",       label: "Sending limit planner" },
+                { href: "/tools/launch-checklist",  label: "Launch checklist" },
+                { href: "/tools/repair-or-replace", label: "Repair or replace" },
+                { href: "/tools/recovery-time",     label: "Recovery time estimator" },
+                { href: "/tools/emergency",         label: "Emergency calculator" },
+              ].map(({ href, label }) => (
+                <Link key={href} href={href} style={{ display: "block", fontSize: 13, color: "var(--ink-3)", textDecoration: "none", padding: "4px 0", transition: "color 0.12s" }} className="footer-link">
+                  {label}
+                </Link>
+              ))}
+            </div>
+
           </div>
-          <span style={{ fontSize: 13, fontWeight: 600 }}>burnedinbox.com</span>
+
+          {/* Bottom bar */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, paddingTop: 24, borderTop: "1px solid var(--border)" }}>
+            <p style={{ fontSize: 12, color: "var(--ink-4)" }}>
+              23 free tools. No account. No credit card. Built for cold emailers.
+            </p>
+            <div style={{ display: "flex", gap: 20 }}>
+              <a href="https://warminboxes.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "var(--ink-4)", textDecoration: "none" }}>WarmInboxes</a>
+              {["Privacy", "Terms"].map(l => <a key={l} href="#" style={{ fontSize: 12, color: "var(--ink-4)", textDecoration: "none" }}>{l}</a>)}
+            </div>
+          </div>
         </div>
-        <p style={{ fontSize: 12, color: "var(--ink-4)" }}>Free email deliverability checker. No account required.</p>
-        <div style={{ display: "flex", gap: 16 }}>
-          {["Privacy", "Terms"].map(l => <a key={l} href="#" style={{ fontSize: 12, color: "var(--ink-4)", textDecoration: "none" }}>{l}</a>)}
-        </div>
+        <style>{`.footer-link:hover { color: var(--ink) !important; }`}</style>
       </footer>
     </div>
   );
