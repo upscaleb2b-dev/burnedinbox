@@ -23,13 +23,15 @@ export default function Home() {
       <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid var(--border)" }}>
         <style>{`
           .nav-link:hover { color: var(--ink) !important; }
-          .mega-group a:hover { background: var(--paper-2) !important; color: var(--ink) !important; }
-          .tools-menu:hover .mega-panel { opacity: 1 !important; pointer-events: auto !important; transform: translateY(0) !important; }
+          .mega-group a:hover { background: var(--paper-2) !important; }
+          .mega-group a:hover p { color: var(--ink) !important; }
+          .tools-menu:hover .mega-panel,
+          .tools-menu:focus-within .mega-panel { opacity: 1 !important; pointer-events: auto !important; transform: translateX(-50%) translateY(0) !important; }
         `}</style>
 
-        {/* Top bar */}
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", height: 52, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none", flexShrink: 0 }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", height: 54, display: "flex", alignItems: "center", gap: 0 }}>
+          {/* Logo */}
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none", flexShrink: 0, marginRight: 28 }}>
             <div style={{ width: 26, height: 26, background: "var(--red)", borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Flame size={13} color="#fff" />
             </div>
@@ -38,119 +40,118 @@ export default function Home() {
             </span>
           </Link>
 
-          {/* Mega menu trigger */}
-          <div style={{ display: "flex", alignItems: "center", gap: 4, flex: 1, margin: "0 24px", overflowX: "auto" }}>
+          {/* Nav links — no overflow, just clean links */}
+          <nav style={{ display: "flex", alignItems: "center", gap: 2, flex: 1 }}>
+
+            {/* Each category is a direct link to a representative tool */}
             {[
-              { label: "Placement", href: "/test" },
-              { label: "Authentication", href: "/tools/spf" },
-              { label: "DNS & Domain", href: "/dns" },
+              { label: "Placement",      href: "/test" },
+              { label: "Auth & DNS",     href: "/tools/spf" },
               { label: "Deliverability", href: "/tools/blacklist" },
-              { label: "Calculators", href: "/tools/infra-calc" },
-              { label: "Recovery", href: "/tools/repair-or-replace" },
+              { label: "Calculators",    href: "/tools/infra-calc" },
+              { label: "Recovery",       href: "/tools/repair-or-replace" },
             ].map(({ label, href }) => (
-              <Link key={label} href={href} className="nav-link" style={{ fontSize: 13, color: "var(--ink-3)", textDecoration: "none", whiteSpace: "nowrap", padding: "4px 10px", borderRadius: 6, transition: "color 0.12s" }}>
+              <Link key={label} href={href} className="nav-link" style={{ fontSize: 13, color: "var(--ink-3)", textDecoration: "none", padding: "5px 12px", borderRadius: 7, whiteSpace: "nowrap", transition: "color 0.12s, background 0.12s" }}>
                 {label}
               </Link>
             ))}
 
-            {/* All tools dropdown */}
-            <div className="tools-menu" style={{ position: "relative", marginLeft: 4 }}>
-              <button style={{ fontSize: 13, color: "var(--ink-3)", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 6, whiteSpace: "nowrap" }}>
-                All tools
+            {/* All tools mega dropdown */}
+            <div className="tools-menu" style={{ position: "relative" }}>
+              <button style={{ fontSize: 13, fontWeight: 500, color: "var(--ink)", background: "var(--paper-3)", border: "1px solid var(--border)", cursor: "pointer", display: "flex", alignItems: "center", gap: 5, padding: "5px 12px", borderRadius: 7, whiteSpace: "nowrap", marginLeft: 4 }}>
+                All 23 tools
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
               </button>
 
-              {/* Mega panel */}
-              <div className="mega-panel" style={{ position: "absolute", top: "calc(100% + 10px)", left: "50%", transform: "translateX(-50%) translateY(-4px)", width: 820, background: "var(--paper)", border: "1px solid var(--border)", borderRadius: 14, boxShadow: "var(--shadow-3)", padding: "20px 24px", opacity: 0, pointerEvents: "none", transition: "opacity 0.15s, transform 0.15s", zIndex: 100 }}>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24 }}>
+              {/* Mega panel — fixed width, centered under button */}
+              <div className="mega-panel" style={{ position: "absolute", top: "calc(100% + 8px)", left: "50%", transform: "translateX(-50%) translateY(-6px)", width: 860, background: "var(--paper)", border: "1px solid var(--border)", borderRadius: 14, boxShadow: "var(--shadow-3)", padding: "24px", opacity: 0, pointerEvents: "none", transition: "opacity 0.15s, transform 0.15s", zIndex: 200 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 180px", gap: 28 }}>
 
-                  {/* Col 1: Placement + Deliverability */}
+                  {/* Col 1: Placement & Deliverability */}
                   <div className="mega-group">
-                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: "var(--red)", marginBottom: 10 }}>Placement</p>
+                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--red)", marginBottom: 12, paddingLeft: 8 }}>Placement & Deliverability</p>
                     {[
-                      { href: "/test",               label: "Inbox placement test",    desc: "Inbox or spam?" },
-                      { href: "/tools/burn-score",   label: "Burn score",              desc: "Health rating" },
-                      { href: "/tools/warmup-ready", label: "Warmup readiness",        desc: "Ready to send?" },
-                      { href: "/tools/blacklist",    label: "Blacklist checker",       desc: "16 RBLs" },
-                      { href: "/tools/header-parser",label: "Email header parser",     desc: "Analyze headers" },
-                      { href: "/tools/subject-check",label: "Subject spam tester",     desc: "Trigger words" },
-                      { href: "/tools/link-check",   label: "Link checker",            desc: "URL reputation" },
+                      { href: "/test",                label: "Inbox placement test",   desc: "Inbox or spam?" },
+                      { href: "/tools/burn-score",    label: "Burn score",             desc: "Health rating" },
+                      { href: "/tools/warmup-ready",  label: "Warmup readiness",       desc: "Ready to send?" },
+                      { href: "/tools/blacklist",     label: "Blacklist checker",      desc: "16 RBLs" },
+                      { href: "/tools/header-parser", label: "Email header parser",    desc: "Routing & auth" },
+                      { href: "/tools/subject-check", label: "Subject spam tester",    desc: "Trigger words" },
+                      { href: "/tools/link-check",    label: "Link reputation",        desc: "URL safety" },
                     ].map(({ href, label, desc }) => (
-                      <Link key={href} href={href} style={{ display: "block", padding: "6px 8px", borderRadius: 7, textDecoration: "none", transition: "background 0.1s", marginBottom: 1 }}>
-                        <p style={{ fontSize: 12, fontWeight: 500, color: "var(--ink)", marginBottom: 1 }}>{label}</p>
-                        <p style={{ fontSize: 11, color: "var(--ink-4)" }}>{desc}</p>
+                      <Link key={href} href={href} style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", padding: "6px 8px", borderRadius: 7, textDecoration: "none", gap: 8 }}>
+                        <p style={{ fontSize: 13, fontWeight: 500, color: "var(--ink)", margin: 0, whiteSpace: "nowrap" }}>{label}</p>
+                        <p style={{ fontSize: 11, color: "var(--ink-4)", margin: 0, whiteSpace: "nowrap", flexShrink: 0 }}>{desc}</p>
                       </Link>
                     ))}
                   </div>
 
-                  {/* Col 2: Authentication + DNS */}
+                  {/* Col 2: Auth & DNS */}
                   <div className="mega-group">
-                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: "var(--red)", marginBottom: 10 }}>Authentication & DNS</p>
+                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--red)", marginBottom: 12, paddingLeft: 8 }}>Authentication & DNS</p>
                     {[
-                      { href: "/tools/spf",            label: "SPF generator",           desc: "Build & validate" },
-                      { href: "/tools/dkim",            label: "DKIM checker",            desc: "Auto-discover keys" },
-                      { href: "/tools/dmarc",           label: "DMARC lookup",            desc: "Policy & reporting" },
-                      { href: "/dns",                   label: "DNS record checker",       desc: "All record types" },
-                      { href: "/tools/mx",              label: "MX records",              desc: "Mail routing" },
-                      { href: "/tools/rdns",            label: "Reverse DNS",             desc: "PTR + FCrDNS" },
-                      { href: "/tools/tracking-domain", label: "Tracking domain",         desc: "CNAME & Cloudflare" },
-                      { href: "/tools/redirect",        label: "Redirect checker",        desc: "All 4 variants" },
-                      { href: "/tools/domain-expiry",   label: "Domain expiry",           desc: "Renewal dates" },
+                      { href: "/tools/spf",             label: "SPF generator",        desc: "Build & validate" },
+                      { href: "/tools/dkim",             label: "DKIM checker",         desc: "Auto-discover" },
+                      { href: "/tools/dmarc",            label: "DMARC lookup",         desc: "Policy & reports" },
+                      { href: "/dns",                    label: "DNS checker",           desc: "All record types" },
+                      { href: "/tools/mx",               label: "MX records",           desc: "Mail routing" },
+                      { href: "/tools/rdns",             label: "Reverse DNS",          desc: "PTR + FCrDNS" },
+                      { href: "/tools/tracking-domain",  label: "Tracking domain",      desc: "CNAME & SSL" },
+                      { href: "/tools/redirect",         label: "Redirect checker",     desc: "4 variants" },
+                      { href: "/tools/domain-expiry",    label: "Domain expiry",        desc: "Renewal dates" },
                     ].map(({ href, label, desc }) => (
-                      <Link key={href} href={href} style={{ display: "block", padding: "6px 8px", borderRadius: 7, textDecoration: "none", transition: "background 0.1s", marginBottom: 1 }}>
-                        <p style={{ fontSize: 12, fontWeight: 500, color: "var(--ink)", marginBottom: 1 }}>{label}</p>
-                        <p style={{ fontSize: 11, color: "var(--ink-4)" }}>{desc}</p>
+                      <Link key={href} href={href} style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", padding: "6px 8px", borderRadius: 7, textDecoration: "none", gap: 8 }}>
+                        <p style={{ fontSize: 13, fontWeight: 500, color: "var(--ink)", margin: 0, whiteSpace: "nowrap" }}>{label}</p>
+                        <p style={{ fontSize: 11, color: "var(--ink-4)", margin: 0, whiteSpace: "nowrap", flexShrink: 0 }}>{desc}</p>
                       </Link>
                     ))}
                   </div>
 
-                  {/* Col 3: Calculators */}
+                  {/* Col 3: Calculators & Recovery */}
                   <div className="mega-group">
-                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: "var(--red)", marginBottom: 10 }}>Calculators</p>
+                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--red)", marginBottom: 12, paddingLeft: 8 }}>Calculators & Recovery</p>
                     {[
-                      { href: "/tools/infra-calc",       label: "Infrastructure calc",    desc: "Domains & inboxes" },
-                      { href: "/tools/send-limits",      label: "Sending limit planner",  desc: "Safe daily limits" },
-                      { href: "/tools/launch-checklist", label: "Launch checklist",        desc: "Pre-send checks" },
-                      { href: "/tools/repair-or-replace",label: "Repair or replace",       desc: "What to do?" },
-                      { href: "/tools/recovery-time",    label: "Recovery time estimator", desc: "How long will it take?" },
-                      { href: "/tools/emergency",        label: "Emergency calculator",    desc: "Infra burned?" },
+                      { href: "/tools/infra-calc",        label: "Infrastructure calc",   desc: "Domains & inboxes" },
+                      { href: "/tools/send-limits",       label: "Sending limits",         desc: "Safe daily caps" },
+                      { href: "/tools/launch-checklist",  label: "Launch checklist",       desc: "Pre-send" },
+                      { href: "/tools/repair-or-replace", label: "Repair or replace",      desc: "What to do?" },
+                      { href: "/tools/recovery-time",     label: "Recovery estimator",     desc: "How long?" },
+                      { href: "/tools/emergency",         label: "Emergency calculator",   desc: "Infra burned" },
                     ].map(({ href, label, desc }) => (
-                      <Link key={href} href={href} style={{ display: "block", padding: "6px 8px", borderRadius: 7, textDecoration: "none", transition: "background 0.1s", marginBottom: 1 }}>
-                        <p style={{ fontSize: 12, fontWeight: 500, color: "var(--ink)", marginBottom: 1 }}>{label}</p>
-                        <p style={{ fontSize: 11, color: "var(--ink-4)" }}>{desc}</p>
+                      <Link key={href} href={href} style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", padding: "6px 8px", borderRadius: 7, textDecoration: "none", gap: 8 }}>
+                        <p style={{ fontSize: 13, fontWeight: 500, color: "var(--ink)", margin: 0, whiteSpace: "nowrap" }}>{label}</p>
+                        <p style={{ fontSize: 11, color: "var(--ink-4)", margin: 0, whiteSpace: "nowrap", flexShrink: 0 }}>{desc}</p>
                       </Link>
                     ))}
-
-                    <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--border)" }}>
-                      <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: "var(--ink-4)", marginBottom: 8 }}>Coming soon</p>
-                      {["List cleaner", "Postmortem generator", "BIMI checker", "Backup planner"].map(l => (
-                        <p key={l} style={{ fontSize: 11, color: "var(--ink-5)", padding: "3px 8px" }}>{l}</p>
+                    <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--border)", paddingLeft: 8 }}>
+                      <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--ink-5)", marginBottom: 6 }}>Coming soon</p>
+                      {["List cleaner", "Postmortem", "Backup planner", "BIMI checker"].map(l => (
+                        <p key={l} style={{ fontSize: 12, color: "var(--ink-5)", padding: "3px 0" }}>{l}</p>
                       ))}
                     </div>
                   </div>
 
-                  {/* Col 4: Highlight */}
-                  <div>
-                    <div style={{ background: "var(--red-dim)", border: "1px solid var(--red-border)", borderRadius: 10, padding: "16px" }}>
-                      <p style={{ fontSize: 11, fontWeight: 700, color: "var(--red)", marginBottom: 6 }}>Free placement test</p>
-                      <p style={{ fontSize: 12, color: "var(--ink-3)", lineHeight: 1.6, marginBottom: 12 }}>Send a test email and see exactly where it lands — inbox, promotions, or spam.</p>
-                      <Link href="/test" className="btn btn-red" style={{ fontSize: 12, padding: "7px 14px", display: "inline-flex", alignItems: "center", gap: 5 }}>
+                  {/* Col 4: CTA */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    <div style={{ background: "var(--red-dim)", border: "1px solid var(--red-border)", borderRadius: 10, padding: "16px 14px" }}>
+                      <p style={{ fontSize: 12, fontWeight: 700, color: "var(--red)", marginBottom: 6 }}>Free placement test</p>
+                      <p style={{ fontSize: 12, color: "var(--ink-3)", lineHeight: 1.6, marginBottom: 12 }}>See where your emails actually land.</p>
+                      <Link href="/test" style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12, fontWeight: 600, color: "#fff", background: "var(--red)", padding: "7px 14px", borderRadius: 7, textDecoration: "none" }}>
                         Test now <ArrowRight size={11} />
                       </Link>
                     </div>
-                    <div style={{ marginTop: 14 }}>
-                      <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: "var(--ink-4)", marginBottom: 8 }}>Total tools live</p>
-                      <p style={{ fontSize: 28, fontWeight: 700, color: "var(--ink)", fontFamily: "'Geist Mono', monospace", lineHeight: 1 }}>23</p>
-                      <p style={{ fontSize: 11, color: "var(--ink-4)", marginTop: 3 }}>All free. No account needed.</p>
+                    <div style={{ padding: "14px", background: "var(--paper-2)", border: "1px solid var(--border)", borderRadius: 10 }}>
+                      <p style={{ fontSize: 22, fontWeight: 700, color: "var(--ink)", fontFamily: "'Geist Mono', monospace", lineHeight: 1, marginBottom: 4 }}>23</p>
+                      <p style={{ fontSize: 11, color: "var(--ink-4)" }}>free tools. No account needed.</p>
                     </div>
                   </div>
 
                 </div>
               </div>
             </div>
-          </div>
+          </nav>
 
-          <Link href="/test" className="btn btn-red" style={{ padding: "7px 16px", fontSize: 13, flexShrink: 0 }}>
+          <Link href="/test" className="btn btn-red" style={{ padding: "7px 16px", fontSize: 13, flexShrink: 0, marginLeft: 16 }}>
             Test my inbox
           </Link>
         </div>
