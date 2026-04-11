@@ -125,9 +125,7 @@ export default function Home() {
                   </div>
                 );
               })}
-              <div style={{ padding: "12px 20px", background: "var(--red-dim)" }}>
-                <p style={{ fontSize: 12, color: "var(--red)", fontWeight: 500 }}>→ Replace weak infrastructure with pre-warmed inboxes at WarmInboxes.com</p>
-              </div>
+
             </div>
           </div>
         </div>

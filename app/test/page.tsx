@@ -305,37 +305,60 @@ function ResultStage({ result, test, onReset }: { result: Result; test: TestStat
 
       {/* Recommendation */}
       {(!inboxed || result.score < 65) ? (
-        <div className="card" style={{ padding: 24, borderLeft: `3px solid var(--red)` }}>
-          <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 16 }}>
-            <Flame size={18} style={{ color: "var(--red)", flexShrink: 0, marginTop: 2 }} />
-            <div>
-              <p style={{ fontWeight: 700, fontSize: 16, color: "var(--red)", marginBottom: 6 }}>
-                {result.folder === "spam" ? "Your inbox is burned." : "Your deliverability is at risk."}
-              </p>
-              <p style={{ fontSize: 14, color: "var(--ink-3)", lineHeight: 1.65 }}>
-                {result.folder === "spam"
-                  ? "Emails landing in spam will tank your campaign metrics and worsen your reputation over time. The fastest fix: switch to pre-warmed, clean infrastructure while you repair your domain."
-                  : "You're getting through, but not to the primary inbox. Fix your authentication records and consider warmed infrastructure for important sends."}
-              </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {/* What's happening — useful first */}
+          <div className="card" style={{ padding: 24, borderLeft: `3px solid var(--red)` }}>
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 16 }}>
+              <Flame size={18} style={{ color: "var(--red)", flexShrink: 0, marginTop: 2 }} />
+              <div>
+                <p style={{ fontWeight: 700, fontSize: 15, color: "var(--red)", marginBottom: 8 }}>
+                  {result.folder === "spam" ? "Your email landed in spam." : "Not reaching the primary inbox."}
+                </p>
+                {result.folder === "spam" ? (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                    <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
+                      Spam placement means recipients never see your email. Open rates collapse, replies stop, and continued sending from a burned domain makes recovery slower.
+                    </p>
+                    <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
+                      Start with the issues flagged in the diagnostic below — fix authentication first, then check for blacklist entries. If the domain has a long history of poor sending, DNS fixes alone may not be enough to recover quickly.
+                    </p>
+                  </div>
+                ) : (
+                  <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
+                    Promotions tab means lower visibility and engagement. Usually caused by missing authentication records, low domain engagement history, or content triggers. Fix the flagged issues below and retest.
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <a href="https://warminboxes.com" target="_blank" rel="noopener noreferrer" className="btn btn-red" style={{ fontSize: 13 }}>
-              Get pre-warmed inboxes at WarmInboxes.com <ExternalLink size={13} />
-            </a>
             <button onClick={onReset} className="btn btn-ghost" style={{ fontSize: 13 }}>
-              <RefreshCw size={13} /> Test another
+              <RefreshCw size={13} /> Test another domain
             </button>
           </div>
+
+          {/* Fresh start option — only after confirmed spam, written as honest advice */}
+          {result.folder === "spam" && (
+            <div className="card" style={{ padding: "18px 22px", background: "var(--paper-2)" }}>
+              <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase" as const, letterSpacing: "0.07em", color: "var(--ink-4)", marginBottom: 10 }}>
+                If the domain is too damaged to recover
+              </p>
+              <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7, marginBottom: 12 }}>
+                Recovering a burned domain can take weeks to months. Some teams find it faster to use a fresh domain with established sending history rather than waiting — especially if campaigns can't pause.
+              </p>
+              <a href="https://warminboxes.com" target="_blank" rel="noopener noreferrer"
+                style={{ fontSize: 13, fontWeight: 500, color: "var(--ink-3)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 5, borderBottom: "1px solid var(--border-2)", paddingBottom: 1 }}>
+                WarmInboxes — pre-warmed domains and inboxes <ExternalLink size={11} />
+              </a>
+            </div>
+          )}
         </div>
       ) : (
         <div className="card" style={{ padding: 24, borderLeft: "3px solid var(--green)" }}>
           <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 16 }}>
             <CheckCircle2 size={18} style={{ color: "var(--green)", flexShrink: 0, marginTop: 2 }} />
             <div>
-              <p style={{ fontWeight: 700, fontSize: 16, color: "var(--green)", marginBottom: 6 }}>Looking good.</p>
-              <p style={{ fontSize: 14, color: "var(--ink-3)", lineHeight: 1.65 }}>
-                Inbox delivery confirmed. Monitor weekly — deliverability can degrade silently between campaigns.
+              <p style={{ fontWeight: 700, fontSize: 15, color: "var(--green)", marginBottom: 6 }}>Inbox confirmed.</p>
+              <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
+                Your email reached the primary inbox. Deliverability can shift quietly — test again before major campaigns and keep authentication records up to date.
               </p>
             </div>
           </div>
@@ -497,7 +520,7 @@ export default function TestPage() {
       </main>
 
       <div style={{ textAlign: "center", paddingBottom: 32, fontSize: 12, color: "var(--ink-4)" }}>
-        Emails going to spam? <a href="https://warminboxes.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--red)", textDecoration: "none" }}>Get pre-warmed inboxes at WarmInboxes.com</a>
+        Questions? All tools on BurnedInbox are free — no account required.
       </div>
     </div>
   );
