@@ -46,6 +46,19 @@ export default function Home() {
           .drop-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em;
             color: var(--red); margin-bottom: 6px; padding: 0 10px; }
           .chevron { width: 10px; height: 10px; opacity: 0.5; }
+          @keyframes ai-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(139,92,246,0.5), 0 0 12px rgba(139,92,246,0.3); }
+            50% { box-shadow: 0 0 0 4px rgba(139,92,246,0), 0 0 20px rgba(139,92,246,0.5); }
+          }
+          .ai-btn {
+            display: flex; flex-direction: column; align-items: center; gap: 1px;
+            padding: 5px 14px; border-radius: 8px; text-decoration: none;
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            animation: ai-pulse 2.5s ease-in-out infinite;
+            border: 1px solid rgba(139,92,246,0.4); flex-shrink: 0;
+            transition: transform 0.15s;
+          }
+          .ai-btn:hover { transform: scale(1.03); }
         `}</style>
 
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", height: 54, display: "flex", alignItems: "center", gap: 0 }}>
@@ -358,7 +371,19 @@ export default function Home() {
 
           </nav>
 
-          <Link href="/test" className="btn btn-red" style={{ padding: "7px 16px", fontSize: 13, flexShrink: 0, marginLeft: 12 }}>
+          {/* ── Cold Email AI — centre CTA ── */}
+          <a
+            href="https://chatgpt.com/g/g-69bc393551dc81918483833d2bda685a-cold-email-ai-by-instantly-clay-smartlead-experts"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ai-btn"
+            style={{ margin: "0 12px" }}
+          >
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#fff", whiteSpace: "nowrap", letterSpacing: "-0.1px" }}>✦ Cold Email AI</span>
+            <span style={{ fontSize: 9, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap" }}>By Clay, Instantly &amp; Smartlead Experts</span>
+          </a>
+
+          <Link href="/test" className="btn btn-red" style={{ padding: "7px 16px", fontSize: 13, flexShrink: 0 }}>
             Test my inbox
           </Link>
         </div>
@@ -704,6 +729,19 @@ export default function Home() {
 
           </div>
 
+          {/* Cold Email AI footer block */}
+          <div style={{ margin: "40px 0 32px", display: "flex", justifyContent: "center" }}>
+            <a
+              href="https://chatgpt.com/g/g-69bc393551dc81918483833d2bda685a-cold-email-ai-by-instantly-clay-smartlead-experts"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ai-footer-btn"
+            >
+              <span style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.3px" }}>✦ Cold Email AI</span>
+              <span style={{ fontSize: 12, color: "rgba(255,255,255,0.75)" }}>By Clay, Instantly &amp; Smartlead Certified Experts</span>
+            </a>
+          </div>
+
           {/* Bottom bar */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, paddingTop: 24, borderTop: "1px solid var(--border)" }}>
             <p style={{ fontSize: 12, color: "var(--ink-4)" }}>
@@ -715,7 +753,20 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <style>{`.footer-link:hover { color: var(--ink) !important; }`}</style>
+        <style>{`
+          .footer-link:hover { color: var(--ink) !important; }
+          .ai-footer-btn {
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            padding: 18px 36px; border-radius: 14px; text-decoration: none;
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #5b21b6 100%);
+            box-shadow: 0 0 0 1px rgba(139,92,246,0.4), 0 8px 32px rgba(109,40,217,0.4), 0 0 60px rgba(139,92,246,0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
+          }
+          .ai-footer-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 0 1px rgba(139,92,246,0.5), 0 12px 40px rgba(109,40,217,0.5), 0 0 80px rgba(139,92,246,0.25);
+          }
+        `}</style>
       </footer>
     </div>
   );
