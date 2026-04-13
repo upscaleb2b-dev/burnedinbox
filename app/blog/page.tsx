@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { Flame, ArrowRight, Clock } from "lucide-react";
 import { posts } from "./posts";
+import { posts2 } from "./posts2";
+
+const allPosts = [...posts, ...posts2];
 
 export const metadata = {
   title: "Cold Email Deliverability Blog — BurnedInbox",
   description: "Practical recovery guides, technical fixes, and operator-level deliverability content for cold emailers and agencies.",
 };
-
-const CATEGORIES = ["All", "Emergency", "Spam & Placement", "Google Workspace", "Microsoft 365", "DNS & Auth", "Warmup & Recovery", "Agency"];
 
 export default function BlogPage() {
   return (
@@ -30,13 +31,12 @@ export default function BlogPage() {
             Deliverability guides
           </h1>
           <p style={{ fontSize: 16, color: "var(--ink-3)", lineHeight: 1.7, maxWidth: 600 }}>
-            Practical recovery content for cold emailers and agencies. No fluff — just what's wrong and how to fix it.
+            {allPosts.length} practical guides for cold emailers and agencies. No fluff — just what's wrong and how to fix it.
           </p>
         </div>
 
-        {/* Posts grid */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 16 }}>
-          {posts.map((post) => (
+          {allPosts.map((post) => (
             <Link key={post.slug} href={`/blog/${post.slug}`} className="post-card" style={{ display: "block", textDecoration: "none", background: "var(--paper)", border: "1px solid var(--border)", borderRadius: 12, padding: "20px 22px", transition: "border-color 0.15s" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
                 <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", padding: "2px 8px", borderRadius: 4, color: "var(--red)", background: "var(--red-dim)" }}>{post.category}</span>

@@ -2,22 +2,27 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Flame, ArrowLeft, Clock, ArrowRight } from "lucide-react";
 import { posts } from "../posts";
+import { posts2 } from "../posts2";
+
+const allPosts = [...posts, ...posts2];
 
 export async function generateStaticParams() {
-  return posts.map((p) => ({ slug: p.slug }));
+  return allPosts.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = posts.find((p) => p.slug === slug);
+  const post = allPosts.find((p) => p.slug === slug);
   if (!post) return {};
   return { title: `${post.title} — BurnedInbox`, description: post.excerpt };
 }
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = posts.find((p) => p.slug === slug);
+  const post = allPosts.find((p) => p.slug === slug);
   if (!post) notFound();
+
+  const related = allPosts.filter(p => p.slug !== post.slug && p.category === post.category).slice(0, 3);
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--paper-2)" }}>
@@ -54,7 +59,6 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
       </nav>
 
       <article style={{ maxWidth: 720, margin: "0 auto", padding: "48px 24px 80px" }}>
-        {/* Header */}
         <div style={{ marginBottom: 36 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
             <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", padding: "3px 9px", borderRadius: 4, color: "var(--red)", background: "var(--red-dim)" }}>{post.category}</span>
@@ -64,10 +68,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           <p style={{ fontSize: 16, color: "var(--ink-3)", lineHeight: 1.7 }}>{post.excerpt}</p>
         </div>
 
-        {/* Body */}
         <div className="prose" dangerouslySetInnerHTML={{ __html: post.body }} />
 
-        {/* CTA */}
         <div style={{ marginTop: 48, padding: "24px", background: "var(--paper)", border: "1px solid var(--border)", borderRadius: 12, borderLeft: "3px solid var(--red)" }}>
           <p style={{ fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 8 }}>Run the checks first</p>
           <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7, marginBottom: 16 }}>
@@ -83,18 +85,19 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           </div>
         </div>
 
-        {/* Related posts */}
-        <div style={{ marginTop: 48 }}>
-          <p style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--ink-4)", marginBottom: 16 }}>More guides</p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {posts.filter(p => p.slug !== post.slug && p.category === post.category).slice(0, 3).map(p => (
-              <Link key={p.slug} href={`/blog/${p.slug}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", background: "var(--paper)", border: "1px solid var(--border)", borderRadius: 9, textDecoration: "none" }}>
-                <span style={{ fontSize: 14, fontWeight: 500, color: "var(--ink)" }}>{p.title}</span>
-                <ArrowRight size={13} style={{ color: "var(--ink-4)", flexShrink: 0 }} />
-              </Link>
-            ))}
+        {related.length > 0 && (
+          <div style={{ marginTop: 48 }}>
+            <p style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--ink-4)", marginBottom: 16 }}>More guides</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {related.map(p => (
+                <Link key={p.slug} href={`/blog/${p.slug}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", background: "var(--paper)", border: "1px solid var(--border)", borderRadius: 9, textDecoration: "none" }}>
+                  <span style={{ fontSize: 14, fontWeight: 500, color: "var(--ink)" }}>{p.title}</span>
+                  <ArrowRight size={13} style={{ color: "var(--ink-4)", flexShrink: 0 }} />
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </article>
     </div>
   );
