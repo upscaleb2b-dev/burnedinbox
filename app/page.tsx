@@ -22,16 +22,36 @@ export default function Home() {
       {/* ── 1. HEADER ── */}
       <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid var(--border)" }}>
         <style>{`
-          .nav-link:hover { color: var(--ink) !important; }
-          .mega-group a:hover { background: var(--paper-2) !important; }
-          .mega-group a:hover p { color: var(--ink) !important; }
-          .tools-menu:hover .mega-panel,
-          .tools-menu:focus-within .mega-panel { opacity: 1 !important; pointer-events: auto !important; transform: translateX(-50%) translateY(0) !important; }
+          .nav-item { position: relative; }
+          .nav-item > a, .nav-item > button {
+            font-size: 13px; color: var(--ink-3); background: none; border: none;
+            cursor: pointer; text-decoration: none; padding: 5px 11px; border-radius: 7px;
+            white-space: nowrap; transition: color 0.12s, background 0.12s;
+            display: flex; align-items: center; gap: 4px; font-family: inherit; font-weight: 400;
+          }
+          .nav-item > a:hover, .nav-item > button:hover { color: var(--ink); background: var(--paper-2); }
+          .nav-item:hover .drop, .nav-item:focus-within .drop {
+            opacity: 1 !important; pointer-events: auto !important; transform: translateY(0) !important;
+          }
+          .drop { position: absolute; top: calc(100% + 8px); left: 0; background: var(--paper);
+            border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-3);
+            padding: 8px; min-width: 220px; opacity: 0; pointer-events: none;
+            transform: translateY(-6px); transition: opacity 0.15s, transform 0.15s; z-index: 200; }
+          .drop-wide { min-width: 680px; padding: 20px 20px 16px; }
+          .drop-item { display: flex; align-items: baseline; justify-content: space-between;
+            gap: 10px; padding: 6px 10px; border-radius: 7px; text-decoration: none; }
+          .drop-item:hover { background: var(--paper-2); }
+          .drop-item .di-label { font-size: 13px; font-weight: 500; color: var(--ink); white-space: nowrap; }
+          .drop-item .di-desc { font-size: 11px; color: var(--ink-4); white-space: nowrap; flex-shrink: 0; }
+          .drop-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em;
+            color: var(--red); margin-bottom: 6px; padding: 0 10px; }
+          .chevron { width: 10px; height: 10px; opacity: 0.5; }
         `}</style>
 
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", height: 54, display: "flex", alignItems: "center", gap: 0 }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", height: 54, display: "flex", alignItems: "center", gap: 0 }}>
+
           {/* Logo */}
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none", flexShrink: 0, marginRight: 28 }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none", flexShrink: 0, marginRight: 20 }}>
             <div style={{ width: 26, height: 26, background: "var(--red)", borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Flame size={13} color="#fff" />
             </div>
@@ -40,118 +60,305 @@ export default function Home() {
             </span>
           </Link>
 
-          {/* Nav links — no overflow, just clean links */}
-          <nav style={{ display: "flex", alignItems: "center", gap: 2, flex: 1 }}>
+          {/* Nav */}
+          <nav style={{ display: "flex", alignItems: "center", gap: 1, flex: 1 }}>
 
-            {/* Each category is a direct link to a representative tool */}
-            {[
-              { label: "Placement",      href: "/test" },
-              { label: "Auth & DNS",     href: "/tools/spf" },
-              { label: "Deliverability", href: "/tools/blacklist" },
-              { label: "Calculators",    href: "/tools/infra-calc" },
-              { label: "Recovery",       href: "/tools/repair-or-replace" },
-            ].map(({ label, href }) => (
-              <Link key={label} href={href} className="nav-link" style={{ fontSize: 13, color: "var(--ink-3)", textDecoration: "none", padding: "5px 12px", borderRadius: 7, whiteSpace: "nowrap", transition: "color 0.12s, background 0.12s" }}>
-                {label}
-              </Link>
-            ))}
-
-            {/* All tools mega dropdown */}
-            <div className="tools-menu" style={{ position: "relative" }}>
-              <button style={{ fontSize: 13, fontWeight: 500, color: "var(--ink)", background: "var(--paper-3)", border: "1px solid var(--border)", cursor: "pointer", display: "flex", alignItems: "center", gap: 5, padding: "5px 12px", borderRadius: 7, whiteSpace: "nowrap", marginLeft: 4 }}>
-                All 23 tools
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            {/* 1. PLACEMENT */}
+            <div className="nav-item">
+              <button>
+                Placement
+                <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m6 9 6 6 6-6"/></svg>
               </button>
+              <div className="drop">
+                <p className="drop-head">Tools</p>
+                {[
+                  { href: "/test",               label: "Inbox placement test",  desc: "Inbox or spam?" },
+                  { href: "/tools/burn-score",   label: "Burn score calculator", desc: "Domain health" },
+                  { href: "/tools/warmup-ready", label: "Warmup readiness",      desc: "Ready to send?" },
+                  { href: "/tools/blacklist",    label: "Blacklist checker",     desc: "16 RBLs" },
+                  { href: "/tools/header-parser",label: "Email header parser",   desc: "Routing & auth" },
+                  { href: "/tools/subject-check",label: "Subject spam tester",   desc: "Trigger words" },
+                  { href: "/tools/link-check",   label: "Link reputation",       desc: "URL safety" },
+                ].map(({ href, label, desc }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">{desc}</span>
+                  </Link>
+                ))}
+                <div style={{ margin: "8px 0 4px", borderTop: "1px solid var(--border)" }} />
+                <p className="drop-head" style={{ marginTop: 8 }}>Guides</p>
+                {[
+                  { href: "/blog/inbox-placement-test-before-blaming-copy", label: "Run a placement test" },
+                  { href: "/blog/why-cold-emails-suddenly-going-to-spam",   label: "Why emails go to spam" },
+                  { href: "/blog/placement-vs-deliverability-difference",   label: "Placement vs deliverability" },
+                ].map(({ href, label }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">Guide →</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
 
-              {/* Mega panel — fixed width, centered under button */}
-              <div className="mega-panel" style={{ position: "absolute", top: "calc(100% + 8px)", left: "50%", transform: "translateX(-50%) translateY(-6px)", width: 860, background: "var(--paper)", border: "1px solid var(--border)", borderRadius: 14, boxShadow: "var(--shadow-3)", padding: "24px", opacity: 0, pointerEvents: "none", transition: "opacity 0.15s, transform 0.15s", zIndex: 200 }}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 180px", gap: 28 }}>
+            {/* 2. AUTH & DNS */}
+            <div className="nav-item">
+              <button>
+                Auth & DNS
+                <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <div className="drop">
+                <p className="drop-head">Tools</p>
+                {[
+                  { href: "/tools/spf",            label: "SPF checker",       desc: "Build & validate" },
+                  { href: "/tools/dkim",            label: "DKIM checker",      desc: "Auto-discover" },
+                  { href: "/tools/dmarc",           label: "DMARC lookup",      desc: "Policy & reports" },
+                  { href: "/dns",                   label: "DNS checker",       desc: "All record types" },
+                  { href: "/tools/mx",              label: "MX records",        desc: "Mail routing" },
+                  { href: "/tools/rdns",            label: "Reverse DNS / PTR", desc: "FCrDNS check" },
+                  { href: "/tools/tracking-domain", label: "Tracking domain",   desc: "CNAME & SSL" },
+                  { href: "/tools/redirect",        label: "Redirect checker",  desc: "4 variants" },
+                  { href: "/tools/domain-expiry",   label: "Domain expiry",     desc: "Renewal dates" },
+                ].map(({ href, label, desc }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">{desc}</span>
+                  </Link>
+                ))}
+                <div style={{ margin: "8px 0 4px", borderTop: "1px solid var(--border)" }} />
+                <p className="drop-head" style={{ marginTop: 8 }}>Guides</p>
+                {[
+                  { href: "/blog/spf-dkim-dmarc-cold-email-fix-guide", label: "SPF, DKIM & DMARC explained" },
+                  { href: "/blog/dns-error-killing-deliverability",     label: "Is a DNS error the problem?" },
+                  { href: "/blog/dmarc-cold-email-what-it-does-why-it-matters", label: "DMARC for cold email" },
+                ].map(({ href, label }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">Guide →</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
 
-                  {/* Col 1: Placement & Deliverability */}
-                  <div className="mega-group">
-                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--red)", marginBottom: 12, paddingLeft: 8 }}>Placement & Deliverability</p>
+            {/* 3. CHECKLISTS */}
+            <div className="nav-item">
+              <button>
+                Checklists
+                <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <div className="drop">
+                <p className="drop-head">Interactive tools</p>
+                {[
+                  { href: "/tools/launch-checklist", label: "Pre-launch checklist",    desc: "Before first send" },
+                  { href: "/tools/warmup-ready",     label: "Warmup readiness check",  desc: "Is inbox ready?" },
+                ].map(({ href, label, desc }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">{desc}</span>
+                  </Link>
+                ))}
+                <div style={{ margin: "8px 0 4px", borderTop: "1px solid var(--border)" }} />
+                <p className="drop-head" style={{ marginTop: 8 }}>Written checklists</p>
+                {[
+                  { href: "/blog/cold-email-setup-checklist-domain-dns-tracking", label: "Domain & DNS setup" },
+                  { href: "/blog/cold-email-spam-checklist-21-reasons",            label: "21 reasons you're in spam" },
+                  { href: "/blog/m365-setup-checklist-inboxing",                   label: "M365 setup checklist" },
+                  { href: "/blog/cold-email-domain-readiness-check-15-minutes",    label: "15-min domain audit" },
+                ].map(({ href, label }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">Checklist →</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* 4. CALCULATORS */}
+            <div className="nav-item">
+              <button>
+                Calculators
+                <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <div className="drop">
+                <p className="drop-head">Tools</p>
+                {[
+                  { href: "/tools/infra-calc",        label: "Infrastructure calc",  desc: "Domains & inboxes" },
+                  { href: "/tools/send-limits",        label: "Sending limits",       desc: "Safe daily caps" },
+                  { href: "/tools/repair-or-replace",  label: "Repair or replace",    desc: "What should I do?" },
+                  { href: "/tools/recovery-time",      label: "Recovery time est.",   desc: "How long to recover?" },
+                  { href: "/tools/emergency",           label: "Emergency calculator", desc: "Infra burned" },
+                ].map(({ href, label, desc }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">{desc}</span>
+                  </Link>
+                ))}
+                <div style={{ margin: "8px 0 4px", borderTop: "1px solid var(--border)" }} />
+                <p className="drop-head" style={{ marginTop: 8 }}>Related guides</p>
+                {[
+                  { href: "/blog/real-cost-burned-inboxes-agencies",       label: "True cost of burned inboxes" },
+                  { href: "/blog/how-many-backup-inboxes",                 label: "How many backup inboxes?" },
+                  { href: "/blog/recovery-vs-replacement-prewarmed-inboxes", label: "Recovery vs replacement" },
+                ].map(({ href, label }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">Guide →</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* 5. TEMPLATES */}
+            <div className="nav-item">
+              <button>
+                Templates
+                <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <div className="drop">
+                <p className="drop-head">Client comms</p>
+                {[
+                  { href: "/blog/explain-deliverability-problems-to-clients", label: "Explain deliverability to clients" },
+                  { href: "/blog/keep-client-campaigns-running-when-infra-breaks", label: "When infra breaks mid-campaign" },
+                ].map(({ href, label }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">Template →</span>
+                  </Link>
+                ))}
+                <div style={{ margin: "8px 0 4px", borderTop: "1px solid var(--border)" }} />
+                <p className="drop-head" style={{ marginTop: 8 }}>Setup templates</p>
+                {[
+                  { href: "/blog/google-workspace-setup-cold-email-correctly", label: "GWS setup guide" },
+                  { href: "/blog/microsoft-365-cold-email-setup",              label: "M365 setup guide" },
+                  { href: "/blog/domain-warmup-after-infra-reset",             label: "Infra reset template" },
+                ].map(({ href, label }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">Template →</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* 6. SOPs */}
+            <div className="nav-item">
+              <button>
+                SOPs
+                <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <div className="drop">
+                <p className="drop-head">Emergency SOPs</p>
+                {[
+                  { href: "/blog/first-24-hours-after-inboxes-burned",         label: "First 24 hours after burning" },
+                  { href: "/blog/cold-email-deliverability-collapsed-triage",   label: "Full deliverability triage" },
+                  { href: "/blog/disaster-recovery-sop-agency",                 label: "Agency disaster recovery SOP" },
+                  { href: "/blog/cold-email-disaster-recovery-sop",             label: "Cold email disaster recovery" },
+                ].map(({ href, label }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">SOP →</span>
+                  </Link>
+                ))}
+                <div style={{ margin: "8px 0 4px", borderTop: "1px solid var(--border)" }} />
+                <p className="drop-head" style={{ marginTop: 8 }}>Operational SOPs</p>
+                {[
+                  { href: "/blog/replace-inboxes-without-pausing-campaigns",    label: "Replace inboxes without pausing" },
+                  { href: "/blog/rotate-prewarmed-inboxes-after-failure",        label: "Rotate to prewarmed inboxes" },
+                  { href: "/blog/agency-rotate-inboxes-deliverability-slipping", label: "Agency inbox rotation" },
+                ].map(({ href, label }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">SOP →</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* 7. GUIDES */}
+            <div className="nav-item">
+              <button>
+                Guides
+                <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <div className="drop drop-wide" style={{ left: "auto", right: 0 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24 }}>
+                  <div>
+                    <p className="drop-head">Google Workspace</p>
                     {[
-                      { href: "/test",                label: "Inbox placement test",   desc: "Inbox or spam?" },
-                      { href: "/tools/burn-score",    label: "Burn score",             desc: "Health rating" },
-                      { href: "/tools/warmup-ready",  label: "Warmup readiness",       desc: "Ready to send?" },
-                      { href: "/tools/blacklist",     label: "Blacklist checker",      desc: "16 RBLs" },
-                      { href: "/tools/header-parser", label: "Email header parser",    desc: "Routing & auth" },
-                      { href: "/tools/subject-check", label: "Subject spam tester",    desc: "Trigger words" },
-                      { href: "/tools/link-check",    label: "Link reputation",        desc: "URL safety" },
-                    ].map(({ href, label, desc }) => (
-                      <Link key={href} href={href} style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", padding: "6px 8px", borderRadius: 7, textDecoration: "none", gap: 8 }}>
-                        <p style={{ fontSize: 13, fontWeight: 500, color: "var(--ink)", margin: 0, whiteSpace: "nowrap" }}>{label}</p>
-                        <p style={{ fontSize: 11, color: "var(--ink-4)", margin: 0, whiteSpace: "nowrap", flexShrink: 0 }}>{desc}</p>
+                      { href: "/blog/google-workspace-emails-go-to-spam",                label: "GWS emails going to spam" },
+                      { href: "/blog/google-workspace-deliverability-problems-causes-fixes", label: "GWS deliverability guide" },
+                      { href: "/blog/google-workspace-spam-after-scaling",               label: "GWS spam after scaling" },
+                      { href: "/blog/recover-damaged-google-workspace-setup",            label: "Recover a damaged GWS setup" },
+                      { href: "/blog/gws-warmup-not-translating",                        label: "Warmup not working" },
+                    ].map(({ href, label }) => (
+                      <Link key={href} href={href} className="drop-item">
+                        <span className="di-label">{label}</span>
                       </Link>
                     ))}
                   </div>
-
-                  {/* Col 2: Auth & DNS */}
-                  <div className="mega-group">
-                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--red)", marginBottom: 12, paddingLeft: 8 }}>Authentication & DNS</p>
+                  <div>
+                    <p className="drop-head">Microsoft 365</p>
                     {[
-                      { href: "/tools/spf",             label: "SPF generator",        desc: "Build & validate" },
-                      { href: "/tools/dkim",             label: "DKIM checker",         desc: "Auto-discover" },
-                      { href: "/tools/dmarc",            label: "DMARC lookup",         desc: "Policy & reports" },
-                      { href: "/dns",                    label: "DNS checker",           desc: "All record types" },
-                      { href: "/tools/mx",               label: "MX records",           desc: "Mail routing" },
-                      { href: "/tools/rdns",             label: "Reverse DNS",          desc: "PTR + FCrDNS" },
-                      { href: "/tools/tracking-domain",  label: "Tracking domain",      desc: "CNAME & SSL" },
-                      { href: "/tools/redirect",         label: "Redirect checker",     desc: "4 variants" },
-                      { href: "/tools/domain-expiry",    label: "Domain expiry",        desc: "Renewal dates" },
-                    ].map(({ href, label, desc }) => (
-                      <Link key={href} href={href} style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", padding: "6px 8px", borderRadius: 7, textDecoration: "none", gap: 8 }}>
-                        <p style={{ fontSize: 13, fontWeight: 500, color: "var(--ink)", margin: 0, whiteSpace: "nowrap" }}>{label}</p>
-                        <p style={{ fontSize: 11, color: "var(--ink-4)", margin: 0, whiteSpace: "nowrap", flexShrink: 0 }}>{desc}</p>
+                      { href: "/blog/microsoft-365-deliverability-fixes",    label: "M365 deliverability fixes" },
+                      { href: "/blog/outlook-spam-diagnosis-fixes",           label: "Outlook spam diagnosis" },
+                      { href: "/blog/why-outlook-filters-harder-than-gmail", label: "Why Outlook is harder" },
+                      { href: "/blog/m365-when-to-replace",                  label: "When to replace M365" },
+                      { href: "/blog/m365-reply-rates-fall-before-bounces",  label: "Reply rates fall silently" },
+                    ].map(({ href, label }) => (
+                      <Link key={href} href={href} className="drop-item">
+                        <span className="di-label">{label}</span>
                       </Link>
                     ))}
                   </div>
-
-                  {/* Col 3: Calculators & Recovery */}
-                  <div className="mega-group">
-                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--red)", marginBottom: 12, paddingLeft: 8 }}>Calculators & Recovery</p>
+                  <div>
+                    <p className="drop-head">Recovery & Warmup</p>
                     {[
-                      { href: "/tools/infra-calc",        label: "Infrastructure calc",   desc: "Domains & inboxes" },
-                      { href: "/tools/send-limits",       label: "Sending limits",         desc: "Safe daily caps" },
-                      { href: "/tools/launch-checklist",  label: "Launch checklist",       desc: "Pre-send" },
-                      { href: "/tools/repair-or-replace", label: "Repair or replace",      desc: "What to do?" },
-                      { href: "/tools/recovery-time",     label: "Recovery estimator",     desc: "How long?" },
-                      { href: "/tools/emergency",         label: "Emergency calculator",   desc: "Infra burned" },
-                    ].map(({ href, label, desc }) => (
-                      <Link key={href} href={href} style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", padding: "6px 8px", borderRadius: 7, textDecoration: "none", gap: 8 }}>
-                        <p style={{ fontSize: 13, fontWeight: 500, color: "var(--ink)", margin: 0, whiteSpace: "nowrap" }}>{label}</p>
-                        <p style={{ fontSize: 11, color: "var(--ink-4)", margin: 0, whiteSpace: "nowrap", flexShrink: 0 }}>{desc}</p>
+                      { href: "/blog/how-long-to-recover-burned-email-domain", label: "How long does recovery take?" },
+                      { href: "/blog/recover-burned-inbox-or-replace",          label: "Recover or replace?" },
+                      { href: "/blog/warm-up-new-inboxes-without-burning-them", label: "Warmup without burning" },
+                      { href: "/blog/is-cold-email-domain-permanently-burned",  label: "Is my domain permanently burned?" },
+                      { href: "/blog/when-to-abandon-domain",                   label: "When to abandon a domain" },
+                    ].map(({ href, label }) => (
+                      <Link key={href} href={href} className="drop-item">
+                        <span className="di-label">{label}</span>
                       </Link>
                     ))}
-                    <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--border)", paddingLeft: 8 }}>
-                      <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--ink-5)", marginBottom: 6 }}>Coming soon</p>
-                      {["List cleaner", "Postmortem", "Backup planner", "BIMI checker"].map(l => (
-                        <p key={l} style={{ fontSize: 12, color: "var(--ink-5)", padding: "3px 0" }}>{l}</p>
-                      ))}
-                    </div>
                   </div>
-
-                  {/* Col 4: CTA */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    <div style={{ background: "var(--red-dim)", border: "1px solid var(--red-border)", borderRadius: 10, padding: "16px 14px" }}>
-                      <p style={{ fontSize: 12, fontWeight: 700, color: "var(--red)", marginBottom: 6 }}>Free placement test</p>
-                      <p style={{ fontSize: 12, color: "var(--ink-3)", lineHeight: 1.6, marginBottom: 12 }}>See where your emails actually land.</p>
-                      <Link href="/test" style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12, fontWeight: 600, color: "#fff", background: "var(--red)", padding: "7px 14px", borderRadius: 7, textDecoration: "none" }}>
-                        Test now <ArrowRight size={11} />
-                      </Link>
-                    </div>
-                    <div style={{ padding: "14px", background: "var(--paper-2)", border: "1px solid var(--border)", borderRadius: 10 }}>
-                      <p style={{ fontSize: 22, fontWeight: 700, color: "var(--ink)", fontFamily: "'Geist Mono', monospace", lineHeight: 1, marginBottom: 4 }}>23</p>
-                      <p style={{ fontSize: 11, color: "var(--ink-4)" }}>free tools. No account needed.</p>
-                    </div>
-                  </div>
-
+                </div>
+                <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--border)", textAlign: "right" }}>
+                  <Link href="/blog" style={{ fontSize: 12, color: "var(--red)", textDecoration: "none", fontWeight: 600 }}>
+                    View all 97 guides →
+                  </Link>
                 </div>
               </div>
             </div>
+
+            {/* 8. CHEAT SHEETS */}
+            <div className="nav-item">
+              <button>
+                Cheat Sheets
+                <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <div className="drop" style={{ left: "auto", right: 0 }}>
+                <p className="drop-head">Quick references</p>
+                {[
+                  { href: "/blog/spf-vs-dkim-vs-dmarc-which-breaking-emails",  label: "SPF vs DKIM vs DMARC",        desc: "Which one is broken?" },
+                  { href: "/blog/cold-email-spam-checklist-21-reasons",          label: "21 spam reasons",             desc: "Full checklist" },
+                  { href: "/blog/cold-email-domain-readiness-check-15-minutes",  label: "15-min domain audit",         desc: "Quick checklist" },
+                  { href: "/blog/burned-domain-vs-burned-inbox",                 label: "Domain vs inbox burned",      desc: "How to tell" },
+                  { href: "/blog/placement-vs-deliverability-difference",        label: "Placement vs deliverability", desc: "The difference" },
+                  { href: "/blog/how-to-tell-if-inboxes-burned-or-something-else", label: "Burned or just broken?",   desc: "Diagnosis" },
+                ].map(({ href, label, desc }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">{desc}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
           </nav>
 
-          <Link href="/test" className="btn btn-red" style={{ padding: "7px 16px", fontSize: 13, flexShrink: 0, marginLeft: 16 }}>
+          <Link href="/test" className="btn btn-red" style={{ padding: "7px 16px", fontSize: 13, flexShrink: 0, marginLeft: 12 }}>
             Test my inbox
           </Link>
         </div>
