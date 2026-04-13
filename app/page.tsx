@@ -191,32 +191,43 @@ export default function Home() {
                 Calculators
                 <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m6 9 6 6 6-6"/></svg>
               </button>
-              <div className="drop">
-                <p className="drop-head">Tools</p>
-                {[
-                  { href: "/tools/infra-calc",        label: "Infrastructure calc",  desc: "Domains & inboxes" },
-                  { href: "/tools/send-limits",        label: "Sending limits",       desc: "Safe daily caps" },
-                  { href: "/tools/repair-or-replace",  label: "Repair or replace",    desc: "What should I do?" },
-                  { href: "/tools/recovery-time",      label: "Recovery time est.",   desc: "How long to recover?" },
-                  { href: "/tools/emergency",           label: "Emergency calculator", desc: "Infra burned" },
-                ].map(({ href, label, desc }) => (
-                  <Link key={href} href={href} className="drop-item">
-                    <span className="di-label">{label}</span>
-                    <span className="di-desc">{desc}</span>
-                  </Link>
-                ))}
-                <div style={{ margin: "8px 0 4px", borderTop: "1px solid var(--border)" }} />
-                <p className="drop-head" style={{ marginTop: 8 }}>Related guides</p>
-                {[
-                  { href: "/blog/real-cost-burned-inboxes-agencies",       label: "True cost of burned inboxes" },
-                  { href: "/blog/how-many-backup-inboxes",                 label: "How many backup inboxes?" },
-                  { href: "/blog/recovery-vs-replacement-prewarmed-inboxes", label: "Recovery vs replacement" },
-                ].map(({ href, label }) => (
-                  <Link key={href} href={href} className="drop-item">
-                    <span className="di-label">{label}</span>
-                    <span className="di-desc">Guide →</span>
-                  </Link>
-                ))}
+              <div className="drop drop-wide" style={{ left: "auto", right: 0, minWidth: 640 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
+                  <div style={{ paddingRight: 16, borderRight: "1px solid var(--border)" }}>
+                    <p className="drop-head">Infra planning</p>
+                    {[
+                      { href: "/tools/inbox-count",      label: "Inbox count calc",      desc: "Active + backup + warmup" },
+                      { href: "/tools/domain-count",     label: "Domain count calc",     desc: "All domain types" },
+                      { href: "/tools/sending-capacity", label: "Sending capacity",      desc: "Leads per month" },
+                      { href: "/tools/client-capacity",  label: "Client capacity planner", desc: "Agency · all clients" },
+                      { href: "/tools/infra-calc",       label: "Infrastructure calc",   desc: "Full infra model" },
+                      { href: "/tools/send-limits",      label: "Sending limits",        desc: "Safe daily caps" },
+                      { href: "/tools/backup-budget",    label: "Backup infra budget",   desc: "Cost vs risk" },
+                    ].map(({ href, label, desc }) => (
+                      <Link key={href} href={href} className="drop-item">
+                        <span className="di-label">{label}</span>
+                        <span className="di-desc">{desc}</span>
+                      </Link>
+                    ))}
+                  </div>
+                  <div style={{ paddingLeft: 16 }}>
+                    <p className="drop-head">Recovery & risk</p>
+                    {[
+                      { href: "/tools/repair-or-replace",         label: "Repair or replace",         desc: "Make the call" },
+                      { href: "/tools/recovery-time",             label: "Recovery time est.",         desc: "How long?" },
+                      { href: "/tools/replacement-vs-downtime",   label: "Replace vs downtime cost",   desc: "True cost compare" },
+                      { href: "/tools/burn-cost",                 label: "Burn cost calculator",       desc: "True cost of burning" },
+                      { href: "/tools/warmup-time-saved",         label: "Warm-up time saved",         desc: "DIY vs pre-warmed" },
+                      { href: "/tools/deliverability-risk",       label: "Deliverability risk planner", desc: "8-factor risk score" },
+                      { href: "/tools/emergency",                 label: "Emergency calculator",       desc: "Infra burned now" },
+                    ].map(({ href, label, desc }) => (
+                      <Link key={href} href={href} className="drop-item">
+                        <span className="di-label">{label}</span>
+                        <span className="di-desc">{desc}</span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -714,12 +725,21 @@ export default function Home() {
             <div>
               <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--ink-4)", marginBottom: 14 }}>Calculators</p>
               {[
-                { href: "/tools/infra-calc",        label: "Infrastructure calculator" },
-                { href: "/tools/send-limits",       label: "Sending limit planner" },
-                { href: "/tools/launch-checklist",  label: "Launch checklist" },
-                { href: "/tools/repair-or-replace", label: "Repair or replace" },
-                { href: "/tools/recovery-time",     label: "Recovery time estimator" },
-                { href: "/tools/emergency",         label: "Emergency calculator" },
+                { href: "/tools/inbox-count",            label: "Inbox count" },
+                { href: "/tools/domain-count",           label: "Domain count" },
+                { href: "/tools/sending-capacity",       label: "Sending capacity" },
+                { href: "/tools/client-capacity",        label: "Client capacity planner" },
+                { href: "/tools/infra-calc",             label: "Infrastructure calculator" },
+                { href: "/tools/send-limits",            label: "Sending limit planner" },
+                { href: "/tools/backup-budget",          label: "Backup infra budget" },
+                { href: "/tools/repair-or-replace",      label: "Repair or replace" },
+                { href: "/tools/recovery-time",          label: "Recovery time estimator" },
+                { href: "/tools/replacement-vs-downtime", label: "Replace vs downtime cost" },
+                { href: "/tools/burn-cost",              label: "Burn cost calculator" },
+                { href: "/tools/warmup-time-saved",      label: "Warm-up time saved" },
+                { href: "/tools/deliverability-risk",    label: "Deliverability risk planner" },
+                { href: "/tools/emergency",              label: "Emergency calculator" },
+                { href: "/tools/launch-checklist",       label: "Launch checklist" },
               ].map(({ href, label }) => (
                 <Link key={href} href={href} style={{ display: "block", fontSize: 13, color: "var(--ink-3)", textDecoration: "none", padding: "4px 0", transition: "color 0.12s" }} className="footer-link">
                   {label}
