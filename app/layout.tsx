@@ -14,6 +14,17 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   alternates: { canonical: "https://burnedinbox.com" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico",     sizes: "any" },
+      { url: "/favicon.svg",     type: "image/svg+xml" },
+      { url: "/favicon-32.png",  sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/icon.png", sizes: "64x64", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
