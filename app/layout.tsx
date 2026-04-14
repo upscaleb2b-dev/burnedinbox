@@ -29,22 +29,25 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        {/* Google tag (gtag.js) — immediately after <head> as required */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-GH6YRN6LNR"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-GH6YRN6LNR');
+            `,
+          }}
+        />
+      </head>
       <body>
         {children}
-
-        {/* Google Analytics — loads after page is interactive */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-GH6YRN6LNR"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-GH6YRN6LNR');
-          `}
-        </Script>
 
         {/* Meta Pixel */}
         <Script id="meta-pixel" strategy="afterInteractive">
