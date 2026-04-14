@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,13 +17,11 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://burnedinbox.com" },
   icons: {
     icon: [
-      { url: "/favicon.ico",     sizes: "any" },
-      { url: "/favicon.svg",     type: "image/svg+xml" },
-      { url: "/favicon-32.png",  sizes: "32x32", type: "image/png" },
+      { url: "/favicon.ico",    sizes: "any" },
+      { url: "/favicon.svg",    type: "image/svg+xml" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
     ],
-    apple: [
-      { url: "/icon.png", sizes: "64x64", type: "image/png" },
-    ],
+    apple: [{ url: "/icon.png", sizes: "64x64", type: "image/png" }],
     shortcut: "/favicon.ico",
   },
 };
@@ -30,20 +29,37 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        {/* Google Analytics */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GH6YRN6LNR" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-GH6YRN6LNR');`,
-          }}
+      <body>
+        {children}
+
+        {/* Google Analytics — loads after page is interactive */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-GH6YRN6LNR"
+          strategy="afterInteractive"
         />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-GH6YRN6LNR');
+          `}
+        </Script>
+
         {/* Meta Pixel */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1825568108268829');fbq('track','PageView');`,
-          }}
-        />
+        <Script id="meta-pixel" strategy="afterInteractive">
+          {`
+            !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window,document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init','1825568108268829');
+            fbq('track','PageView');
+          `}
+        </Script>
         <noscript>
           <img
             height="1"
@@ -53,8 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             alt=""
           />
         </noscript>
-      </head>
-      <body>{children}</body>
+      </body>
     </html>
   );
 }
