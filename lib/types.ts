@@ -7,10 +7,15 @@ export interface DnsCheck {
   detail: string;
 }
 
+export interface SeedAddress {
+  provider: string;
+  address: string;
+}
+
 export interface TestSession {
   id: string;
   domain: string;
-  seedEmail: string;
+  seedAddresses: SeedAddress[];
   createdAt: number;
   status: "waiting" | "received" | "timeout";
   verdict?: Verdict;
