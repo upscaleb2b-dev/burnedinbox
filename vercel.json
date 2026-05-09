@@ -6,5 +6,11 @@
       "destination": "https://burnedinbox.com/$1",
       "permanent": true
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/scanner/scan",
+      "schedule": "0 * * * *"
+    }
   ]
 }
