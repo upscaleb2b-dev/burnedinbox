@@ -12,10 +12,15 @@ import type { DnsCheck } from "@/lib/types";
 type Stage = "form" | "waiting" | "result";
 type Folder = "inbox" | "promotions" | "spam";
 
+interface SeedAddress {
+  provider: string;
+  address: string;
+}
+
 interface TestState {
   id: string;
   domain: string;
-  seedEmail: string;
+  seedAddresses: SeedAddress[];
   score: number;
   checks: DnsCheck[];
 }
@@ -122,8 +127,8 @@ function FormStage({ onSubmit }: { onSubmit: (domain: string) => Promise<void> }
             <Inbox size={17} style={{ color: "var(--red)" }} />
           </div>
           <div>
-            <p style={{ fontWeight: 600, fontSize: 15 }}>Inbox Placement Test</p>
-            <p style={{ fontSize: 12, color: "var(--ink-4)" }}>Free · No account · ~15 seconds</p>
+            <p style={{ fontWeight: 600, fontSize: 15 }}>All-Inclusive Deliverability Test</p>
+            <p style={{ fontSize: 12, color: "var(--ink-4)" }}>Free · No account · DNS + inbox placement</p>
           </div>
         </div>
 
@@ -157,10 +162,10 @@ function FormStage({ onSubmit }: { onSubmit: (domain: string) => Promise<void> }
       <div className="card" style={{ padding: 20, marginTop: 12, background: "var(--paper-2)" }}>
         <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--ink-4)", marginBottom: 14 }}>What happens</p>
         {[
-          { icon: Zap, t: "We generate a unique seed email address" },
-          { icon: Mail, t: "You send one email from your real setup" },
-          { icon: Inbox, t: "We detect which folder it lands in" },
-          { icon: BarChart3, t: "Full DNS + deliverability report" },
+          { icon: Shield, t: "SPF, DKIM, DMARC & blacklist checks run instantly" },
+          { icon: Zap, t: "Seed addresses generated for Gmail, Outlook, Yahoo & iCloud" },
+          { icon: Mail, t: "You send once from your real ESP to all 4 inboxes" },
+          { icon: BarChart3, t: "Per-provider placement results + full warm score" },
         ].map(({ icon: I, t }) => (
           <div key={t} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, color: "var(--ink-3)", marginBottom: 10 }}>
             <I size={13} style={{ color: "var(--red)", flexShrink: 0 }} /> {t}
@@ -187,22 +192,35 @@ function WaitingStage({ test, elapsed, onForce }: { test: TestState; elapsed: nu
           <p style={{ fontSize: 13, color: "var(--ink-3)" }}>We're listening — send from your real setup to the address below</p>
         </div>
 
-        {/* Seed address */}
-        <div style={{ padding: 16, borderRadius: 10, background: "var(--paper-2)", border: "1px solid var(--border)", marginBottom: 24 }}>
-          <p style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-4)", textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 8 }}>Send your test email to</p>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <code className="mono" style={{ fontSize: 13, color: "var(--red)", flex: 1, wordBreak: "break-all", fontWeight: 500 }}>{test.seedEmail}</code>
-            <CopyBtn text={test.seedEmail} />
+        {/* Seed addresses — one per provider */}
+        <div style={{ padding: 16, borderRadius: 10, background: "var(--paper-2)", border: "1px solid var(--border)", marginBottom: 16 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+            <p style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-4)", textTransform: "uppercase", letterSpacing: "0.07em" }}>
+              Send to all 4 seed inboxes
+            </p>
+            <button
+              onClick={() => navigator.clipboard.writeText(test.seedAddresses.map(s => s.address).join(", "))}
+              style={{ fontSize: 11, fontWeight: 500, color: "var(--ink-4)", background: "var(--paper-3)", border: "1px solid var(--border-2)", borderRadius: 6, padding: "3px 10px", cursor: "pointer" }}
+            >
+              Copy all
+            </button>
           </div>
+          {test.seedAddresses.map(s => (
+            <div key={s.provider} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+              <span style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-3)", width: 54, flexShrink: 0 }}>{s.provider}</span>
+              <code className="mono" style={{ fontSize: 11, color: "var(--red)", flex: 1, wordBreak: "break-all" }}>{s.address}</code>
+              <CopyBtn text={s.address} />
+            </div>
+          ))}
         </div>
 
         {/* Steps */}
         <div style={{ marginBottom: 24 }}>
           {[
-            "Open your email client, ESP, or SMTP tool",
+            "Open your ESP, email client, or SMTP tool",
             `Send from your ${test.domain} address`,
-            "Subject & body don't matter — any content works",
-            "Result appears here within 15–30 seconds",
+            "Add all 4 seed addresses as recipients",
+            "Results appear per provider within 30 seconds",
           ].map((t, i) => (
             <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 12, fontSize: 13, color: "var(--ink-3)" }}>
               <div style={{ width: 20, height: 20, borderRadius: "50%", background: "var(--red)", color: "#fff", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
@@ -431,7 +449,7 @@ export default function TestPage() {
     });
     if (!res.ok) throw new Error("Failed to start test. Try again.");
     const data = await res.json();
-    const t: TestState = { id: data.id, domain: data.domain, seedEmail: data.seedEmail, score: data.score, checks: data.checks };
+    const t: TestState = { id: data.id, domain: data.domain, seedAddresses: data.seedAddresses, score: data.score, checks: data.checks };
     setTest(t);
     setElapsed(0);
     setStage("waiting");
