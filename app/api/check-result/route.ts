@@ -1,54 +1,35 @@
 import { NextRequest, NextResponse } from "next/server";
-import { analyzeDomain } from "@/lib/dns-checks";
 
-// In production: poll your email inbox (Resend inbound / Mailgun routes / IMAP)
-// and check which folder the test email landed in.
+// Checks (SPF/DKIM/DMARC/Blacklist) are run during start-test and held in client
+// state — no need to re-run DNS here. This endpoint only returns placement verdict
+// derived from the score the client already has.
 //
-// This stub simulates the result deterministically from the domain so the
-// UI flow works end-to-end. Replace the block marked REPLACE IN PRODUCTION
-// with your real inbox polling logic.
+// TODO: replace verdict logic with real seed-account polling (Gmail API, Graph API)
+// once seed mailboxes are wired up.
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const id     = searchParams.get("id");
-  const domain = searchParams.get("domain");
+  const id      = searchParams.get("id");
+  const domain  = searchParams.get("domain");
   const elapsed = Number(searchParams.get("elapsed") ?? "0");
+  const score   = Number(searchParams.get("score") ?? "0");
 
   if (!id || !domain) {
     return NextResponse.json({ error: "Missing id or domain" }, { status: 400 });
   }
 
-  // Simulate a realistic wait (real email takes 5-30s to arrive)
+  // Simulate realistic email delivery latency
   if (elapsed < 12000) {
     return NextResponse.json({ status: "waiting" });
   }
 
-  // ── REPLACE IN PRODUCTION ─────────────────────────────────────────────────
-  // Poll Resend inbound webhooks / Mailgun routes / IMAP for the seed address.
-  // Check the folder header or spam flag on the received message.
-  // ─────────────────────────────────────────────────────────────────────────
+  // Derive placement from warm score until real seed accounts are wired up
+  let folder: "inbox" | "promotions" | "spam";
+  if (score >= 72)      folder = "inbox";
+  else if (score >= 45) folder = "promotions";
+  else                  folder = "spam";
 
-  const { score, checks } = analyzeDomain(domain);
+  const verdict = folder !== "spam" ? "inbox" : "spam";
 
-  // Deterministic verdict from score for demo
-  const h = domain.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  const blacklisted = h % 97 % 11 === 0;
-
-  let folder: "inbox" | "spam" | "promotions";
-  if (score >= 72)       folder = "inbox";
-  else if (score >= 48)  folder = "promotions";
-  else                   folder = "spam";
-
-  const verdict = folder === "inbox" ? "inbox"
-    : folder === "promotions" ? "inbox"  // still delivered, just tabbed
-    : "spam";
-
-  return NextResponse.json({
-    status: "received",
-    verdict,
-    folder,
-    score,
-    checks,
-    blacklisted,
-  });
+  return NextResponse.json({ status: "received", verdict, folder });
 }

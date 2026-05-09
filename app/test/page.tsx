@@ -20,11 +20,10 @@ interface TestState {
   checks: DnsCheck[];
 }
 
+// Checks + score come from start-test (TestState); result only carries placement
 interface Result {
   verdict: "inbox" | "spam";
   folder: Folder;
-  score: number;
-  checks: DnsCheck[];
 }
 
 // ── Small components ──────────────────────────────────────────────────────────
@@ -256,15 +255,16 @@ function WaitingStage({ test, elapsed, onForce }: { test: TestState; elapsed: nu
 
 function ResultStage({ result, test, onReset }: { result: Result; test: TestState; onReset: () => void }) {
   const inboxed = result.folder !== "spam";
-  const folderLabel = result.folder === "inbox" ? "Primary Inbox" : result.folder === "promotions" ? "Promotions Tab" : "Spam Folder";
+  const folderLabel = result.folder === "inbox" ? "Likely Primary Inbox" : result.folder === "promotions" ? "Promotions Risk" : "Spam Risk";
   const folderColor = result.folder === "spam" ? "var(--red)" : result.folder === "promotions" ? "var(--yellow)" : "var(--green)";
   const folderBg = result.folder === "spam" ? "var(--red-dim)" : result.folder === "promotions" ? "var(--yellow-dim)" : "var(--green-dim)";
   const FolderIc = result.folder === "spam" ? XCircle : result.folder === "promotions" ? AlertTriangle : CheckCircle2;
-  const grade = result.score >= 90 ? "A" : result.score >= 75 ? "B" : result.score >= 55 ? "C" : result.score >= 35 ? "D" : "F";
-  const pass = result.checks.filter(c => c.status === "pass").length;
-  const warn = result.checks.filter(c => c.status === "warn").length;
-  const fail = result.checks.filter(c => c.status === "fail").length;
-  const needsFix = result.checks.filter(c => c.status !== "pass");
+  const score = test.score;
+  const grade = score >= 90 ? "A" : score >= 75 ? "B" : score >= 55 ? "C" : score >= 35 ? "D" : "F";
+  const pass = test.checks.filter(c => c.status === "pass").length;
+  const warn = test.checks.filter(c => c.status === "warn").length;
+  const fail = test.checks.filter(c => c.status === "fail").length;
+  const needsFix = test.checks.filter(c => c.status !== "pass");
 
   return (
     <div style={{ maxWidth: 640, margin: "0 auto", display: "flex", flexDirection: "column", gap: 12 }} className="fade-up">
@@ -275,11 +275,11 @@ function ResultStage({ result, test, onReset }: { result: Result; test: TestStat
           <div style={{ flex: 1 }}>
             <p style={{ fontWeight: 700, fontSize: 18, color: folderColor, marginBottom: 3 }}>{folderLabel}</p>
             <p style={{ fontSize: 13, color: "var(--ink-3)" }}>
-              Email from <strong style={{ color: "var(--ink)" }}>{test.domain}</strong> landed in the {folderLabel.toLowerCase()}
+              DNS &amp; authentication analysis for <strong style={{ color: "var(--ink)" }}>{test.domain}</strong>
             </p>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <ScoreRing score={result.score} />
+            <ScoreRing score={score} />
             <div style={{ textAlign: "center" }}>
               <div className="serif" style={{ fontSize: 40, lineHeight: 1, color: folderColor }}>{grade}</div>
               <div style={{ fontSize: 10, color: "var(--ink-4)" }}>Grade</div>
@@ -299,12 +299,12 @@ function ResultStage({ result, test, onReset }: { result: Result; test: TestStat
 
         {/* Checks */}
         <div style={{ padding: 20, display: "flex", flexDirection: "column", gap: 8 }}>
-          {result.checks.map(c => <CheckRow key={c.label} c={c} />)}
+          {test.checks.map(c => <CheckRow key={c.label} c={c} />)}
         </div>
       </div>
 
       {/* Recommendation */}
-      {(!inboxed || result.score < 65) ? (
+      {(!inboxed || score < 65) ? (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {/* What's happening — useful first */}
           <div className="card" style={{ padding: 24, borderLeft: `3px solid var(--red)` }}>
@@ -407,7 +407,7 @@ export default function TestPage() {
   useEffect(() => () => stop(), [stop]);
 
   const getResult = useCallback(async (t: TestState, el: number) => {
-    const res = await fetch(`/api/check-result?id=${t.id}&domain=${encodeURIComponent(t.domain)}&elapsed=${el}`);
+    const res = await fetch(`/api/check-result?id=${t.id}&domain=${encodeURIComponent(t.domain)}&elapsed=${el}&score=${t.score}`);
     const data = await res.json();
     if (data.status === "received") {
       stop();
@@ -441,7 +441,7 @@ export default function TestPage() {
   const handleForce = async () => {
     if (!test) return;
     stop();
-    const res = await fetch(`/api/check-result?id=${test.id}&domain=${encodeURIComponent(test.domain)}&elapsed=15000`);
+    const res = await fetch(`/api/check-result?id=${test.id}&domain=${encodeURIComponent(test.domain)}&elapsed=15000&score=${test.score}`);
     const data = await res.json();
     setResult(data);
     setStage("result");
