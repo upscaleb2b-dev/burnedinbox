@@ -92,6 +92,7 @@ export default function Home() {
                   { href: "/tools/header-parser",label: "Email header parser",   desc: "Routing & auth" },
                   { href: "/tools/subject-check",label: "Subject spam tester",   desc: "Trigger words" },
                   { href: "/tools/link-check",   label: "Link reputation",       desc: "URL safety" },
+                  { href: "/tools/email-spam",   label: "Email content spam test", desc: "Spam triggers" },
                 ].map(({ href, label, desc }) => (
                   <Link key={href} href={href} className="drop-item">
                     <span className="di-label">{label}</span>
@@ -131,6 +132,8 @@ export default function Home() {
                   { href: "/tools/tracking-domain", label: "Tracking domain",   desc: "CNAME & SSL" },
                   { href: "/tools/redirect",        label: "Redirect checker",  desc: "4 variants" },
                   { href: "/tools/domain-expiry",   label: "Domain expiry",     desc: "Renewal dates" },
+                  { href: "/tools/bimi",            label: "BIMI lookup",        desc: "Logo & VMC" },
+                  { href: "/tools/mta-sts",         label: "MTA-STS checker",    desc: "TLS enforcement" },
                 ].map(({ href, label, desc }) => (
                   <Link key={href} href={href} className="drop-item">
                     <span className="di-label">{label}</span>

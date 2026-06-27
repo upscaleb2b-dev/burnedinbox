@@ -18,12 +18,20 @@ async function followRedirects(startUrl: string, maxHops = 10): Promise<HopResul
 
   for (let i = 0; i < maxHops; i++) {
     try {
-      const res = await fetch(url, {
+      let res = await fetch(url, {
         method: "HEAD",
         redirect: "manual",
         signal: AbortSignal.timeout(6000),
         headers: { "User-Agent": "Mozilla/5.0 (compatible; BurnedInbox/1.0)" },
       });
+      if (res.status === 405 || res.status === 501) {
+        res = await fetch(url, {
+          method: "GET",
+          redirect: "manual",
+          signal: AbortSignal.timeout(6000),
+          headers: { "User-Agent": "Mozilla/5.0 (compatible; BurnedInbox/1.0)", "Range": "bytes=0-0" },
+        });
+      }
 
       const location = res.headers.get("location");
       const status = res.status;

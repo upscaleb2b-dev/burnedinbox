@@ -8,11 +8,19 @@ function extractLinks(text: string): string[] {
 
 async function checkLink(url: string) {
   try {
-    const res = await fetch(url, {
+    let res = await fetch(url, {
       method: "HEAD", redirect: "manual",
       signal: AbortSignal.timeout(7000),
       headers: { "User-Agent": "Mozilla/5.0 (compatible; BurnedInbox/1.0)" },
     });
+    // Some servers reject HEAD — fall back to GET
+    if (res.status === 405 || res.status === 501) {
+      res = await fetch(url, {
+        method: "GET", redirect: "manual",
+        signal: AbortSignal.timeout(7000),
+        headers: { "User-Agent": "Mozilla/5.0 (compatible; BurnedInbox/1.0)", "Range": "bytes=0-0" },
+      });
+    }
 
     const finalLocation = res.headers.get("location");
     const isRedirect = res.status >= 300 && res.status < 400;
