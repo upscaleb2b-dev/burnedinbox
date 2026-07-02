@@ -3,8 +3,9 @@ import { notFound } from "next/navigation";
 import { Flame, ArrowLeft, Clock, ArrowRight } from "lucide-react";
 import { posts } from "../posts";
 import { posts2 } from "../posts2";
+import { posts3 } from "../posts3";
 
-const allPosts = [...posts, ...posts2];
+const allPosts = [...posts, ...posts2, ...posts3];
 
 export async function generateStaticParams() {
   return allPosts.map((p) => ({ slug: p.slug }));
@@ -14,7 +15,24 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const post = allPosts.find((p) => p.slug === slug);
   if (!post) return {};
-  return { title: `${post.title} — BurnedInbox`, description: post.excerpt };
+  return {
+    title: post.title,
+    description: post.excerpt,
+    alternates: { canonical: `/blog/${post.slug}` },
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url: `https://burnedinbox.com/blog/${post.slug}`,
+      siteName: "Burned Inbox",
+      type: "article",
+      locale: "en_US",
+    },
+    twitter: {
+      card: "summary",
+      title: post.title,
+      description: post.excerpt,
+    },
+  };
 }
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
@@ -24,8 +42,26 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
   const related = allPosts.filter(p => p.slug !== post.slug && p.category === post.category).slice(0, 3);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt,
+    articleSection: post.category,
+    url: `https://burnedinbox.com/blog/${post.slug}`,
+    mainEntityOfPage: { "@type": "WebPage", "@id": `https://burnedinbox.com/blog/${post.slug}` },
+    author: { "@type": "Organization", name: "BurnedInbox", url: "https://burnedinbox.com" },
+    publisher: {
+      "@type": "Organization",
+      name: "BurnedInbox",
+      url: "https://burnedinbox.com",
+      logo: { "@type": "ImageObject", url: "https://burnedinbox.com/icon.png" },
+    },
+  };
+
   return (
     <div style={{ minHeight: "100vh", background: "var(--paper-2)" }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
         .prose h2 { font-size: 20px; font-weight: 700; color: var(--ink); margin: 36px 0 14px; letter-spacing: -0.2px; }

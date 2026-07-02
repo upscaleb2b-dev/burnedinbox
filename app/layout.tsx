@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Burned Inbox — Email Deliverability & Inbox Placement Tester",
+  metadataBase: new URL("https://burnedinbox.com"),
+  title: {
+    default: "Burned Inbox — Email Deliverability & Inbox Placement Tester",
+    template: "%s — BurnedInbox",
+  },
   description: "Test whether your emails land in the inbox or spam. Free inbox placement test, spam score checker, SPF/DKIM/DMARC analysis for email marketers.",
   keywords: "inbox placement test, email deliverability test, spam test, email spam checker, SPF DKIM DMARC, email blacklist check, sender reputation",
   openGraph: {
@@ -11,9 +15,14 @@ export const metadata: Metadata = {
     url: "https://burnedinbox.com",
     siteName: "Burned Inbox",
     type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+    title: "Burned Inbox — Is Your Email Landing in Spam?",
+    description: "Free inbox placement test, warm score, and SPF/DKIM/DMARC analysis.",
   },
   robots: { index: true, follow: true },
-  alternates: { canonical: "https://burnedinbox.com" },
   icons: {
     icon: [
       { url: "/favicon.ico",    sizes: "any" },

@@ -29,9 +29,15 @@ function gradeSpf(parsed: ReturnType<typeof parseSpf>) {
   const tips: string[] = [];
   let score = 100;
 
-  if (parsed.all === "+all" || parsed.all === "all") {
-    issues.push("~all or -all is missing — +all allows any server to send as you");
+  if (!parsed.all) {
+    issues.push("SPF record has no default policy (all) — add -all to reject unauthorized senders");
+    score -= 30;
+  } else if (parsed.all === "+all" || parsed.all === "all") {
+    issues.push("SPF uses +all or bare all — any server can send as your domain. Change to -all immediately.");
     score -= 40;
+  } else if (parsed.all === "?all") {
+    issues.push("SPF uses ?all (neutral) — provides no protection. Use -all to reject unauthorized senders.");
+    score -= 25;
   } else if (parsed.all === "~all") {
     tips.push("Consider upgrading ~all (softfail) to -all (hardfail) for stricter enforcement");
     score -= 10;

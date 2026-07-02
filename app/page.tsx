@@ -15,9 +15,35 @@ const S = {
   wrap: { maxWidth: 1040, margin: "0 auto" },
 };
 
+export const metadata = {
+  alternates: { canonical: "/" },
+};
+
+const homeJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://burnedinbox.com/#org",
+      name: "BurnedInbox",
+      url: "https://burnedinbox.com",
+      logo: "https://burnedinbox.com/icon.png",
+      description: "Free email deliverability tools and operator-grade guides for cold email teams and agencies.",
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://burnedinbox.com/#site",
+      name: "BurnedInbox",
+      url: "https://burnedinbox.com",
+      publisher: { "@id": "https://burnedinbox.com/#org" },
+    },
+  ],
+};
+
 export default function Home() {
   return (
     <div style={{ background: "var(--paper)" }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }} />
 
       {/* ── 1. HEADER ── */}
       <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid var(--border)" }}>
@@ -92,6 +118,7 @@ export default function Home() {
                   { href: "/tools/header-parser",label: "Email header parser",   desc: "Routing & auth" },
                   { href: "/tools/subject-check",label: "Subject spam tester",   desc: "Trigger words" },
                   { href: "/tools/link-check",   label: "Link reputation",       desc: "URL safety" },
+                  { href: "/tools/email-spam",   label: "Email content spam test", desc: "Spam triggers" },
                 ].map(({ href, label, desc }) => (
                   <Link key={href} href={href} className="drop-item">
                     <span className="di-label">{label}</span>
@@ -131,6 +158,8 @@ export default function Home() {
                   { href: "/tools/tracking-domain", label: "Tracking domain",   desc: "CNAME & SSL" },
                   { href: "/tools/redirect",        label: "Redirect checker",  desc: "4 variants" },
                   { href: "/tools/domain-expiry",   label: "Domain expiry",     desc: "Renewal dates" },
+                  { href: "/tools/bimi",            label: "BIMI lookup",        desc: "Logo & VMC" },
+                  { href: "/tools/mta-sts",         label: "MTA-STS checker",    desc: "TLS enforcement" },
                 ].map(({ href, label, desc }) => (
                   <Link key={href} href={href} className="drop-item">
                     <span className="di-label">{label}</span>
@@ -285,13 +314,30 @@ export default function Home() {
                 <div style={{ margin: "8px 0 4px", borderTop: "1px solid var(--border)" }} />
                 <p className="drop-head" style={{ marginTop: 8 }}>Operational SOPs</p>
                 {[
+                  { href: "/blog/weekly-deliverability-monitoring-sop",          label: "Weekly monitoring SOP" },
+                  { href: "/blog/new-domain-cold-email-provisioning-sop",        label: "New domain provisioning SOP" },
+                  { href: "/blog/inbox-rotation-sop-cold-email",                 label: "Inbox rotation SOP" },
+                  { href: "/blog/client-onboarding-deliverability-sop",          label: "Client onboarding audit SOP" },
+                  { href: "/blog/blacklist-delisting-sop",                       label: "Blacklist delisting SOP" },
                   { href: "/blog/replace-inboxes-without-pausing-campaigns",    label: "Replace inboxes without pausing" },
-                  { href: "/blog/rotate-prewarmed-inboxes-after-failure",        label: "Rotate to prewarmed inboxes" },
                   { href: "/blog/agency-rotate-inboxes-deliverability-slipping", label: "Agency inbox rotation" },
                 ].map(({ href, label }) => (
                   <Link key={href} href={href} className="drop-item">
                     <span className="di-label">{label}</span>
                     <span className="di-desc">SOP →</span>
+                  </Link>
+                ))}
+                <div style={{ margin: "8px 0 4px", borderTop: "1px solid var(--border)" }} />
+                <p className="drop-head" style={{ marginTop: 8 }}>Pre-Warmed Inboxes</p>
+                {[
+                  { href: "/blog/best-place-to-buy-pre-warmed-inboxes",  label: "Where to buy pre-warmed inboxes" },
+                  { href: "/blog/are-pre-warmed-inboxes-worth-it",        label: "Are pre-warmed inboxes worth it?" },
+                  { href: "/blog/pre-warmed-inboxes-vs-diy-warmup",       label: "Pre-warmed vs DIY warmup" },
+                  { href: "/blog/pre-warmed-email-accounts-reddit",       label: "What Reddit says about pre-warmed" },
+                ].map(({ href, label }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">Guide →</span>
                   </Link>
                 ))}
               </div>
