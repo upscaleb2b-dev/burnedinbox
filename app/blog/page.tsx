@@ -7,8 +7,9 @@ import { posts3 } from "./posts3";
 const allPosts = [...posts, ...posts2, ...posts3];
 
 export const metadata = {
-  title: "Cold Email Deliverability Blog — BurnedInbox",
+  title: "Cold Email Deliverability Blog",
   description: "Practical recovery guides, technical fixes, and operator-level deliverability content for cold emailers and agencies.",
+  alternates: { canonical: "/blog" },
 };
 
 export default function BlogPage() {

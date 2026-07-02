@@ -15,9 +15,35 @@ const S = {
   wrap: { maxWidth: 1040, margin: "0 auto" },
 };
 
+export const metadata = {
+  alternates: { canonical: "/" },
+};
+
+const homeJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://burnedinbox.com/#org",
+      name: "BurnedInbox",
+      url: "https://burnedinbox.com",
+      logo: "https://burnedinbox.com/icon.png",
+      description: "Free email deliverability tools and operator-grade guides for cold email teams and agencies.",
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://burnedinbox.com/#site",
+      name: "BurnedInbox",
+      url: "https://burnedinbox.com",
+      publisher: { "@id": "https://burnedinbox.com/#org" },
+    },
+  ],
+};
+
 export default function Home() {
   return (
     <div style={{ background: "var(--paper)" }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }} />
 
       {/* ── 1. HEADER ── */}
       <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid var(--border)" }}>
