@@ -288,13 +288,30 @@ export default function Home() {
                 <div style={{ margin: "8px 0 4px", borderTop: "1px solid var(--border)" }} />
                 <p className="drop-head" style={{ marginTop: 8 }}>Operational SOPs</p>
                 {[
+                  { href: "/blog/weekly-deliverability-monitoring-sop",          label: "Weekly monitoring SOP" },
+                  { href: "/blog/new-domain-cold-email-provisioning-sop",        label: "New domain provisioning SOP" },
+                  { href: "/blog/inbox-rotation-sop-cold-email",                 label: "Inbox rotation SOP" },
+                  { href: "/blog/client-onboarding-deliverability-sop",          label: "Client onboarding audit SOP" },
+                  { href: "/blog/blacklist-delisting-sop",                       label: "Blacklist delisting SOP" },
                   { href: "/blog/replace-inboxes-without-pausing-campaigns",    label: "Replace inboxes without pausing" },
-                  { href: "/blog/rotate-prewarmed-inboxes-after-failure",        label: "Rotate to prewarmed inboxes" },
                   { href: "/blog/agency-rotate-inboxes-deliverability-slipping", label: "Agency inbox rotation" },
                 ].map(({ href, label }) => (
                   <Link key={href} href={href} className="drop-item">
                     <span className="di-label">{label}</span>
                     <span className="di-desc">SOP →</span>
+                  </Link>
+                ))}
+                <div style={{ margin: "8px 0 4px", borderTop: "1px solid var(--border)" }} />
+                <p className="drop-head" style={{ marginTop: 8 }}>Pre-Warmed Inboxes</p>
+                {[
+                  { href: "/blog/best-place-to-buy-pre-warmed-inboxes",  label: "Where to buy pre-warmed inboxes" },
+                  { href: "/blog/are-pre-warmed-inboxes-worth-it",        label: "Are pre-warmed inboxes worth it?" },
+                  { href: "/blog/pre-warmed-inboxes-vs-diy-warmup",       label: "Pre-warmed vs DIY warmup" },
+                  { href: "/blog/pre-warmed-email-accounts-reddit",       label: "What Reddit says about pre-warmed" },
+                ].map(({ href, label }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">Guide →</span>
                   </Link>
                 ))}
               </div>

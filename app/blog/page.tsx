@@ -2,8 +2,9 @@ import Link from "next/link";
 import { Flame, ArrowRight, Clock } from "lucide-react";
 import { posts } from "./posts";
 import { posts2 } from "./posts2";
+import { posts3 } from "./posts3";
 
-const allPosts = [...posts, ...posts2];
+const allPosts = [...posts, ...posts2, ...posts3];
 
 export const metadata = {
   title: "Cold Email Deliverability Blog — BurnedInbox",
