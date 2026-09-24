@@ -85,9 +85,64 @@ export default function Home() {
             transition: transform 0.15s;
           }
           .ai-btn:hover { transform: scale(1.03); }
+          .nav-toggle { display: none; }
+          .nav-burger { display: none; }
+
+          /* ── Mobile navigation ── */
+          @media (max-width: 1180px) {
+            /* backdrop-filter would make the header the containing block for the
+               fixed-position menu panel, collapsing it — disable on mobile */
+            header { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+            .ai-btn { display: none; }
+            .nav-burger {
+              display: flex; align-items: center; justify-content: center;
+              width: 40px; height: 40px; margin-left: 8px; border-radius: 8px;
+              color: var(--ink); cursor: pointer; flex-shrink: 0;
+            }
+            .nav-burger:active { background: var(--paper-2); }
+            .nav-burger .ic-close { display: none; }
+            .nav-toggle:checked ~ .nav-burger .ic-open { display: none; }
+            .nav-toggle:checked ~ .nav-burger .ic-close { display: block; }
+
+            .main-nav { display: none !important; }
+            .nav-toggle:checked ~ .main-nav {
+              display: block !important; position: fixed; top: 54px; left: 0; right: 0; bottom: 0;
+              background: var(--paper); overflow-y: auto; -webkit-overflow-scrolling: touch;
+              padding: 8px 16px 40px; z-index: 100; border-top: 1px solid var(--border);
+            }
+            .main-nav .nav-item { width: 100%; position: static; }
+            .main-nav .nav-item > a, .main-nav .nav-item > button {
+              width: 100%; justify-content: space-between; padding: 14px 6px;
+              font-size: 15px; font-weight: 500; color: var(--ink);
+              border-bottom: 1px solid var(--border); border-radius: 0;
+            }
+            .main-nav .chevron { width: 14px; height: 14px; }
+            .main-nav .drop, .main-nav .drop-wide {
+              display: none; position: static !important; opacity: 1 !important;
+              pointer-events: auto !important; transform: none !important;
+              min-width: 0 !important; width: 100%; box-shadow: none; border: none;
+              border-radius: 0; padding: 4px 0 12px; background: var(--paper-2);
+            }
+            .main-nav .nav-item:focus-within .drop { display: block; }
+            .main-nav .drop [style*="grid-template-columns"] { grid-template-columns: 1fr !important; gap: 0 !important; }
+            .main-nav .drop-item { padding: 9px 12px; }
+            .main-nav .di-label, .main-nav .di-desc { white-space: normal !important; }
+          }
+          @media (max-width: 480px) {
+            .nav-burger { margin-left: 4px; }
+          }
+          @media (max-width: 760px) {
+            .foot-grid { grid-template-columns: 1fr 1fr !important; gap: 28px !important; }
+          }
+          @media (max-width: 440px) {
+            .foot-grid { grid-template-columns: 1fr !important; }
+          }
         `}</style>
 
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", height: 54, display: "flex", alignItems: "center", gap: 0 }}>
+
+          {/* Mobile nav toggle (CSS-only) */}
+          <input type="checkbox" id="nav-toggle" className="nav-toggle" aria-label="Toggle navigation menu" />
 
           {/* Logo */}
           <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none", flexShrink: 0, marginRight: 20 }}>
@@ -100,7 +155,7 @@ export default function Home() {
           </Link>
 
           {/* Nav */}
-          <nav style={{ display: "flex", alignItems: "center", gap: 1, flex: 1 }}>
+          <nav className="main-nav" style={{ display: "flex", alignItems: "center", gap: 1, flex: 1 }}>
 
             {/* 1. PLACEMENT */}
             <div className="nav-item">
@@ -443,6 +498,12 @@ export default function Home() {
           <Link href="/test" className="btn btn-red" style={{ padding: "7px 16px", fontSize: 13, flexShrink: 0 }}>
             Test my inbox
           </Link>
+
+          {/* Hamburger (mobile only) */}
+          <label htmlFor="nav-toggle" className="nav-burger" aria-hidden="true">
+            <svg className="ic-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            <svg className="ic-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </label>
         </div>
       </header>
 
@@ -709,7 +770,7 @@ export default function Home() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
 
           {/* Tool grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "2fr repeat(3, 1fr)", gap: 40, marginBottom: 40 }}>
+          <div className="foot-grid" style={{ display: "grid", gridTemplateColumns: "2fr repeat(3, 1fr)", gap: 40, marginBottom: 40 }}>
 
             {/* Brand */}
             <div>
