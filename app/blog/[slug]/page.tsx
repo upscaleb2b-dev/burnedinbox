@@ -26,11 +26,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       siteName: "Burned Inbox",
       type: "article",
       locale: "en_US",
+      images: ["/opengraph-image"],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: post.title,
       description: post.excerpt,
+      images: ["/twitter-image"],
     },
   };
 }
@@ -42,21 +44,37 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
   const related = allPosts.filter(p => p.slug !== post.slug && p.category === post.category).slice(0, 3);
 
+  const url = `https://burnedinbox.com/blog/${post.slug}`;
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: post.title,
-    description: post.excerpt,
-    articleSection: post.category,
-    url: `https://burnedinbox.com/blog/${post.slug}`,
-    mainEntityOfPage: { "@type": "WebPage", "@id": `https://burnedinbox.com/blog/${post.slug}` },
-    author: { "@type": "Organization", name: "BurnedInbox", url: "https://burnedinbox.com" },
-    publisher: {
-      "@type": "Organization",
-      name: "BurnedInbox",
-      url: "https://burnedinbox.com",
-      logo: { "@type": "ImageObject", url: "https://burnedinbox.com/icon.png" },
-    },
+    "@graph": [
+      {
+        "@type": "Article",
+        headline: post.title,
+        description: post.excerpt,
+        articleSection: post.category,
+        inLanguage: "en-US",
+        url,
+        image: "https://burnedinbox.com/opengraph-image",
+        mainEntityOfPage: { "@type": "WebPage", "@id": url },
+        author: { "@type": "Organization", name: "BurnedInbox", url: "https://burnedinbox.com" },
+        publisher: {
+          "@type": "Organization",
+          "@id": "https://burnedinbox.com/#org",
+          name: "BurnedInbox",
+          url: "https://burnedinbox.com",
+          logo: { "@type": "ImageObject", url: "https://burnedinbox.com/icon.png" },
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://burnedinbox.com" },
+          { "@type": "ListItem", position: 2, name: "Guides", item: "https://burnedinbox.com/blog" },
+          { "@type": "ListItem", position: 3, name: post.title, item: url },
+        ],
+      },
+    ],
   };
 
   return (

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FAQS } from "@/lib/faqs";
 import {
   ArrowRight, Flame, CheckCircle2, XCircle, AlertTriangle,
   Shield, Zap, Globe, Lock, BarChart3, Mail, ExternalLink,
@@ -28,14 +29,35 @@ const homeJsonLd = {
       name: "BurnedInbox",
       url: "https://burnedinbox.com",
       logo: "https://burnedinbox.com/icon.png",
-      description: "Free email deliverability tools and operator-grade guides for cold email teams and agencies.",
+      description: "Free cold email placement tester and deliverability tools for cold emailers, agencies and outbound teams.",
     },
     {
       "@type": "WebSite",
       "@id": "https://burnedinbox.com/#site",
       name: "BurnedInbox",
       url: "https://burnedinbox.com",
+      inLanguage: "en-US",
       publisher: { "@id": "https://burnedinbox.com/#org" },
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://burnedinbox.com/#placement-test",
+      name: "BurnedInbox Cold Email Placement Tester",
+      url: "https://burnedinbox.com/test",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Any",
+      isAccessibleForFree: true,
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      publisher: { "@id": "https://burnedinbox.com/#org" },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://burnedinbox.com/#faq",
+      mainEntity: FAQS.map(({ q, a }) => ({
+        "@type": "Question",
+        name: q,
+        acceptedAnswer: { "@type": "Answer", text: a },
+      })),
     },
   ],
 };
@@ -698,14 +720,9 @@ export default function Home() {
         <div style={{ ...S.wrap, maxWidth: 680 }}>
           <h2 style={{ ...S.h2, marginBottom: 40 }}>Common questions</h2>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            {[
-              { q: "What does BurnedInbox check?", a: "It checks core deliverability and infrastructure signals like inbox placement, DNS records, blacklist exposure, authentication, and reputation indicators." },
-              { q: "Can this tell me with certainty if an inbox is burned?", a: "Not with perfect certainty. It helps surface likely issues and risk signals that suggest whether a setup is healthy or underperforming." },
-              { q: "Is the placement test free?", a: "Yes. BurnedInbox is designed to be a free diagnostic tool." },
-              { q: "What should I do if the result is critical?", a: "That depends on the issue. Some setups can be fixed with the right DNS records and a recovery plan. Others are better replaced entirely — especially if the infrastructure is old, overused, or showing blacklist exposure." },
-            ].map(({ q, a }, i) => (
+            {FAQS.map(({ q, a }) => (
               <div key={q} style={{ padding: "22px 0", borderBottom: "1px solid var(--border)" }}>
-                <p style={{ fontSize: 14, fontWeight: 600, color: "var(--ink)", marginBottom: 8 }}>{q}</p>
+                <h3 style={{ fontSize: 15, fontWeight: 600, color: "var(--ink)", marginBottom: 8 }}>{q}</h3>
                 <p style={{ fontSize: 14, color: "var(--ink-3)", lineHeight: 1.7 }}>{a}</p>
               </div>
             ))}

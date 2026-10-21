@@ -1,0 +1,16 @@
+export const FAQS = [
+  { q: "What is an inbox placement test?",
+    a: "An inbox placement test sends a real email from your setup to seed mailboxes at providers like Gmail and Outlook, then reports whether it landed in the primary inbox, the promotions tab, or spam. It tells you where your cold email actually goes, which open rates alone cannot." },
+  { q: "How do I know if my cold email domain is burned?",
+    a: "A burned domain shows three signs together: emails landing in spam at Gmail or Outlook, a listing on a major blacklist such as Spamhaus or Barracuda, and reply rates that dropped sharply while volume stayed the same. Run the free BurnedInbox test to check all three in one pass." },
+  { q: "What does BurnedInbox check?",
+    a: "BurnedInbox checks SPF, DKIM and DMARC authentication, scans 16 blacklists including Spamhaus, SURBL and Barracuda, and combines them into a 0–100 warm score with a placement verdict. Separate free tools cover BIMI, MTA-STS, MX, reverse DNS, tracking domains and email content." },
+  { q: "Is BurnedInbox free?",
+    a: "Yes. Every BurnedInbox tool, including the placement test, is free to use with no account and no credit card." },
+  { q: "Can a burned domain recover?",
+    a: "Sometimes. A domain with broken authentication or a single first-time blacklist listing can often recover in 2–6 weeks after the cause is fixed. A domain with repeated critical listings or months of spam placement usually recovers slowly or not at all, and replacing it is faster." },
+  { q: "What should I do if my result is critical?",
+    a: "Stop sending from the affected domain, test again to confirm the result, then fix authentication and request delisting from any blacklists. If campaigns cannot pause for weeks, move sending to fresh pre-warmed inboxes while the damaged domain recovers." },
+  { q: "Can this tell me with certainty if an inbox is burned?",
+    a: "Not with perfect certainty. Mailbox providers do not publish their filtering decisions, so any tester surfaces strong signals rather than a guarantee. Testing more than once and across several providers gives the most reliable picture." },
+];
