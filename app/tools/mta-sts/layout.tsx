@@ -18,18 +18,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Free MTA-STS Checker \u2014 TLS Policy Validation",
       "description": "Validate your MTA-STS DNS record, fetch and parse the policy file, and check TLS-RPT reporting. Includes a full setup guide for enforce mode.",
       "url": "https://burnedinbox.com/tools/mta-sts",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "relatedLink": "https://warminboxes.com/mta-sts-checker",
       "publisher": {
         "@type": "Organization",
         "name": "BurnedInbox",

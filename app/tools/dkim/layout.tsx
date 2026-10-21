@@ -18,18 +18,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Free DKIM Record Checker \u2014 Auto-Discover Selectors",
       "description": "Check DKIM records across 16+ common selectors, validate key type and length (1024 vs 2048-bit RSA), and detect revoked or test-mode keys.",
       "url": "https://burnedinbox.com/tools/dkim",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "relatedLink": "https://warminboxes.com/dkim-checker",
       "publisher": {
         "@type": "Organization",
         "name": "BurnedInbox",

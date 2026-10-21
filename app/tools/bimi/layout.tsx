@@ -18,18 +18,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Free BIMI Record Checker \u2014 Logo & VMC Validation",
       "description": "Check your BIMI record, verify your SVG logo URL and VMC certificate are reachable, and confirm the DMARC p=reject requirement for Gmail logo display.",
       "url": "https://burnedinbox.com/tools/bimi",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "relatedLink": "https://warminboxes.com/bimi-checker",
       "publisher": {
         "@type": "Organization",
         "name": "BurnedInbox",

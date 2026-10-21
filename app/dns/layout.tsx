@@ -18,18 +18,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Free DNS Checker \u2014 All Record Types",
       "description": "Look up A, AAAA, MX, TXT, CNAME, NS, SOA, SRV, PTR and CAA records for any domain with TTL details. Free instant DNS lookup tool.",
       "url": "https://burnedinbox.com/dns",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "relatedLink": "https://warminboxes.com/dns-checker",
       "publisher": {
         "@type": "Organization",
         "name": "BurnedInbox",

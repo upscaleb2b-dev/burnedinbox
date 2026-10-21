@@ -18,18 +18,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Free DMARC Record Checker & Policy Analyzer",
       "description": "Look up any domain's DMARC record, parse every tag (p, sp, pct, rua, adkim, aspf) and get a 0-100 policy strength score with upgrade recommendations.",
       "url": "https://burnedinbox.com/tools/dmarc",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "relatedLink": "https://warminboxes.com/dmarc-checker",
       "publisher": {
         "@type": "Organization",
         "name": "BurnedInbox",

@@ -18,18 +18,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Free Tracking Domain Checker for Cold Email",
       "description": "Validate your tracking domain: CNAME target detection, Cloudflare proxy warnings, SSL verification and domain isolation checks.",
       "url": "https://burnedinbox.com/tools/tracking-domain",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "relatedLink": "https://warminboxes.com/tracking-domain-checker",
       "publisher": {
         "@type": "Organization",
         "name": "BurnedInbox",
