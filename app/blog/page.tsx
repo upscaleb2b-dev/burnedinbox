@@ -29,7 +29,7 @@ export default function BlogPage() {
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "48px 24px 80px" }}>
         <div style={{ marginBottom: 40 }}>
-          <h1 style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: "clamp(2rem, 4vw, 2.75rem)", color: "var(--ink)", letterSpacing: "-0.3px", marginBottom: 12 }}>
+          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.75rem, 3.2vw, 2.375rem)", color: "var(--ink)", letterSpacing: "-0.025em", marginBottom: 12 }}>
             Deliverability guides
           </h1>
           <p style={{ fontSize: 16, color: "var(--ink-3)", lineHeight: 1.7, maxWidth: 600 }}>

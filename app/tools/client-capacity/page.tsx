@@ -54,7 +54,7 @@ export default function ClientCapacityPage() {
       <div style={{ maxWidth:800, margin:"0 auto", padding:"48px 24px 80px" }}>
         <div style={{ marginBottom:32 }}>
           <p style={{ fontSize:11, fontWeight:700, textTransform:"uppercase" as const, letterSpacing:"0.08em", color:"var(--red)", marginBottom:8 }}>Calculator · Agency</p>
-          <h1 style={{ fontFamily:"'Instrument Serif',Georgia,serif", fontSize:"clamp(1.75rem,4vw,2.5rem)", color:"var(--ink)", marginBottom:10, letterSpacing:"-0.3px" }}>Client Capacity Planner</h1>
+          <h1 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(1.6rem, 3.2vw, 2.125rem)", color:"var(--ink)", marginBottom:10, letterSpacing: "-0.025em" }}>Client Capacity Planner</h1>
           <p style={{ fontSize:15, color:"var(--ink-3)", lineHeight:1.7 }}>Plan the full infrastructure needed to run cold email across all your agency clients — with backup built in.</p>
         </div>
 

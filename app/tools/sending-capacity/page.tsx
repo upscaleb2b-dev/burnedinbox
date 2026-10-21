@@ -49,7 +49,7 @@ export default function SendingCapacityPage() {
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "48px 24px 80px" }}>
         <div style={{ marginBottom: 36 }}>
           <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--red)", marginBottom: 10 }}>Calculator</p>
-          <h1 style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: "clamp(1.75rem, 4vw, 2.5rem)", color: "var(--ink)", marginBottom: 12, letterSpacing: "-0.3px" }}>Sending Capacity Calculator</h1>
+          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.6rem, 3.2vw, 2.125rem)", color: "var(--ink)", marginBottom: 12, letterSpacing: "-0.025em" }}>Sending Capacity Calculator</h1>
           <p style={{ fontSize: 15, color: "var(--ink-3)", lineHeight: 1.7 }}>See exactly how many leads your current inbox setup can work per week and per month.</p>
         </div>
 

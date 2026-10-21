@@ -100,7 +100,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", padding: "3px 9px", borderRadius: 4, color: "var(--red)", background: "var(--red-dim)" }}>{post.category}</span>
             <span style={{ fontSize: 12, color: "var(--ink-4)", display: "flex", alignItems: "center", gap: 4 }}><Clock size={11} /> {post.readTime} min read</span>
           </div>
-          <h1 style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: "clamp(1.75rem, 4vw, 2.5rem)", color: "var(--ink)", lineHeight: 1.15, letterSpacing: "-0.3px", marginBottom: 16 }}>{post.title}</h1>
+          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.6rem, 3.2vw, 2.125rem)", color: "var(--ink)", lineHeight: 1.15, letterSpacing: "-0.025em", marginBottom: 16 }}>{post.title}</h1>
           <p style={{ fontSize: 16, color: "var(--ink-3)", lineHeight: 1.7 }}>{post.excerpt}</p>
         </div>
 

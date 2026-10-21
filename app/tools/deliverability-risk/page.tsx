@@ -71,7 +71,7 @@ export default function DeliverabilityRiskPage() {
       <div style={{ maxWidth:800, margin:"0 auto", padding:"48px 24px 80px" }}>
         <div style={{ marginBottom:32 }}>
           <p style={{ fontSize:11, fontWeight:700, textTransform:"uppercase" as const, letterSpacing:"0.08em", color:"var(--red)", marginBottom:8 }}>Calculator</p>
-          <h1 style={{ fontFamily:"'Instrument Serif',Georgia,serif", fontSize:"clamp(1.75rem,4vw,2.5rem)", color:"var(--ink)", marginBottom:10, letterSpacing:"-0.3px" }}>Deliverability Risk Planner</h1>
+          <h1 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(1.6rem, 3.2vw, 2.125rem)", color:"var(--ink)", marginBottom:10, letterSpacing: "-0.025em" }}>Deliverability Risk Planner</h1>
           <p style={{ fontSize:15, color:"var(--ink-3)", lineHeight:1.7 }}>Score your current setup across 8 risk factors to see where you're exposed — before campaigns start burning.</p>
         </div>
 

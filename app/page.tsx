@@ -8,7 +8,7 @@ import {
 // ── Shared styles ─────────────────────────────────────────────────────────────
 const S = {
   eyebrow: { fontSize: 11, fontWeight: 600, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: "var(--red)", marginBottom: 12 },
-  h2: { fontFamily: "'Instrument Serif', Georgia, serif", fontSize: "clamp(2rem, 4vw, 2.75rem)", lineHeight: 1.1, letterSpacing: "-0.3px", marginBottom: 0 },
+  h2: { fontFamily: "var(--font-display)", fontSize: "clamp(1.75rem, 3.2vw, 2.375rem)", fontWeight: 700, lineHeight: 1.15, letterSpacing: "-0.03em", marginBottom: 0 },
   body: { fontSize: 15, color: "var(--ink-3)", lineHeight: 1.7 },
   label: { fontSize: 11, fontWeight: 600, textTransform: "uppercase" as const, letterSpacing: "0.07em" },
   section: { padding: "80px 24px", borderBottom: "1px solid var(--border)" },
@@ -72,19 +72,16 @@ export default function Home() {
           .drop-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em;
             color: var(--red); margin-bottom: 6px; padding: 0 10px; }
           .chevron { width: 10px; height: 10px; opacity: 0.5; }
-          @keyframes ai-pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(139,92,246,0.5), 0 0 12px rgba(139,92,246,0.3); }
-            50% { box-shadow: 0 0 0 4px rgba(139,92,246,0), 0 0 20px rgba(139,92,246,0.5); }
+          .agent-cta {
+            display: flex; flex-direction: column; align-items: flex-start; gap: 0;
+            padding: 5px 12px; margin: 0 10px; border-radius: 8px; text-decoration: none;
+            border: 1px solid var(--border-2); background: var(--paper); flex-shrink: 0;
+            transition: border-color 0.15s, background 0.15s;
           }
-          .ai-btn {
-            display: flex; flex-direction: column; align-items: center; gap: 1px;
-            padding: 5px 14px; border-radius: 8px; text-decoration: none;
-            background: linear-gradient(135deg, #7c3aed, #6d28d9);
-            animation: ai-pulse 2.5s ease-in-out infinite;
-            border: 1px solid rgba(139,92,246,0.4); flex-shrink: 0;
-            transition: transform 0.15s;
-          }
-          .ai-btn:hover { transform: scale(1.03); }
+          .agent-cta:hover { border-color: var(--ink); background: var(--paper-2); }
+          .agent-cta .ac-top { font-size: 10px; color: var(--ink-4); white-space: nowrap; line-height: 1.3; }
+          .agent-cta .ac-main { font-size: 12px; font-weight: 600; color: var(--ink); white-space: nowrap; line-height: 1.3; }
+          .agent-cta-mobile { display: none; }
           .nav-toggle { display: none; }
           .nav-burger { display: none; }
 
@@ -93,7 +90,12 @@ export default function Home() {
             /* backdrop-filter would make the header the containing block for the
                fixed-position menu panel, collapsing it — disable on mobile */
             header { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
-            .ai-btn { display: none; }
+            .agent-cta { display: none; }
+            .main-nav .agent-cta-mobile {
+              display: block; margin-top: 16px; padding: 14px 16px; border-radius: 10px;
+              background: var(--ink); color: #fff; text-decoration: none; font-size: 14px; font-weight: 600;
+            }
+            .main-nav .agent-cta-mobile span { display: block; font-size: 12px; font-weight: 400; color: rgba(255,255,255,0.65); margin-top: 2px; }
             .nav-burger {
               display: flex; align-items: center; justify-content: center;
               width: 40px; height: 40px; margin-left: 8px; border-radius: 8px;
@@ -130,12 +132,6 @@ export default function Home() {
           }
           @media (max-width: 480px) {
             .nav-burger { margin-left: 4px; }
-          }
-          @media (max-width: 760px) {
-            .foot-grid { grid-template-columns: 1fr 1fr !important; gap: 28px !important; }
-          }
-          @media (max-width: 440px) {
-            .foot-grid { grid-template-columns: 1fr !important; }
           }
         `}</style>
 
@@ -481,18 +477,15 @@ export default function Home() {
               </div>
             </div>
 
+            <a href="https://warminboxes.com/deliverability-tools" target="_blank" rel="noopener" className="agent-cta-mobile">
+              Turn your AI Agent into a Deliverability Engineer →
+              <span>Free deliverability tools your agent can call</span>
+            </a>
           </nav>
 
-          {/* ── Cold Email AI — centre CTA ── */}
-          <a
-            href="https://chatgpt.com/g/g-69bc393551dc81918483833d2bda685a-cold-email-ai-by-instantly-clay-smartlead-experts"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ai-btn"
-            style={{ margin: "0 12px" }}
-          >
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#fff", whiteSpace: "nowrap", letterSpacing: "-0.1px" }}>✦ Cold Email AI</span>
-            <span style={{ fontSize: 9, color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap" }}>By Clay, Instantly &amp; Smartlead Experts</span>
+          <a href="https://warminboxes.com/deliverability-tools" target="_blank" rel="noopener" className="agent-cta">
+            <span className="ac-top">Turn your AI Agent into a</span>
+            <span className="ac-main">Deliverability Engineer →</span>
           </a>
 
           <Link href="/test" className="btn btn-red" style={{ padding: "7px 16px", fontSize: 13, flexShrink: 0 }}>
@@ -512,12 +505,12 @@ export default function Home() {
         <div style={{ ...S.wrap, maxWidth: 780, textAlign: "center" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 12px", borderRadius: 100, background: "var(--red-dim)", border: "1px solid var(--red-border)", marginBottom: 28 }}>
             <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--red)", display: "inline-block" }} />
-            <span style={{ fontSize: 12, fontWeight: 500, color: "var(--red)" }}>Built for cold emailers, agencies, and outbound teams</span>
+            <span style={{ fontSize: 12, fontWeight: 500, color: "var(--red)" }}>World’s first non-profit Cold Email Placement Tester</span>
           </div>
 
-          <h1 style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: "clamp(2.6rem, 6vw, 4.25rem)", lineHeight: 1.05, letterSpacing: "-0.5px", marginBottom: 22 }}>
+          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.25rem, 5.2vw, 3.75rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.035em", marginBottom: 22 }}>
             Check if your inbox<br />
-            <em style={{ color: "var(--red)" }}>is burned?</em>
+            <span style={{ color: "var(--red)" }}>is burned?</span>
           </h1>
 
           <p style={{ ...S.body, fontSize: 17, maxWidth: 540, margin: "0 auto 36px" }}>
@@ -543,7 +536,7 @@ export default function Home() {
                   <p style={{ fontWeight: 700, fontSize: 14, color: "var(--red)" }}>Spam Folder</p>
                   <p style={{ fontSize: 12, color: "var(--ink-4)" }}>yourcompany.com · Score: 28/100</p>
                 </div>
-                <div style={{ marginLeft: "auto", fontFamily: "'Instrument Serif', serif", fontSize: 32, color: "var(--red)", lineHeight: 1 }}>F</div>
+                <div style={{ marginLeft: "auto", fontFamily: "var(--font-display)", fontSize: 30, fontWeight: 800, color: "var(--red)", lineHeight: 1 }}>F</div>
               </div>
               {/* Check rows */}
               {[
@@ -723,8 +716,8 @@ export default function Home() {
       {/* ── 10. FINAL CTA ── */}
       <section id="test-cta" style={{ padding: "96px 24px", background: "var(--ink)", textAlign: "center" }}>
         <div style={{ maxWidth: 620, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: "clamp(2rem, 5vw, 3.25rem)", color: "#fff", lineHeight: 1.1, marginBottom: 18 }}>
-            Check your setup before<br /><em>your campaigns pay for it</em>
+          <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.85rem, 4vw, 2.75rem)", fontWeight: 700, letterSpacing: "-0.03em", color: "#fff", lineHeight: 1.12, marginBottom: 18 }}>
+            Check your setup before<br /><span style={{ color: "rgba(255,255,255,0.6)" }}>your campaigns pay for it</span>
           </h2>
           <p style={{ fontSize: 16, color: "rgba(255,255,255,0.5)", marginBottom: 36, lineHeight: 1.7, maxWidth: 480, margin: "0 auto 36px" }}>
             Run a free inbox test, see where your messages land, and find out whether your infrastructure is helping you scale or quietly holding you back.
@@ -766,11 +759,20 @@ export default function Home() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer style={{ borderTop: "1px solid var(--border)", background: "var(--paper-2)", padding: "48px 24px 32px" }}>
+      <footer style={{ borderTop: "1px solid var(--border)", background: "var(--paper-2)", padding: "56px 24px 28px" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
 
-          {/* Tool grid */}
-          <div className="foot-grid" style={{ display: "grid", gridTemplateColumns: "2fr repeat(3, 1fr)", gap: 40, marginBottom: 40 }}>
+          {/* AI agent banner */}
+          <a href="https://warminboxes.com/deliverability-tools" target="_blank" rel="noopener" className="agent-banner">
+            <div>
+              <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.09em", color: "rgba(255,255,255,0.55)", marginBottom: 6 }}>For Claude, ChatGPT, Cursor &amp; other agents</p>
+              <p style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.02em", color: "#fff" }}>Turn your AI Agent into a Deliverability Engineer</p>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", marginTop: 6 }}>Free deliverability tools your agent can call — SPF, DKIM, DMARC, blacklists and more.</p>
+            </div>
+            <span className="agent-banner-btn">Get the tools →</span>
+          </a>
+
+          <div className="foot-grid" style={{ display: "grid", gridTemplateColumns: "1.6fr repeat(4, 1fr)", gap: 32, margin: "48px 0 40px" }}>
 
             {/* Brand */}
             <div>
@@ -782,117 +784,84 @@ export default function Home() {
                   burned<span style={{ color: "var(--red)" }}>inbox</span>
                 </span>
               </div>
-              <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7, maxWidth: 260, marginBottom: 16 }}>
-                Free email deliverability tools for cold emailers, agencies, and outbound teams. No account required.
+              <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.65, maxWidth: 240, marginBottom: 16 }}>
+                The world’s first non-profit Cold Email Placement Tester. Free tools, no account required.
               </p>
-              <div style={{ display: "flex", gap: 8 }}>
-                <Link href="/test" className="btn btn-red" style={{ fontSize: 12, padding: "6px 14px" }}>Test my inbox</Link>
-              </div>
+              <Link href="/test" className="btn btn-red" style={{ fontSize: 12, padding: "7px 14px" }}>Test my inbox</Link>
             </div>
 
-            {/* Placement & Deliverability */}
-            <div>
-              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--ink-4)", marginBottom: 14 }}>Placement</p>
-              {[
+            {[
+              { title: "Placement", links: [
                 { href: "/test",                label: "Inbox placement test" },
-                { href: "/tools/burn-score",    label: "Burn score" },
-                { href: "/tools/warmup-ready",  label: "Warmup readiness" },
                 { href: "/tools/blacklist",     label: "Blacklist checker" },
-                { href: "/tools/header-parser", label: "Email header parser" },
-                { href: "/tools/subject-check", label: "Subject spam tester" },
-                { href: "/tools/link-check",    label: "Link reputation checker" },
-              ].map(({ href, label }) => (
-                <Link key={href} href={href} style={{ display: "block", fontSize: 13, color: "var(--ink-3)", textDecoration: "none", padding: "4px 0", transition: "color 0.12s" }} className="footer-link">
-                  {label}
-                </Link>
-              ))}
-            </div>
-
-            {/* Auth & DNS */}
-            <div>
-              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--ink-4)", marginBottom: 14 }}>Auth & DNS</p>
-              {[
-                { href: "/tools/spf",             label: "SPF generator" },
-                { href: "/tools/dkim",             label: "DKIM checker" },
-                { href: "/tools/dmarc",            label: "DMARC lookup" },
-                { href: "/dns",                    label: "DNS record checker" },
-                { href: "/tools/mx",               label: "MX records" },
-                { href: "/tools/rdns",             label: "Reverse DNS (PTR)" },
-                { href: "/tools/tracking-domain",  label: "Tracking domain" },
-                { href: "/tools/redirect",         label: "Redirect checker" },
-                { href: "/tools/domain-expiry",    label: "Domain expiry" },
-              ].map(({ href, label }) => (
-                <Link key={href} href={href} style={{ display: "block", fontSize: 13, color: "var(--ink-3)", textDecoration: "none", padding: "4px 0", transition: "color 0.12s" }} className="footer-link">
-                  {label}
-                </Link>
-              ))}
-            </div>
-
-            {/* Calculators */}
-            <div>
-              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--ink-4)", marginBottom: 14 }}>Calculators</p>
-              {[
-                { href: "/tools/inbox-count",            label: "Inbox count" },
-                { href: "/tools/domain-count",           label: "Domain count" },
-                { href: "/tools/sending-capacity",       label: "Sending capacity" },
-                { href: "/tools/client-capacity",        label: "Client capacity planner" },
-                { href: "/tools/infra-calc",             label: "Infrastructure calculator" },
-                { href: "/tools/send-limits",            label: "Sending limit planner" },
-                { href: "/tools/backup-budget",          label: "Backup infra budget" },
-                { href: "/tools/repair-or-replace",      label: "Repair or replace" },
-                { href: "/tools/recovery-time",          label: "Recovery time estimator" },
-                { href: "/tools/replacement-vs-downtime", label: "Replace vs downtime cost" },
-                { href: "/tools/burn-cost",              label: "Burn cost calculator" },
-                { href: "/tools/warmup-time-saved",      label: "Warm-up time saved" },
-                { href: "/tools/deliverability-risk",    label: "Deliverability risk planner" },
-                { href: "/tools/emergency",              label: "Emergency calculator" },
-                { href: "/tools/launch-checklist",       label: "Launch checklist" },
-              ].map(({ href, label }) => (
-                <Link key={href} href={href} style={{ display: "block", fontSize: 13, color: "var(--ink-3)", textDecoration: "none", padding: "4px 0", transition: "color 0.12s" }} className="footer-link">
-                  {label}
-                </Link>
-              ))}
-            </div>
-
-          </div>
-
-          {/* Cold Email AI footer block */}
-          <div style={{ margin: "40px 0 32px", display: "flex", justifyContent: "center" }}>
-            <a
-              href="https://chatgpt.com/g/g-69bc393551dc81918483833d2bda685a-cold-email-ai-by-instantly-clay-smartlead-experts"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ai-footer-btn"
-            >
-              <span style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.3px" }}>✦ Cold Email AI</span>
-              <span style={{ fontSize: 12, color: "rgba(255,255,255,0.75)" }}>By Clay, Instantly &amp; Smartlead Certified Experts</span>
-            </a>
+                { href: "/tools/email-spam",    label: "Email spam test" },
+                { href: "/tools/subject-check", label: "Subject line tester" },
+                { href: "/tools/header-parser", label: "Header parser" },
+                { href: "/tools/link-check",    label: "Link checker" },
+                { href: "/tools/burn-score",    label: "Burn score" },
+              ]},
+              { title: "Auth & DNS", links: [
+                { href: "/tools/spf",             label: "SPF checker" },
+                { href: "/tools/dkim",            label: "DKIM checker" },
+                { href: "/tools/dmarc",           label: "DMARC checker" },
+                { href: "/tools/bimi",            label: "BIMI lookup" },
+                { href: "/tools/mta-sts",         label: "MTA-STS checker" },
+                { href: "/tools/mx",              label: "MX lookup" },
+                { href: "/tools/rdns",            label: "Reverse DNS" },
+                { href: "/dns",                   label: "DNS lookup" },
+              ]},
+              { title: "Planning", links: [
+                { href: "/tools/infra-calc",        label: "Infrastructure calculator" },
+                { href: "/tools/inbox-count",       label: "Inbox count" },
+                { href: "/tools/send-limits",       label: "Sending limits" },
+                { href: "/tools/repair-or-replace", label: "Repair or replace" },
+                { href: "/tools/recovery-time",     label: "Recovery time" },
+                { href: "/tools/launch-checklist",  label: "Launch checklist" },
+              ]},
+              { title: "Resources", links: [
+                { href: "/blog",                                       label: "All guides" },
+                { href: "/blog/weekly-deliverability-monitoring-sop",  label: "Monitoring SOP" },
+                { href: "/blog/blacklist-delisting-sop",               label: "Delisting SOP" },
+                { href: "/blog/best-place-to-buy-pre-warmed-inboxes",  label: "Buying pre-warmed inboxes" },
+                { href: "https://warminboxes.com",                     label: "WarmInboxes", external: true },
+              ]},
+            ].map(col => (
+              <div key={col.title}>
+                <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase" as const, letterSpacing: "0.09em", color: "var(--ink-4)", marginBottom: 12 }}>{col.title}</p>
+                {col.links.map(l => (
+                  "external" in l
+                    ? <a key={l.href} href={l.href} target="_blank" rel="noopener" className="footer-link">{l.label}</a>
+                    : <Link key={l.href} href={l.href} className="footer-link">{l.label}</Link>
+                ))}
+              </div>
+            ))}
           </div>
 
           {/* Bottom bar */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, paddingTop: 24, borderTop: "1px solid var(--border)" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, paddingTop: 20, borderTop: "1px solid var(--border)" }}>
             <p style={{ fontSize: 12, color: "var(--ink-4)" }}>
-              23 free tools. No account. No credit card. Built for cold emailers.
+              © {new Date().getFullYear()} BurnedInbox · 34 free tools · No account, no credit card
             </p>
-            <div style={{ display: "flex", gap: 20 }}>
-              <a href="https://warminboxes.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "var(--ink-4)", textDecoration: "none" }}>WarmInboxes</a>
-              {["Privacy", "Terms"].map(l => <a key={l} href="#" style={{ fontSize: 12, color: "var(--ink-4)", textDecoration: "none" }}>{l}</a>)}
-            </div>
+            <a href="https://warminboxes.com" target="_blank" rel="noopener" style={{ fontSize: 12, color: "var(--ink-4)", textDecoration: "none" }}>
+              Infrastructure by WarmInboxes
+            </a>
           </div>
         </div>
         <style>{`
-          .footer-link:hover { color: var(--ink) !important; }
-          .ai-footer-btn {
-            display: flex; flex-direction: column; align-items: center; gap: 6px;
-            padding: 18px 36px; border-radius: 14px; text-decoration: none;
-            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #5b21b6 100%);
-            box-shadow: 0 0 0 1px rgba(139,92,246,0.4), 0 8px 32px rgba(109,40,217,0.4), 0 0 60px rgba(139,92,246,0.15);
-            transition: transform 0.2s, box-shadow 0.2s;
+          .footer-link { display: block; font-size: 13px; color: var(--ink-3); text-decoration: none; padding: 4px 0; transition: color 0.12s; }
+          .footer-link:hover { color: var(--ink); }
+          .agent-banner {
+            display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+            padding: 26px 30px; border-radius: 14px; text-decoration: none; background: var(--ink);
+            transition: transform 0.15s, box-shadow 0.15s;
           }
-          .ai-footer-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 0 1px rgba(139,92,246,0.5), 0 12px 40px rgba(109,40,217,0.5), 0 0 80px rgba(139,92,246,0.25);
+          .agent-banner:hover { transform: translateY(-1px); box-shadow: var(--shadow-3); }
+          .agent-banner-btn {
+            flex-shrink: 0; padding: 10px 18px; border-radius: 8px; background: #fff; color: var(--ink);
+            font-size: 13px; font-weight: 600; white-space: nowrap;
           }
+          @media (max-width: 900px) { .foot-grid { grid-template-columns: repeat(3, 1fr) !important; } .foot-grid > div:first-child { grid-column: 1 / -1; } }
+          @media (max-width: 560px) { .foot-grid { grid-template-columns: 1fr 1fr !important; } .agent-banner { padding: 22px; } }
         `}</style>
       </footer>
     </div>
