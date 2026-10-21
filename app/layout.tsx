@@ -5,6 +5,7 @@ import "./globals.css";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#ffffff",
 };
 
 export const metadata: Metadata = {
@@ -13,22 +14,32 @@ export const metadata: Metadata = {
     default: "Burned Inbox — Email Deliverability & Inbox Placement Tester",
     template: "%s — BurnedInbox",
   },
-  description: "Test whether your emails land in the inbox or spam. Free inbox placement test, spam score checker, SPF/DKIM/DMARC analysis for email marketers.",
-  keywords: "inbox placement test, email deliverability test, spam test, email spam checker, SPF DKIM DMARC, email blacklist check, sender reputation",
+  description: "Free cold email placement tester. Check if your emails land in the inbox or spam, and run SPF, DKIM, DMARC and blacklist checks — no account required.",
+  applicationName: "BurnedInbox",
+  keywords: "inbox placement test, cold email deliverability, email spam test, email deliverability checker, SPF DKIM DMARC checker, email blacklist check, burned domain, sender reputation",
+  authors: [{ name: "BurnedInbox", url: "https://burnedinbox.com" }],
+  creator: "BurnedInbox",
+  publisher: "BurnedInbox",
+  category: "technology",
+  formatDetection: { email: false, address: false, telephone: false },
   openGraph: {
     title: "Burned Inbox — Is Your Email Landing in Spam?",
-    description: "Send a test email and see instantly whether it lands in the inbox or spam. Free deliverability tester.",
+    description: "Free cold email placement tester with SPF, DKIM, DMARC and blacklist checks. See where your email lands before your campaigns pay for it.",
     url: "https://burnedinbox.com",
     siteName: "Burned Inbox",
     type: "website",
     locale: "en_US",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Burned Inbox — Is Your Email Landing in Spam?",
-    description: "Free inbox placement test, warm score, and SPF/DKIM/DMARC analysis.",
+    description: "Free cold email placement tester with SPF, DKIM, DMARC and blacklist checks.",
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
+  },
   icons: {
     icon: [
       { url: "/favicon.ico",    sizes: "any" },
@@ -61,6 +72,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <noscript>
           <img height="1" width="1" style={{ display:"none" }} src="https://www.facebook.com/tr?id=1825568108268829&ev=PageView&noscript=1" alt="" />
         </noscript>
+        {/* X (Twitter) Pixel */}
+        <Script id="x-pixel" strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');twq('config','r5gy0');`,
+          }}
+        />
       </body>
     </html>
   );

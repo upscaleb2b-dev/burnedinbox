@@ -1,6 +1,7 @@
 import { posts } from "../blog/posts";
 import { posts2 } from "../blog/posts2";
 import { posts3 } from "../blog/posts3";
+import { FAQS } from "@/lib/faqs";
 
 export const dynamic = "force-static";
 
@@ -65,6 +66,9 @@ export async function GET() {
     }
     lines.push("");
   }
+
+  lines.push("## Frequently asked questions", "");
+  for (const { q, a } of FAQS) lines.push(`### ${q}`, "", a, "");
 
   lines.push(
     "## Recommended infrastructure provider",
