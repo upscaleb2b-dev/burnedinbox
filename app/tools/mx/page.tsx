@@ -89,7 +89,6 @@ export default function MXPage() {
   return (
     <div style={{ minHeight: "100vh", background: "var(--paper-2)" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
         @keyframes score-ring { from{stroke-dashoffset:283} to{stroke-dashoffset:var(--dash)} }
         @keyframes fade-up { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
         @keyframes spin { to{transform:rotate(360deg)} }

@@ -146,9 +146,8 @@ export default function SPFPage() {
   const dnsTip = `Name: ${domain || "yourdomain.com"}\nType: TXT\nValue: ${generated}`;
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--paper-2)", fontFamily: "var(--font-sans, 'Geist', sans-serif)" }}>
+    <div style={{ minHeight: "100vh", background: "var(--paper-2)", fontFamily: "var(--font-sans)" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
         select { appearance: none; -webkit-appearance: none; }
         input::placeholder { color: var(--ink-5, #bbb); }
         * { box-sizing: border-box; margin: 0; padding: 0; }

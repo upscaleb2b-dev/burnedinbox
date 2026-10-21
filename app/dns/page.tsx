@@ -123,9 +123,8 @@ export default function DNSPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0b0f1a", fontFamily: "'Geist', sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: "#0b0f1a", fontFamily: "var(--font-sans)" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
         @keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
         @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes shimmer { 0%,100%{opacity:0.5} 50%{opacity:1} }
@@ -207,7 +206,7 @@ export default function DNSPage() {
               />
             </div>
             <button onClick={() => lookup()} disabled={loading || !domain.trim()}
-              style={{ display: "flex", alignItems: "center", gap: 7, background: "#06b6d4", color: "#0c1a2e", border: "none", borderRadius: 10, padding: "12px 20px", fontFamily: "'Geist', sans-serif", fontSize: 14, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0, opacity: loading || !domain.trim() ? 0.5 : 1, transition: "background 0.15s" }}>
+              style={{ display: "flex", alignItems: "center", gap: 7, background: "#06b6d4", color: "#0c1a2e", border: "none", borderRadius: 10, padding: "12px 20px", fontFamily: "var(--font-sans)", fontSize: 14, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0, opacity: loading || !domain.trim() ? 0.5 : 1, transition: "background 0.15s" }}>
               {loading
                 ? <div style={{ width: 15, height: 15, border: "2px solid rgba(0,0,0,0.2)", borderTopColor: "#0c1a2e", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
                 : <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>Lookup</>}

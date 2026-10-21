@@ -110,7 +110,6 @@ export default function DMARCPage() {
   return (
     <div style={{ minHeight: "100vh", background: "var(--paper-2)" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
         @keyframes score-ring-anim { from{stroke-dashoffset:283} to{stroke-dashoffset:var(--dash)} }
         @keyframes fade-up { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
         @keyframes spin { to{transform:rotate(360deg)} }
@@ -222,7 +221,7 @@ export default function DMARCPage() {
                         </div>
                       ))}
                       <div style={{ marginLeft: "auto" }}>
-                        <div style={{ fontFamily: "'Instrument Serif', serif", fontSize: 38, lineHeight: 1, color: result.verdict === "strong" ? "var(--green)" : result.verdict === "moderate" ? "var(--yellow)" : "var(--red)" }}>
+                        <div style={{ fontFamily: "var(--font-display)", fontSize: 38, lineHeight: 1, color: result.verdict === "strong" ? "var(--green)" : result.verdict === "moderate" ? "var(--yellow)" : "var(--red)" }}>
                           {(result.score ?? 0) >= 80 ? "A" : (result.score ?? 0) >= 60 ? "B" : (result.score ?? 0) >= 40 ? "C" : (result.score ?? 0) >= 20 ? "D" : "F"}
                         </div>
                         <div style={{ fontSize: 11, color: "var(--ink-4)", textAlign: "center" }}>Grade</div>

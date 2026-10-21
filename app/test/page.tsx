@@ -271,7 +271,7 @@ function WaitingStage({ test, elapsed, onForce }: { test: TestState; elapsed: nu
   );
 }
 
-function ResultStage({ result, test, onReset }: { result: Result; test: TestState; onReset: () => void }) {
+function ResultStage({ result, test, onReset, onRetest }: { result: Result; test: TestState; onReset: () => void; onRetest: () => void }) {
   const inboxed = result.folder !== "spam";
   const folderLabel = result.folder === "inbox" ? "Likely Primary Inbox" : result.folder === "promotions" ? "Promotions Risk" : "Spam Risk";
   const folderColor = result.folder === "spam" ? "var(--red)" : result.folder === "promotions" ? "var(--yellow)" : "var(--green)";
@@ -324,28 +324,56 @@ function ResultStage({ result, test, onReset }: { result: Result; test: TestStat
       {/* Recommendation */}
       {(!inboxed || score < 65) ? (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          {/* What's happening — useful first */}
-          <div className="card" style={{ padding: 24, borderLeft: `3px solid var(--red)` }}>
+          <div className="card" style={{ padding: 24, borderLeft: "3px solid var(--red)" }}>
             <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 16 }}>
               <Flame size={18} style={{ color: "var(--red)", flexShrink: 0, marginTop: 2 }} />
               <div>
                 <p style={{ fontWeight: 700, fontSize: 15, color: "var(--red)", marginBottom: 8 }}>
                   {result.folder === "spam" ? "Your email landed in spam." : "Not reaching the primary inbox."}
                 </p>
-                {result.folder === "spam" ? (
-                  <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                    <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
-                      Spam placement means recipients never see your email. Open rates collapse, replies stop, and continued sending from a burned domain makes recovery slower.
-                    </p>
-                    <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
-                      Start with the issues flagged in the diagnostic below — fix authentication first, then check for blacklist entries. If the domain has a long history of poor sending, DNS fixes alone may not be enough to recover quickly.
-                    </p>
-                  </div>
-                ) : (
-                  <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
-                    Promotions tab means lower visibility and engagement. Usually caused by missing authentication records, low domain engagement history, or content triggers. Fix the flagged issues below and retest.
-                  </p>
-                )}
+                <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
+                  {result.folder === "spam"
+                    ? "Spam placement means recipients never see your email — open rates collapse, replies stop, and continued sending from a damaged domain makes recovery slower."
+                    : "Promotions tab means lower visibility and engagement. Usually caused by missing authentication, thin sending history, or content triggers."}
+                </p>
+                <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7, marginTop: 8 }}>
+                  <strong style={{ color: "var(--ink)" }}>Test again to make sure.</strong> One result can be a fluke — send a fresh test from the same inbox before you change anything.
+                </p>
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <button onClick={onRetest} className="btn btn-primary" style={{ fontSize: 13 }}>
+                <RefreshCw size={13} /> Test {test.domain} again
+              </button>
+              <button onClick={onReset} className="btn btn-ghost" style={{ fontSize: 13 }}>
+                Test another domain
+              </button>
+            </div>
+          </div>
+
+          <div className="card" style={{ padding: "20px 24px", background: "var(--ink)", border: "none" }}>
+            <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase" as const, letterSpacing: "0.08em", color: "rgba(255,255,255,0.55)", marginBottom: 8 }}>
+              Need to start sending again quickly?
+            </p>
+            <p style={{ fontSize: 14, color: "#fff", lineHeight: 1.65, marginBottom: 14 }}>
+              If it fails again, the fastest fix is fresh infrastructure. Get pre-warmed inboxes from WarmInboxes — <strong>free domains included</strong> — and be back in the inbox in days, not the weeks a damaged domain takes to recover.
+            </p>
+            <a href="https://warminboxes.com" target="_blank" rel="noopener"
+              style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 600, color: "var(--ink)", background: "#fff", padding: "9px 16px", borderRadius: 8, textDecoration: "none" }}>
+              Get pre-warmed inboxes <ExternalLink size={12} />
+            </a>
+          </div>
+        </div>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div className="card" style={{ padding: 24, borderLeft: "3px solid var(--green)" }}>
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 16 }}>
+              <CheckCircle2 size={18} style={{ color: "var(--green)", flexShrink: 0, marginTop: 2 }} />
+              <div>
+                <p style={{ fontWeight: 700, fontSize: 15, color: "var(--green)", marginBottom: 6 }}>Inbox confirmed.</p>
+                <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
+                  Your email reached the primary inbox. Deliverability can shift quietly — test again before major campaigns and keep authentication records up to date.
+                </p>
               </div>
             </div>
             <button onClick={onReset} className="btn btn-ghost" style={{ fontSize: 13 }}>
@@ -353,36 +381,13 @@ function ResultStage({ result, test, onReset }: { result: Result; test: TestStat
             </button>
           </div>
 
-          {/* Fresh start option — only after confirmed spam, written as honest advice */}
-          {result.folder === "spam" && (
-            <div className="card" style={{ padding: "18px 22px", background: "var(--paper-2)" }}>
-              <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase" as const, letterSpacing: "0.07em", color: "var(--ink-4)", marginBottom: 10 }}>
-                If the domain is too damaged to recover
-              </p>
-              <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7, marginBottom: 12 }}>
-                Recovering a burned domain can take weeks to months. Some teams find it faster to use a fresh domain with established sending history rather than waiting — especially if campaigns can't pause.
-              </p>
-              <a href="https://warminboxes.com" target="_blank" rel="noopener noreferrer"
-                style={{ fontSize: 13, fontWeight: 500, color: "var(--ink-3)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 5, borderBottom: "1px solid var(--border-2)", paddingBottom: 1 }}>
-                WarmInboxes — pre-warmed domains and inboxes <ExternalLink size={11} />
-              </a>
-            </div>
-          )}
-        </div>
-      ) : (
-        <div className="card" style={{ padding: 24, borderLeft: "3px solid var(--green)" }}>
-          <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 16 }}>
-            <CheckCircle2 size={18} style={{ color: "var(--green)", flexShrink: 0, marginTop: 2 }} />
-            <div>
-              <p style={{ fontWeight: 700, fontSize: 15, color: "var(--green)", marginBottom: 6 }}>Inbox confirmed.</p>
-              <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
-                Your email reached the primary inbox. Deliverability can shift quietly — test again before major campaigns and keep authentication records up to date.
-              </p>
-            </div>
+          <div className="card" style={{ padding: "18px 22px", background: "var(--paper-2)" }}>
+            <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
+              <strong style={{ color: "var(--ink)" }}>Keep a backup ready.</strong> Healthy domains still burn — volume spikes, list issues, one bad campaign. Fresh inboxes from{" "}
+              <a href="https://warminboxes.com" target="_blank" rel="noopener" style={{ color: "var(--ink)", fontWeight: 600 }}>WarmInboxes</a>{" "}
+              on standby mean you can switch over in a day instead of pausing campaigns for weeks.
+            </p>
           </div>
-          <button onClick={onReset} className="btn btn-ghost" style={{ fontSize: 13 }}>
-            <RefreshCw size={13} /> Test another domain
-          </button>
         </div>
       )}
 
@@ -465,6 +470,13 @@ export default function TestPage() {
     setStage("result");
   };
 
+  const handleRetest = async () => {
+    if (!test) return;
+    stop();
+    setResult(null);
+    await handleSubmit(test.domain);
+  };
+
   const handleReset = () => {
     stop();
     setStage("form");
@@ -534,7 +546,7 @@ export default function TestPage() {
       <main style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 24px 64px" }}>
         {stage === "form" && <FormStage onSubmit={handleSubmit} />}
         {stage === "waiting" && test && <WaitingStage test={test} elapsed={elapsed} onForce={handleForce} />}
-        {stage === "result" && result && test && <ResultStage result={result} test={test} onReset={handleReset} />}
+        {stage === "result" && result && test && <ResultStage result={result} test={test} onReset={handleReset} onRetest={handleRetest} />}
       </main>
 
       <div style={{ textAlign: "center", paddingBottom: 32, fontSize: 12, color: "var(--ink-4)" }}>
