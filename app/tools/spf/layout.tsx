@@ -18,18 +18,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Free SPF Record Checker & Generator",
       "description": "Look up and validate any domain's SPF record, or build a correct one with includes for Google, Microsoft 365, SendGrid and more. Instant grading with fixes.",
       "url": "https://burnedinbox.com/tools/spf",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "relatedLink": "https://warminboxes.com/spf-checker",
       "publisher": {
         "@type": "Organization",
         "name": "BurnedInbox",

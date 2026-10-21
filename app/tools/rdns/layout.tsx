@@ -18,18 +18,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Free Reverse DNS / PTR Checker with FCrDNS",
       "description": "Verify PTR records for any IP, run forward-confirmed rDNS (FCrDNS) validation, and detect generic ISP hostnames that hurt mail delivery.",
       "url": "https://burnedinbox.com/tools/rdns",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "relatedLink": "https://warminboxes.com/reverse-dns-lookup",
       "publisher": {
         "@type": "Organization",
         "name": "BurnedInbox",

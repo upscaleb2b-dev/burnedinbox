@@ -18,18 +18,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Free Domain Expiry Checker \u2014 WHOIS Lookup",
       "description": "Check when any domain expires, its registrar, nameservers and status codes. Catch expiring campaign domains before they lapse.",
       "url": "https://burnedinbox.com/tools/domain-expiry",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "relatedLink": "https://warminboxes.com/domain-expiry-checker",
       "publisher": {
         "@type": "Organization",
         "name": "BurnedInbox",

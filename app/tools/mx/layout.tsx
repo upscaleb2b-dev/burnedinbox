@@ -18,18 +18,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Free MX Record Checker & Mail Provider Lookup",
       "description": "Look up MX records, detect the mail provider, verify server connectivity and reverse DNS, and catch priority misconfigurations.",
       "url": "https://burnedinbox.com/tools/mx",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "relatedLink": "https://warminboxes.com/mx-lookup",
       "publisher": {
         "@type": "Organization",
         "name": "BurnedInbox",
