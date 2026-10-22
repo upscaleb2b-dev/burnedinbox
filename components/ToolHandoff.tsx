@@ -7,7 +7,7 @@ export default function ToolHandoffPage({ tool }: { tool: string }) {
   const related = t.related.map(k => TOOL_HANDOFFS[k]).filter(Boolean);
 
   const cta = (
-    <a href={t.warmInboxesUrl} target="_blank" rel="noopener" className="btn btn-red handoff-cta">
+    <a href={t.warmInboxesUrl} target="_blank" rel="noopener" data-cta="tool-handoff-top" className="btn btn-red handoff-cta">
       Open the free {t.warmInboxesName} <ExternalLink size={14} />
     </a>
   );
@@ -78,7 +78,7 @@ export default function ToolHandoffPage({ tool }: { tool: string }) {
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.65)", lineHeight: 1.6, marginBottom: 18 }}>
             The {t.warmInboxesName} runs on warminboxes.com — results are live, queried the moment you run it.
           </p>
-          <a href={t.warmInboxesUrl} target="_blank" rel="noopener"
+          <a href={t.warmInboxesUrl} target="_blank" rel="noopener" data-cta="tool-handoff-bottom"
             style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "11px 18px", borderRadius: 8, background: "#fff", color: "var(--ink)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
             Open the {t.warmInboxesName} <ExternalLink size={13} />
           </a>

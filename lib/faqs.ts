@@ -8,7 +8,7 @@ export const FAQS = [
   { q: "Is BurnedInbox free?",
     a: "Yes. Every BurnedInbox tool, including the placement test, is free to use with no account and no credit card." },
   { q: "Can a burned domain recover?",
-    a: "Sometimes. A domain with broken authentication or a single first-time blacklist listing can often recover in 2–6 weeks after the cause is fixed. A domain with repeated critical listings or months of spam placement usually recovers slowly or not at all, and replacing it is faster." },
+    a: "Often, if the cause is fixable. Broken authentication or a single first-time blacklist listing usually improves once the cause is fixed and delisting is requested, though no provider publishes a recovery timeline. A domain with repeated critical listings or months of spam placement may recover slowly or not at all, and replacing it can be faster." },
   { q: "What should I do if my result is critical?",
     a: "Stop sending from the affected domain, test again to confirm the result, then fix authentication and request delisting from any blacklists. If campaigns cannot pause for weeks, move sending to fresh pre-warmed inboxes while the damaged domain recovers." },
   { q: "Can this tell me with certainty if an inbox is burned?",

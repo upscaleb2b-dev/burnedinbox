@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "./globals.css";
+import OutboundTracker from "@/components/OutboundTracker";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         {children}
+        <OutboundTracker />
         {/* Google tag (gtag.js) */}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-GH6YRN6LNR" strategy="afterInteractive" />
         <Script id="gtag-init" strategy="afterInteractive"

@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
-import { posts } from "./blog/posts";
-import { posts2 } from "./blog/posts2";
-import { posts3 } from "./blog/posts3";
+import { allPosts } from "./blog/all-posts";
+import { GUIDES } from "@/lib/guides";
 
 const BASE = "https://burnedinbox.com";
 
@@ -32,12 +31,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const articles: MetadataRoute.Sitemap = [...posts, ...posts2, ...posts3].map((p) => ({
+  const articles: MetadataRoute.Sitemap = allPosts.map((p) => ({
     url: `${BASE}/blog/${p.slug}`,
     lastModified: now,
     changeFrequency: "monthly",
     priority: 0.7,
   }));
 
-  return [...core, ...tools, ...articles];
+  const guides: MetadataRoute.Sitemap = [
+    { url: `${BASE}/errors`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    ...GUIDES.filter((g) => !g.path.startsWith("/blog/")).map((g) => ({
+      url: `${BASE}${g.path}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: g.kind === "landing" ? 0.9 : 0.7,
+    })),
+  ];
+
+  return [...core, ...tools, ...guides, ...articles];
 }

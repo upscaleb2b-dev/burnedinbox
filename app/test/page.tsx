@@ -7,6 +7,7 @@ import {
   RefreshCw, Mail, Clock, Zap, Globe, Lock, BarChart3,
   Inbox, ArrowRight
 } from "lucide-react";
+import { track, rememberDiagnosis, type DiagnosisClass } from "@/lib/track";
 import type { DnsCheck } from "@/lib/types";
 
 type Stage = "form" | "waiting" | "result";
@@ -271,6 +272,30 @@ function WaitingStage({ test, elapsed, onForce }: { test: TestState; elapsed: nu
   );
 }
 
+function diagnose(test: TestState, result: Result): DiagnosisClass {
+  const failed = (re: RegExp) => test.checks.some(c => re.test(c.label) && c.status === "fail");
+  const blacklisted = failed(/blacklist/i);
+  if (result.folder === "inbox" && test.score >= 65) return "healthy";
+  if (blacklisted && result.folder === "spam") return "consider_replacement";
+  if (blacklisted) return "investigate_reputation";
+  if (failed(/SPF|DKIM|DMARC/)) return "repair_dns";
+  return "inconclusive";
+}
+
+const reportedTests = new Set<string>();
+
+function reportResult(test: TestState, result: Result) {
+  if (reportedTests.has(test.id)) return;
+  reportedTests.add(test.id);
+  const diagnosis_class = diagnose(test, result);
+  rememberDiagnosis(diagnosis_class);
+  track("bi_diagnostic_complete", { tool_name: "placement", diagnosis_class, score_band: test.score >= 80 ? "80+" : test.score >= 45 ? "45-79" : "0-44" });
+  track("bi_diagnostic_outcome", { tool_name: "placement", diagnosis_class });
+  if (diagnosis_class === "consider_replacement") {
+    track("bi_replacement_recommended", { tool_name: "placement", recommendation_reason: "blacklisted_and_spam_risk" });
+  }
+}
+
 function ResultStage({ result, test, onReset, onRetest }: { result: Result; test: TestState; onReset: () => void; onRetest: () => void }) {
   const inboxed = result.folder !== "spam";
   const folderLabel = result.folder === "inbox" ? "Likely Primary Inbox" : result.folder === "promotions" ? "Promotions Risk" : "Spam Risk";
@@ -321,6 +346,10 @@ function ResultStage({ result, test, onReset, onRetest }: { result: Result; test
         </div>
       </div>
 
+      <p style={{ fontSize: 12, color: "var(--ink-4)", lineHeight: 1.6, padding: "0 4px" }}>
+        <strong style={{ color: "var(--ink-3)" }}>How this verdict works:</strong> the authentication and blacklist results above are live lookups. The placement verdict is an estimate from those results, not a reading of where your email landed — mailbox providers don&apos;t share that data.
+      </p>
+
       {/* Recommendation */}
       {(!inboxed || score < 65) ? (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -329,11 +358,11 @@ function ResultStage({ result, test, onReset, onRetest }: { result: Result; test
               <Flame size={18} style={{ color: "var(--red)", flexShrink: 0, marginTop: 2 }} />
               <div>
                 <p style={{ fontWeight: 700, fontSize: 15, color: "var(--red)", marginBottom: 8 }}>
-                  {result.folder === "spam" ? "Your email landed in spam." : "Not reaching the primary inbox."}
+                  {result.folder === "spam" ? "High spam risk." : "Inbox placement at risk."}
                 </p>
                 <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
                   {result.folder === "spam"
-                    ? "Spam placement means recipients never see your email — open rates collapse, replies stop, and continued sending from a damaged domain makes recovery slower."
+                    ? "Your authentication and blacklist results look like a setup that lands in spam. If that is what is happening, recipients never see your email, replies stop, and continued sending makes recovery slower."
                     : "Promotions tab means lower visibility and engagement. Usually caused by missing authentication, thin sending history, or content triggers."}
                 </p>
                 <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7, marginTop: 8 }}>
@@ -358,7 +387,7 @@ function ResultStage({ result, test, onReset, onRetest }: { result: Result; test
             <p style={{ fontSize: 14, color: "#fff", lineHeight: 1.65, marginBottom: 14 }}>
               If it fails again, the fastest fix is fresh infrastructure. Get pre-warmed inboxes from WarmInboxes — <strong>free domains included</strong> — and be back in the inbox in days, not the weeks a damaged domain takes to recover.
             </p>
-            <a href="https://warminboxes.com" target="_blank" rel="noopener"
+            <a href="https://warminboxes.com" target="_blank" rel="noopener" data-cta="result-replace"
               style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 600, color: "var(--ink)", background: "#fff", padding: "9px 16px", borderRadius: 8, textDecoration: "none" }}>
               Get pre-warmed inboxes <ExternalLink size={12} />
             </a>
@@ -370,9 +399,9 @@ function ResultStage({ result, test, onReset, onRetest }: { result: Result; test
             <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 16 }}>
               <CheckCircle2 size={18} style={{ color: "var(--green)", flexShrink: 0, marginTop: 2 }} />
               <div>
-                <p style={{ fontWeight: 700, fontSize: 15, color: "var(--green)", marginBottom: 6 }}>Inbox confirmed.</p>
+                <p style={{ fontWeight: 700, fontSize: 15, color: "var(--green)", marginBottom: 6 }}>Looks healthy.</p>
                 <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
-                  Your email reached the primary inbox. Deliverability can shift quietly — test again before major campaigns and keep authentication records up to date.
+                  Authentication passes and no blacklist listings were found, the signals that usually point to inbox placement. Deliverability can shift quietly, so test again before major campaigns.
                 </p>
               </div>
             </div>
@@ -384,7 +413,7 @@ function ResultStage({ result, test, onReset, onRetest }: { result: Result; test
           <div className="card" style={{ padding: "18px 22px", background: "var(--paper-2)" }}>
             <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
               <strong style={{ color: "var(--ink)" }}>Keep a backup ready.</strong> Healthy domains still burn — volume spikes, list issues, one bad campaign. Fresh inboxes from{" "}
-              <a href="https://warminboxes.com" target="_blank" rel="noopener" style={{ color: "var(--ink)", fontWeight: 600 }}>WarmInboxes</a>{" "}
+              <a href="https://warminboxes.com" target="_blank" rel="noopener" data-cta="result-backup" style={{ color: "var(--ink)", fontWeight: 600 }}>WarmInboxes</a>{" "}
               on standby mean you can switch over in a day instead of pausing campaigns for weeks.
             </p>
           </div>
@@ -434,6 +463,7 @@ export default function TestPage() {
     const data = await res.json();
     if (data.status === "received") {
       stop();
+      reportResult(t, data);
       setResult(data);
       setStage("result");
     }
@@ -455,6 +485,7 @@ export default function TestPage() {
     if (!res.ok) throw new Error("Failed to start test. Try again.");
     const data = await res.json();
     const t: TestState = { id: data.id, domain: data.domain, seedAddresses: data.seedAddresses, score: data.score, checks: data.checks };
+    track("bi_diagnostic_start", { tool_name: "placement" });
     setTest(t);
     setElapsed(0);
     setStage("waiting");
@@ -466,6 +497,7 @@ export default function TestPage() {
     stop();
     const res = await fetch(`/api/check-result?id=${test.id}&domain=${encodeURIComponent(test.domain)}&elapsed=15000&score=${test.score}`);
     const data = await res.json();
+    if (data.status === "received") reportResult(test, data);
     setResult(data);
     setStage("result");
   };
