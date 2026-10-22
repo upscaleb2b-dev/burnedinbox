@@ -533,7 +533,7 @@ export default function Home() {
         <div style={{ ...S.wrap, maxWidth: 780, textAlign: "center" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 12px", borderRadius: 100, background: "var(--red-dim)", border: "1px solid var(--red-border)", marginBottom: 28 }}>
             <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--red)", display: "inline-block" }} />
-            <span style={{ fontSize: 12, fontWeight: 500, color: "var(--red)" }}>World’s first non-profit Cold Email Placement Tester</span>
+            <span style={{ fontSize: 12, fontWeight: 500, color: "var(--red)" }}>World’s first free Cold Email Placement Tester</span>
           </div>
 
           <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.25rem, 5.2vw, 3.75rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.035em", marginBottom: 22 }}>
@@ -807,7 +807,7 @@ export default function Home() {
                 </span>
               </div>
               <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.65, maxWidth: 240, marginBottom: 16 }}>
-                The world’s first non-profit Cold Email Placement Tester. Free tools, no account required.
+                The world’s first free Cold Email Placement Tester. No account required.
               </p>
               <Link href="/test" className="btn btn-red" style={{ fontSize: 12, padding: "7px 14px" }}>Test my inbox</Link>
             </div>

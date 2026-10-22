@@ -380,18 +380,20 @@ function ResultStage({ result, test, onReset, onRetest }: { result: Result; test
             </div>
           </div>
 
+          {diagnose(test, result) === "consider_replacement" && (
           <div className="card" style={{ padding: "20px 24px", background: "var(--ink)", border: "none" }}>
             <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase" as const, letterSpacing: "0.08em", color: "rgba(255,255,255,0.55)", marginBottom: 8 }}>
               Need to start sending again quickly?
             </p>
             <p style={{ fontSize: 14, color: "#fff", lineHeight: 1.65, marginBottom: 14 }}>
-              If it fails again, the fastest fix is fresh infrastructure. Get pre-warmed inboxes from WarmInboxes — <strong>free domains included</strong> — and be back in the inbox in days, not the weeks a damaged domain takes to recover.
+              This domain is blacklisted and showing a high spam risk. If a retest confirms it, the fastest fix is fresh infrastructure. Get pre-warmed inboxes from WarmInboxes — <strong>free domains included</strong> — and be back in the inbox in days, not the weeks a damaged domain takes to recover.
             </p>
             <a href="https://warminboxes.com" target="_blank" rel="noopener" data-cta="result-replace"
               style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 600, color: "var(--ink)", background: "#fff", padding: "9px 16px", borderRadius: 8, textDecoration: "none" }}>
               Get pre-warmed inboxes <ExternalLink size={12} />
             </a>
           </div>
+          )}
         </div>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
