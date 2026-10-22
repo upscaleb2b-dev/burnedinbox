@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FAQS } from "@/lib/faqs";
+import { allPosts } from "./blog/all-posts";
 import {
   ArrowRight, Flame, CheckCircle2, XCircle, AlertTriangle,
   Shield, Zap, Globe, Lock, BarChart3, Mail, ExternalLink,
@@ -201,9 +202,13 @@ export default function Home() {
                 <div style={{ margin: "8px 0 4px", borderTop: "1px solid var(--border)" }} />
                 <p className="drop-head" style={{ marginTop: 8 }}>Guides</p>
                 {[
-                  { href: "/blog/inbox-placement-test-before-blaming-copy", label: "Run a placement test" },
-                  { href: "/blog/why-cold-emails-suddenly-going-to-spam",   label: "Why emails go to spam" },
-                  { href: "/blog/placement-vs-deliverability-difference",   label: "Placement vs deliverability" },
+                  { href: "/burned-domain-checker",                       label: "Is my domain burned?" },
+                  { href: "/blog/why-cold-emails-suddenly-going-to-spam", label: "Why emails go to spam" },
+                  { href: "/cold-email-no-replies",                       label: "Cold email getting no replies" },
+                  { href: "/domain-reputation-checker",                   label: "Check domain reputation" },
+                  { href: "/instantly-emails-going-to-spam",              label: "Instantly emails going to spam" },
+                  { href: "/smartlead-emails-going-to-spam",              label: "Smartlead emails going to spam" },
+                  { href: "/errors",                                      label: "Bounce & error code library" },
                 ].map(({ href, label }) => (
                   <Link key={href} href={href} className="drop-item">
                     <span className="di-label">{label}</span>
@@ -441,6 +446,7 @@ export default function Home() {
                   <div>
                     <p className="drop-head">Microsoft 365</p>
                     {[
+                      { href: "/microsoft-365-emails-going-to-junk",          label: "M365 emails going to junk" },
                       { href: "/blog/microsoft-365-deliverability-fixes",    label: "M365 deliverability fixes" },
                       { href: "/blog/outlook-spam-diagnosis-fixes",           label: "Outlook spam diagnosis" },
                       { href: "/blog/why-outlook-filters-harder-than-gmail", label: "Why Outlook is harder" },
@@ -469,7 +475,7 @@ export default function Home() {
                 </div>
                 <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--border)", textAlign: "right" }}>
                   <Link href="/blog" style={{ fontSize: 12, color: "var(--red)", textDecoration: "none", fontWeight: 600 }}>
-                    View all 97 guides →
+                    View all {allPosts.length} guides →
                   </Link>
                 </div>
               </div>
@@ -564,7 +570,6 @@ export default function Home() {
               {[
                 { l: "SPF Record", s: "pass" }, { l: "DKIM Signature", s: "fail" },
                 { l: "DMARC Policy", s: "fail" }, { l: "Blacklist Status", s: "fail" },
-                { l: "Sender Reputation", s: "warn" },
               ].map(({ l, s }) => {
                 const col = s === "pass" ? "var(--green)" : s === "fail" ? "var(--red)" : "var(--yellow)";
                 const bg  = s === "pass" ? "var(--green-dim)" : s === "fail" ? "var(--red-dim)" : "var(--yellow-dim)";
@@ -608,24 +613,24 @@ export default function Home() {
       <section id="checks" style={{ ...S.section, background: "var(--paper-2)" }}>
         <div style={S.wrap}>
           <p style={S.eyebrow}>Comprehensive analysis</p>
-          <h2 style={{ ...S.h2, marginBottom: 14 }}>Eight signals. One report.</h2>
+          <h2 style={{ ...S.h2, marginBottom: 14 }}>The signals that decide placement</h2>
           <p style={{ ...S.body, maxWidth: 520, marginBottom: 48 }}>
-            BurnedInbox checks the core technical signals that usually decide whether a cold email setup is healthy, weak, or quietly underperforming.
+            Every placement test checks authentication and 16 blacklists. The rest have their own free tool. Nothing here can read Gmail’s or Outlook’s private reputation data, and no honest tool claims to.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 10 }}>
             {[
-              { icon: Shield, label: "SPF Record", tag: "Critical", desc: "Authorizes your sending servers" },
-              { icon: Lock, label: "DKIM Signature", tag: "Critical", desc: "Cryptographic email authentication" },
-              { icon: Shield, label: "DMARC Policy", tag: "Critical", desc: "Spoofing and BEC protection" },
-              { icon: Globe, label: "47 Blacklists", tag: "Critical", desc: "Spamhaus, SURBL, Barracuda, and more" },
-              { icon: Mail, label: "MX Records", tag: "Infrastructure", desc: "Mail routing configuration" },
-              { icon: Zap, label: "Reverse DNS", tag: "Infrastructure", desc: "PTR record for your sending IP" },
-              { icon: Lock, label: "TLS Encryption", tag: "Security", desc: "In-transit email encryption" },
-              { icon: BarChart3, label: "Sender Reputation", tag: "Reputation", desc: "Trust and reputation signal analysis" },
-            ].map(({ icon: I, label, tag, desc }) => {
-              const critical = tag === "Critical";
+              { icon: Shield, label: "SPF Record", tag: "In every test", desc: "Authorizes your sending servers", href: "/tools/spf" },
+              { icon: Lock, label: "DKIM Signature", tag: "In every test", desc: "Cryptographic email authentication", href: "/tools/dkim" },
+              { icon: Shield, label: "DMARC Policy", tag: "In every test", desc: "Tells receivers how to treat failures", href: "/tools/dmarc" },
+              { icon: Globe, label: "16 Blacklists", tag: "In every test", desc: "Spamhaus, SURBL, Barracuda and more", href: "/tools/blacklist" },
+              { icon: Mail, label: "MX Records", tag: "Free tool", desc: "Mail routing and provider", href: "/tools/mx" },
+              { icon: Zap, label: "Reverse DNS", tag: "Free tool", desc: "PTR record for your sending IP", href: "/tools/rdns" },
+              { icon: Lock, label: "MTA-STS / TLS", tag: "Free tool", desc: "Enforced in-transit encryption", href: "/tools/mta-sts" },
+              { icon: BarChart3, label: "Email content", tag: "Free tool", desc: "Spam triggers, links and formatting", href: "/tools/email-spam" },
+            ].map(({ icon: I, label, tag, desc, href }) => {
+              const critical = tag === "In every test";
               return (
-                <div key={label} className="card" style={{ padding: "20px", background: "var(--paper)" }}>
+                <Link key={label} href={href} className="card" style={{ padding: "20px", background: "var(--paper)", textDecoration: "none", display: "block" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
                     <div style={{ width: 32, height: 32, borderRadius: 8, background: "var(--red-dim)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                       <I size={14} style={{ color: "var(--red)" }} />
@@ -634,7 +639,7 @@ export default function Home() {
                   </div>
                   <p style={{ fontSize: 13, fontWeight: 600, color: "var(--ink)", marginBottom: 4 }}>{label}</p>
                   <p style={{ fontSize: 12, color: "var(--ink-4)", lineHeight: 1.55 }}>{desc}</p>
-                </div>
+                </Link>
               );
             })}
           </div>
@@ -837,6 +842,8 @@ export default function Home() {
               ]},
               { title: "Resources", links: [
                 { href: "/blog",                                       label: "All guides" },
+                { href: "/errors",                                     label: "Error code library" },
+                { href: "/burned-domain-checker",                      label: "Burned domain checker" },
                 { href: "/blog/weekly-deliverability-monitoring-sop",  label: "Monitoring SOP" },
                 { href: "/blog/blacklist-delisting-sop",               label: "Delisting SOP" },
                 { href: "/blog/best-place-to-buy-pre-warmed-inboxes",  label: "Buying pre-warmed inboxes" },

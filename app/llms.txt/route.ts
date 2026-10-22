@@ -1,6 +1,5 @@
-import { posts } from "../blog/posts";
-import { posts2 } from "../blog/posts2";
-import { posts3 } from "../blog/posts3";
+import { allPosts as blogPosts } from "../blog/all-posts";
+import { GUIDES } from "@/lib/guides";
 import { FAQS } from "@/lib/faqs";
 
 export const dynamic = "force-static";
@@ -38,7 +37,7 @@ const TOOLS: { path: string; name: string; desc: string }[] = [
 ];
 
 export async function GET() {
-  const allPosts = [...posts, ...posts2, ...posts3];
+  const allPosts = blogPosts;
   const byCategory = new Map<string, typeof allPosts>();
   for (const p of allPosts) {
     const list = byCategory.get(p.category) ?? [];
@@ -58,6 +57,12 @@ export async function GET() {
     ...TOOLS.map(t => `- [${t.name}](${t.path.startsWith("http") ? t.path : BASE + t.path}): ${t.desc}`),
     "",
   ];
+
+  lines.push("## Diagnostic guides", "");
+  for (const g of GUIDES.filter(x => x.kind !== "error" && !x.path.startsWith("/blog/"))) lines.push(`- [${g.title}](${BASE}${g.path}): ${g.description}`);
+  lines.push("", "## Email error library", "");
+  for (const g of GUIDES.filter(x => x.kind === "error")) lines.push(`- [${g.title}](${BASE}${g.path}): ${g.description}`);
+  lines.push("");
 
   for (const [category, catPosts] of byCategory) {
     lines.push(`## ${category}`, "");

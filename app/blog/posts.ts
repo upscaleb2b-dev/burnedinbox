@@ -71,6 +71,7 @@ export const posts: Post[] = [
   excerpt: "Burned inbox and broken setup look almost identical on the surface. The fix is completely different. Here's how to tell which one you're dealing with.",
   body: `
 <p>Deliverability drops almost always get blamed on burned inboxes. But a large percentage of the time, the real culprit is something technical — a broken DNS record, a misconfigured tracking domain, or a sending limit that got hit. Getting this diagnosis right saves you from replacing infrastructure you didn't need to replace.</p>
+<p>Not sure where to start? <a href="/burned-domain-checker">Check if your domain is burned</a>.</p>
 
 <h2>The key distinction</h2>
 <p>A <strong>burned inbox</strong> means the sending account or domain has accumulated enough negative reputation signals that providers are actively filtering its mail. A <strong>broken setup</strong> means something in the technical configuration stopped working — authentication failed, a record disappeared, or a new setting broke something that was previously fine.</p>
@@ -498,6 +499,7 @@ export const posts: Post[] = [
   excerpt: "The repair vs replace decision is the most important call you make when deliverability breaks. Here's the framework for getting it right.",
   body: `
 <p>Most operators default to replacement when something goes wrong. But many damaged inboxes are recoverable — and replacing when you don't need to wastes money and time. The key is knowing which situation you're actually in.</p>
+<p>Want numbers for your own setup? <a href="/tools/repair-or-replace">Compare repair vs replacement</a>.</p>
 
 <h2>The repair case</h2>
 <p>Repair is the right move when:</p>
@@ -2107,6 +2109,7 @@ export const posts: Post[] = [
   excerpt: "Domain reputation is the invisible score that determines where your cold emails land. Here's how it works, what damages it, and how to protect it.",
   body: `
 <p>Inbox placement decisions are made before anyone reads your email. By the time a receiving server processes your message, it has already evaluated a reputation score attached to your sending domain. Understanding how that score is built — and what damages it — is the foundation of cold email deliverability.</p>
+<p>Want to check a domain step by step? <a href="/domain-reputation-checker">Run reputation checks</a>.</p>
 
 <h2>What domain reputation actually is</h2>
 <p>Domain reputation isn't a single number stored somewhere. It's a dynamic assessment made by each receiving provider based on signals they've collected about your domain. Gmail's reputation assessment of your domain is different from Outlook's — they use different signals weighted differently. But they're evaluating the same underlying behaviors.</p>
@@ -4797,6 +4800,7 @@ export const posts: Post[] = [
   excerpt: "Reply rates dropped. Is it copy? Targeting? Or deliverability? Here's the diagnostic framework to tell the difference — before you waste time rewriting emails that aren't being seen.",
   body: `
 <p>Reply rates have dropped on your cold email campaigns. They were at 3–5% and now they're below 1%. You're not sure if the problem is your email copy, your targeting, or whether your emails are not reaching the inbox at all.</p>
+<p>Getting no replies at all? Work through the <a href="/cold-email-no-replies">full troubleshooting checklist</a>.</p>
 
 <h2>Why This Is Hard to Diagnose</h2>
 <p>Low reply rates have multiple possible causes, and they often overlap. Bad copy, bad targeting, and bad deliverability can all produce the same symptom: nobody responds. The danger is spending weeks rewriting copy and adjusting targeting when the emails are going to spam and nobody is even seeing them.</p>
