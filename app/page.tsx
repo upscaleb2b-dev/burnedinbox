@@ -418,6 +418,7 @@ export default function Home() {
                 <div style={{ margin: "8px 0 4px", borderTop: "1px solid var(--border)" }} />
                 <p className="drop-head" style={{ marginTop: 8 }}>Pre-Warmed Inboxes</p>
                 {[
+                  { href: "/blog/what-are-prewarmed-inboxes",            label: "What are prewarmed inboxes?" },
                   { href: "/blog/best-place-to-buy-pre-warmed-inboxes",  label: "Where to buy pre-warmed inboxes" },
                   { href: "/blog/are-pre-warmed-inboxes-worth-it",        label: "Are pre-warmed inboxes worth it?" },
                   { href: "/blog/pre-warmed-inboxes-vs-diy-warmup",       label: "Pre-warmed vs DIY warmup" },
@@ -783,8 +784,11 @@ export default function Home() {
             <a href="https://warminboxes.com" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
               Explore prewarmed inboxes <ExternalLink size={13} />
             </a>
+            <Link href="/blog/what-are-prewarmed-inboxes" className="btn btn-ghost" style={{ marginLeft: 10 }}>
+              What are prewarmed inboxes? <ArrowRight size={13} />
+            </Link>
             <p style={{ fontSize: 13, color: "var(--ink-4)", marginTop: 16, lineHeight: 1.6 }}>
-              WarmInboxes provides prewarmed inboxes and free domains for teams that need to launch faster or reset after a deliverability drop.
+              WarmInboxes provides prewarmed inboxes on free domains, sending within 48–72 hours, with quarterly billing up to 25% cheaper than monthly. <Link href="/blog/what-are-prewarmed-inboxes" style={{ color: "var(--ink-3)" }}>Read how prewarmed inboxes work and what they cost</Link>.
             </p>
           </div>
         </div>
@@ -852,6 +856,7 @@ export default function Home() {
                 { href: "/blog",                                       label: "All guides" },
                 { href: "/blog/weekly-deliverability-monitoring-sop",  label: "Monitoring SOP" },
                 { href: "/blog/blacklist-delisting-sop",               label: "Delisting SOP" },
+                { href: "/blog/what-are-prewarmed-inboxes",            label: "What are prewarmed inboxes?" },
                 { href: "/blog/best-place-to-buy-pre-warmed-inboxes",  label: "Buying pre-warmed inboxes" },
                 { href: "https://warminboxes.com",                     label: "WarmInboxes", external: true },
               ]},
