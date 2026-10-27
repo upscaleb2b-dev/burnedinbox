@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Free Redirect Checker — Root & WWW Variants",
   description: "Follow redirect chains for http/https and root/www variants of any domain. Detect long chains, missing HTTPS upgrades and parked pages.",
+  robots: { index: false, follow: true },
   alternates: { canonical: "/tools/redirect" },
   openGraph: {
     title: "Free Redirect Checker — Root & WWW Variants",
@@ -18,18 +19,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Free Redirect Checker \u2014 Root & WWW Variants",
       "description": "Follow redirect chains for http/https and root/www variants of any domain. Detect long chains, missing HTTPS upgrades and parked pages.",
       "url": "https://burnedinbox.com/tools/redirect",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "relatedLink": "https://warminboxes.com/tracking-domain-checker",
       "publisher": {
         "@type": "Organization",
         "name": "BurnedInbox",

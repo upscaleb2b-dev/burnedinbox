@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Free DMARC Record Checker & Policy Analyzer",
   description: "Look up any domain's DMARC record, parse every tag (p, sp, pct, rua, adkim, aspf) and get a 0-100 policy strength score with upgrade recommendations.",
+  robots: { index: false, follow: true },
   alternates: { canonical: "/tools/dmarc" },
   openGraph: {
     title: "Free DMARC Record Checker & Policy Analyzer",

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Free Tracking Domain Checker for Cold Email",
   description: "Validate your tracking domain: CNAME target detection, Cloudflare proxy warnings, SSL verification and domain isolation checks.",
+  robots: { index: false, follow: true },
   alternates: { canonical: "/tools/tracking-domain" },
   openGraph: {
     title: "Free Tracking Domain Checker for Cold Email",

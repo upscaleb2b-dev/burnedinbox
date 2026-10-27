@@ -183,16 +183,25 @@ export default function Home() {
                 <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m6 9 6 6 6-6"/></svg>
               </button>
               <div className="drop">
-                <p className="drop-head">Tools</p>
+                <p className="drop-head">BurnedInbox</p>
                 {[
-                  { href: "/test",               label: "Inbox placement test",  desc: "Inbox or spam?" },
+                  { href: "/test",               label: "Auth + placement test", desc: "Free · inbox or spam?" },
                   { href: "/tools/burn-score",   label: "Burn score calculator", desc: "Domain health" },
                   { href: "/tools/warmup-ready", label: "Warmup readiness",      desc: "Ready to send?" },
-                  { href: "/tools/blacklist",    label: "Blacklist checker",     desc: "16 RBLs" },
-                  { href: "/tools/header-parser",label: "Email header parser",   desc: "Routing & auth" },
-                  { href: "/tools/subject-check",label: "Subject spam tester",   desc: "Trigger words" },
-                  { href: "/tools/link-check",   label: "Link reputation",       desc: "URL safety" },
-                  { href: "/tools/email-spam",   label: "Email content spam test", desc: "Spam triggers" },
+                ].map(({ href, label, desc }) => (
+                  <Link key={href} href={href} className="drop-item">
+                    <span className="di-label">{label}</span>
+                    <span className="di-desc">{desc}</span>
+                  </Link>
+                ))}
+                <div style={{ margin: "8px 0 4px", borderTop: "1px solid var(--border)" }} />
+                <p className="drop-head" style={{ marginTop: 8 }}>Free checkers on WarmInboxes</p>
+                {[
+                  { href: "/tools/blacklist",    label: "Blacklist checker",     desc: "20+ lists" },
+                  { href: "/tools/email-spam",   label: "Spam checker",          desc: "Subject & body" },
+                  { href: "/tools/subject-check",label: "Subject line tester",   desc: "Trigger words" },
+                  { href: "/tools/link-check",   label: "Link & pixel scanner",  desc: "URL blocklists" },
+                  { href: "/tools/header-parser",label: "Header analyzer",       desc: "Routing & auth" },
                 ].map(({ href, label, desc }) => (
                   <Link key={href} href={href} className="drop-item">
                     <span className="di-label">{label}</span>
@@ -225,8 +234,9 @@ export default function Home() {
                 <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m6 9 6 6 6-6"/></svg>
               </button>
               <div className="drop">
-                <p className="drop-head">Tools</p>
+                <p className="drop-head">Free checkers on WarmInboxes</p>
                 {[
+                  { href: "/test",                  label: "All-in-one auth test", desc: "BurnedInbox" },
                   { href: "/tools/spf",            label: "SPF checker",       desc: "Build & validate" },
                   { href: "/tools/dkim",            label: "DKIM checker",      desc: "Auto-discover" },
                   { href: "/tools/dmarc",           label: "DMARC lookup",      desc: "Policy & reports" },
@@ -234,7 +244,7 @@ export default function Home() {
                   { href: "/tools/mx",              label: "MX records",        desc: "Mail routing" },
                   { href: "/tools/rdns",            label: "Reverse DNS / PTR", desc: "FCrDNS check" },
                   { href: "/tools/tracking-domain", label: "Tracking domain",   desc: "CNAME & SSL" },
-                  { href: "/tools/redirect",        label: "Redirect checker",  desc: "4 variants" },
+                  { href: "/tools/redirect",        label: "Redirect checker",  desc: "Tracked links" },
                   { href: "/tools/domain-expiry",   label: "Domain expiry",     desc: "Renewal dates" },
                   { href: "/tools/bimi",            label: "BIMI lookup",        desc: "Logo & VMC" },
                   { href: "/tools/mta-sts",         label: "MTA-STS checker",    desc: "TLS enforcement" },
@@ -813,24 +823,22 @@ export default function Home() {
             </div>
 
             {[
-              { title: "Placement", links: [
-                { href: "/test",                label: "Inbox placement test" },
-                { href: "/tools/blacklist",     label: "Blacklist checker" },
-                { href: "/tools/email-spam",    label: "Email spam test" },
-                { href: "/tools/subject-check", label: "Subject line tester" },
-                { href: "/tools/header-parser", label: "Header parser" },
-                { href: "/tools/link-check",    label: "Link checker" },
-                { href: "/tools/burn-score",    label: "Burn score" },
+              { title: "BurnedInbox", links: [
+                { href: "/test",                  label: "Auth + placement test" },
+                { href: "/burned-domain-checker", label: "Is my domain burned?" },
+                { href: "/tools/burn-score",      label: "Burn score" },
+                { href: "/tools/warmup-ready",    label: "Warmup readiness" },
+                { href: "/errors",                label: "Error code library" },
               ]},
-              { title: "Auth & DNS", links: [
+              { title: "Free checkers", links: [
                 { href: "/tools/spf",             label: "SPF checker" },
                 { href: "/tools/dkim",            label: "DKIM checker" },
                 { href: "/tools/dmarc",           label: "DMARC checker" },
-                { href: "/tools/bimi",            label: "BIMI lookup" },
-                { href: "/tools/mta-sts",         label: "MTA-STS checker" },
-                { href: "/tools/mx",              label: "MX lookup" },
-                { href: "/tools/rdns",            label: "Reverse DNS" },
+                { href: "/tools/blacklist",       label: "Blacklist checker" },
+                { href: "/tools/email-spam",      label: "Spam checker" },
+                { href: "/tools/header-parser",   label: "Header analyzer" },
                 { href: "/dns",                   label: "DNS lookup" },
+                { href: "https://warminboxes.com/deliverability-tools", label: "All 50+ checkers →", external: true },
               ]},
               { title: "Planning", links: [
                 { href: "/tools/infra-calc",        label: "Infrastructure calculator" },
@@ -842,8 +850,6 @@ export default function Home() {
               ]},
               { title: "Resources", links: [
                 { href: "/blog",                                       label: "All guides" },
-                { href: "/errors",                                     label: "Error code library" },
-                { href: "/burned-domain-checker",                      label: "Burned domain checker" },
                 { href: "/blog/weekly-deliverability-monitoring-sop",  label: "Monitoring SOP" },
                 { href: "/blog/blacklist-delisting-sop",               label: "Delisting SOP" },
                 { href: "/blog/best-place-to-buy-pre-warmed-inboxes",  label: "Buying pre-warmed inboxes" },
@@ -864,7 +870,7 @@ export default function Home() {
           {/* Bottom bar */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, paddingTop: 20, borderTop: "1px solid var(--border)" }}>
             <p style={{ fontSize: 12, color: "var(--ink-4)" }}>
-              © {new Date().getFullYear()} BurnedInbox · 34 free tools · No account, no credit card
+              © {new Date().getFullYear()} BurnedInbox · Free auth + placement test · No account, no credit card
             </p>
             <a href="https://warminboxes.com" target="_blank" rel="noopener" style={{ fontSize: 12, color: "var(--ink-4)", textDecoration: "none" }}>
               Infrastructure by WarmInboxes

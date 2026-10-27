@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Free Subject Line Spam Tester",
   description: "Test email subject lines for spam trigger words, fake Re:/Fwd: prefixes, promotional language and length issues before you send.",
+  robots: { index: false, follow: true },
   alternates: { canonical: "/tools/subject-check" },
   openGraph: {
     title: "Free Subject Line Spam Tester",
@@ -18,18 +19,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Free Subject Line Spam Tester",
       "description": "Test email subject lines for spam trigger words, fake Re:/Fwd: prefixes, promotional language and length issues before you send.",
       "url": "https://burnedinbox.com/tools/subject-check",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "relatedLink": "https://warminboxes.com/spam-checker",
       "publisher": {
         "@type": "Organization",
         "name": "BurnedInbox",

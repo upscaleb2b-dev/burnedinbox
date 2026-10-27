@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Free SPF Record Checker & Generator",
   description: "Look up and validate any domain's SPF record, or build a correct one with includes for Google, Microsoft 365, SendGrid and more. Instant grading with fixes.",
+  robots: { index: false, follow: true },
   alternates: { canonical: "/tools/spf" },
   openGraph: {
     title: "Free SPF Record Checker & Generator",
