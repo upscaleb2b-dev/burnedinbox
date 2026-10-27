@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Free Email Header Analyzer",
   description: "Paste raw email headers to trace routing hops and read SPF, DKIM and DMARC authentication results in plain English.",
+  robots: { index: false, follow: true },
   alternates: { canonical: "/tools/header-parser" },
   openGraph: {
     title: "Free Email Header Analyzer",
@@ -18,18 +19,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Free Email Header Analyzer",
       "description": "Paste raw email headers to trace routing hops and read SPF, DKIM and DMARC authentication results in plain English.",
       "url": "https://burnedinbox.com/tools/header-parser",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "relatedLink": "https://warminboxes.com/header-analyzer",
       "publisher": {
         "@type": "Organization",
         "name": "BurnedInbox",

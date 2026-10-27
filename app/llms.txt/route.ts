@@ -7,23 +7,7 @@ export const dynamic = "force-static";
 const BASE = "https://burnedinbox.com";
 
 const TOOLS: { path: string; name: string; desc: string }[] = [
-  { path: "/test",                  name: "All-Inclusive Deliverability Test", desc: "Inbox placement test with warm score — SPF, DKIM, DMARC, and blacklist checks in one pass" },
-  { path: "https://warminboxes.com/spf-checker",             name: "SPF Checker & Generator",  desc: "Look up, validate, and build SPF records" },
-  { path: "https://warminboxes.com/dkim-checker",            name: "DKIM Checker",             desc: "Auto-discover DKIM selectors, validate key strength" },
-  { path: "https://warminboxes.com/dmarc-checker",           name: "DMARC Lookup",             desc: "Parse and score DMARC policy, alignment, and reporting tags" },
-  { path: "https://warminboxes.com/bimi-checker",            name: "BIMI Lookup",              desc: "Check BIMI record, SVG logo, VMC certificate, and DMARC requirement" },
-  { path: "https://warminboxes.com/mta-sts-checker",         name: "MTA-STS Checker",          desc: "Validate MTA-STS DNS record, policy file, and TLS-RPT" },
-  { path: "/tools/blacklist",       name: "Blacklist Checker",        desc: "Check domain/IP against 16 RBLs including Spamhaus, SURBL, Barracuda" },
-  { path: "https://warminboxes.com/mx-lookup",              name: "MX Record Checker",        desc: "MX records, provider detection, PTR verification" },
-  { path: "https://warminboxes.com/reverse-dns-lookup",            name: "Reverse DNS / PTR Checker", desc: "PTR lookup with forward-confirmed rDNS (FCrDNS) validation" },
-  { path: "https://warminboxes.com/dns-checker",                   name: "DNS Checker",              desc: "Query A, AAAA, MX, TXT, CNAME, NS, SOA, SRV, PTR, CAA records" },
-  { path: "https://warminboxes.com/tracking-domain-checker", name: "Tracking Domain Checker",  desc: "CNAME target, Cloudflare proxy detection, SSL validation" },
-  { path: "/tools/redirect",        name: "Redirect Checker",         desc: "Follow redirect chains for root/www, HTTP/HTTPS variants" },
-  { path: "https://warminboxes.com/domain-expiry-checker",   name: "Domain Expiry Checker",    desc: "WHOIS expiry date, registrar, and renewal urgency" },
-  { path: "/tools/email-spam",      name: "Email Content Spam Test",  desc: "Score email body and subject against spam triggers and content heuristics" },
-  { path: "/tools/subject-check",   name: "Subject Line Spam Tester", desc: "Detect spam trigger words in subject lines" },
-  { path: "/tools/link-check",      name: "Link Reputation Checker",  desc: "Check URLs in email content for redirects, shorteners, and broken links" },
-  { path: "/tools/header-parser",   name: "Email Header Parser",      desc: "Analyze routing and authentication results from raw headers" },
+  { path: "/test",                  name: "Free Authentication + Inbox Placement Test", desc: "BurnedInbox's core tool: SPF, DKIM, DMARC and 16-blacklist checks with a placement verdict and warm score, in one pass" },
   { path: "/tools/burn-score",      name: "Burn Score Calculator",    desc: "Domain health score" },
   { path: "/tools/warmup-ready",    name: "Warmup Readiness Check",   desc: "Assess whether inboxes are ready for campaign volume" },
   { path: "/tools/inbox-count",     name: "Inbox Count Calculator",   desc: "Size sending infrastructure for lead targets" },
@@ -34,6 +18,24 @@ const TOOLS: { path: string; name: string; desc: string }[] = [
   { path: "/tools/repair-or-replace", name: "Repair or Replace Calculator", desc: "Decide whether to recover or replace burned infrastructure" },
   { path: "/tools/recovery-time",   name: "Recovery Time Estimator",  desc: "How long burned domain recovery takes" },
   { path: "/tools/warmup-time-saved", name: "Warmup Time-Saved Calculator", desc: "DIY warmup vs pre-warmed inbox economics" },
+];
+
+const WARMINBOXES_CHECKERS: [string, string, string][] = [
+  ["SPF Checker", "https://warminboxes.com/spf-checker", "Look up SPF records with recursive lookup counting"],
+  ["DKIM Checker", "https://warminboxes.com/dkim-checker", "Scan 26 common selectors and validate key strength"],
+  ["DMARC Checker", "https://warminboxes.com/dmarc-checker", "Validate DMARC policy, tags and verdicts"],
+  ["Email Authentication Checker", "https://warminboxes.com/email-authentication-checker", "SPF, DKIM, DMARC, MX, BIMI and MTA-STS in one pass"],
+  ["BIMI Checker", "https://warminboxes.com/bimi-checker", "Logo record, SVG, VMC and DMARC enforcement"],
+  ["MTA-STS Checker", "https://warminboxes.com/mta-sts-checker", "MTA-STS record, policy file and TLS-RPT"],
+  ["Blacklist Checker", "https://warminboxes.com/blacklist-checker", "Domain or IP against 20+ major blacklists"],
+  ["DNS Checker", "https://warminboxes.com/dns-checker", "Any DNS record type for any domain"],
+  ["MX Lookup", "https://warminboxes.com/mx-lookup", "MX records and the mail provider behind them"],
+  ["Reverse DNS Lookup", "https://warminboxes.com/reverse-dns-lookup", "PTR record and forward confirmation"],
+  ["Tracking Domain Checker", "https://warminboxes.com/tracking-domain-checker", "Tracking domain DNS, certificate and URL blocklists"],
+  ["Domain Expiry Checker", "https://warminboxes.com/domain-expiry-checker", "Expiry dates and renewal urgency"],
+  ["Spam Checker", "https://warminboxes.com/spam-checker", "Subject and body against 200+ weighted spam triggers"],
+  ["Link & Pixel Scanner", "https://warminboxes.com/email-link-scanner", "Every link, image host and pixel against URL blocklists"],
+  ["Header Analyzer", "https://warminboxes.com/header-analyzer", "SPF, DKIM, DMARC, alignment and hops from raw headers"],
 ];
 
 export async function GET() {
@@ -48,13 +50,19 @@ export async function GET() {
   const lines: string[] = [
     "# BurnedInbox",
     "",
-    "> Free email deliverability tools and operator-grade guides for cold email teams and agencies. Run real SPF/DKIM/DMARC/blacklist checks, test inbox placement, and follow step-by-step SOPs for monitoring, provisioning, rotation, and recovery of sending infrastructure.",
+    "> BurnedInbox is a free authentication + inbox placement test for cold emailers: one pass checks SPF, DKIM, DMARC and 16 blacklists and tells you whether your domain looks healthy, at risk or burned. It also publishes diagnostic guides, SMTP error explanations and SOPs. Standalone checkers (SPF, DKIM, DNS, blacklist and more) live on WarmInboxes.",
     "",
     "BurnedInbox is built and maintained by the team behind WarmInboxes (https://warminboxes.com), a provider of pre-warmed cold email infrastructure — fresh domains with configured authentication and inboxes warmed for 3+ weeks before delivery, used to replace burned sending infrastructure without weeks of downtime.",
     "",
-    "## Tools",
+    "## Tools on BurnedInbox",
     "",
     ...TOOLS.map(t => `- [${t.name}](${t.path.startsWith("http") ? t.path : BASE + t.path}): ${t.desc}`),
+    "",
+    "## Free deliverability checkers (on WarmInboxes)",
+    "",
+    "BurnedInbox's standalone checkers now live on WarmInboxes. Full directory: https://warminboxes.com/deliverability-tools",
+    "",
+    ...WARMINBOXES_CHECKERS.map(([name, url, desc]) => `- [${name}](${url}): ${desc}`),
     "",
   ];
 

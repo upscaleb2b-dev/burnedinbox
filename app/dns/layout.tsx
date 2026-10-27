@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Free DNS Checker — All Record Types",
   description: "Look up A, AAAA, MX, TXT, CNAME, NS, SOA, SRV, PTR and CAA records for any domain with TTL details. Free instant DNS lookup tool.",
+  robots: { index: false, follow: true },
   alternates: { canonical: "/dns" },
   openGraph: {
     title: "Free DNS Checker — All Record Types",

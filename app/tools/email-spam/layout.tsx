@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Free Email Spam Test — Content & Subject Analyzer",
   description: "Paste your email and get a deliverability score: spam trigger words, caps ratio, link density, image balance and subject line issues with fixes.",
+  robots: { index: false, follow: true },
   alternates: { canonical: "/tools/email-spam" },
   openGraph: {
     title: "Free Email Spam Test — Content & Subject Analyzer",
@@ -18,18 +19,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Free Email Spam Test \u2014 Content & Subject Analyzer",
       "description": "Paste your email and get a deliverability score: spam trigger words, caps ratio, link density, image balance and subject line issues with fixes.",
       "url": "https://burnedinbox.com/tools/email-spam",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "relatedLink": "https://warminboxes.com/spam-checker",
       "publisher": {
         "@type": "Organization",
         "name": "BurnedInbox",

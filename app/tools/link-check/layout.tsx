@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Free Email Link Checker — URL Reputation",
   description: "Extract and test every URL in your email: broken links, redirect chains, URL shorteners and excessive tracking parameters.",
+  robots: { index: false, follow: true },
   alternates: { canonical: "/tools/link-check" },
   openGraph: {
     title: "Free Email Link Checker — URL Reputation",
@@ -18,18 +19,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": "WebPage",
       "name": "Free Email Link Checker \u2014 URL Reputation",
       "description": "Extract and test every URL in your email: broken links, redirect chains, URL shorteners and excessive tracking parameters.",
       "url": "https://burnedinbox.com/tools/link-check",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Any",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
+      "relatedLink": "https://warminboxes.com/email-link-scanner",
       "publisher": {
         "@type": "Organization",
         "name": "BurnedInbox",
