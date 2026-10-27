@@ -640,4 +640,255 @@ export const posts3: Post[] = [
 `
 },
 
+{
+  slug: "what-are-prewarmed-inboxes",
+  title: "What Are Prewarmed Inboxes? Costs, Free Domains, Warmup Time and Billing Cycles Explained",
+  category: "Pre-Warmed Inboxes",
+  readTime: 12,
+  excerpt: "Prewarmed inboxes skip the 2-3 week warmup. How they work, what free domains and quarterly billing save (up to 25%), the generic domain trade-off, and how to choose a provider.",
+  body: `
+<p><strong>Short answer:</strong> a prewarmed inbox is a business email account (Google Workspace, Microsoft 365 or Azure) that has already built sending history before you buy it. It comes on its own domain, with SPF, DKIM and DMARC already configured, so you can start cold email campaigns the day it arrives instead of spending two to three weeks warming a new inbox yourself. The trade-off is that the domain and the inbox names start out generic, not branded to your company.</p>
+
+<p>This guide covers how prewarming works, what you actually get, the real cost of warming inboxes yourself, how free domains and longer billing cycles change the math, and the generic-domain question most buyers don't think about until after they've ordered.</p>
+
+<blockquote><p>Disclosure: BurnedInbox is built by the team behind WarmInboxes, the provider we recommend in this guide. Prices quoted are from WarmInboxes' published price list, checked on 27 October 2026. Check the live price list before you order.</p></blockquote>
+
+<h2>Why new inboxes need warming at all</h2>
+
+<p>Gmail, Outlook and every other mailbox provider judge a sender partly on history. A brand-new inbox on a brand-new domain has none: no record of emails being delivered, opened, replied to, or rescued from spam. With no evidence either way, filters treat the first cold emails from that inbox with suspicion, and a lot of them land in spam or get throttled.</p>
+
+<p>Warming is how an inbox builds that history. It sends a small, gradually increasing number of emails, usually to other inboxes in a warmup network that open them, reply, and mark them as not spam. Over a few weeks the inbox accumulates the kind of positive engagement record that filters expect from a real person, and campaign volume can start.</p>
+
+<p>The problem is the wait. Warming a new inbox properly takes weeks, not days. WarmInboxes' own fresh inboxes are warmed for 14 to 21 days before handover, which is a reasonable benchmark for doing it right. During that time you are paying for the domain, the mailbox seat and usually a warmup tool, and the inbox sends nothing that books a meeting.</p>
+
+<h2>What you actually get with a prewarmed inbox</h2>
+
+<p>A prewarmed inbox moves the waiting to before you buy. From a reputable provider, a prewarmed order should include:</p>
+
+<ul>
+<li><strong>Business mailboxes</strong> on Google Workspace, Microsoft 365 or Azure, not consumer Gmail or Outlook.com accounts.</li>
+<li><strong>A domain for every few inboxes.</strong> WarmInboxes puts 3 inboxes on each domain, which keeps volume per domain modest.</li>
+<li><strong>Authentication already set up:</strong> SPF, DKIM and DMARC published and passing, plus forwarding configured.</li>
+<li><strong>Sending history</strong> from a completed warmup, so the inboxes can carry campaign volume immediately, within a safe daily limit.</li>
+<li><strong>Fast delivery.</strong> WarmInboxes delivers within 48 to 72 hours of payment, and the inboxes can send the day they land.</li>
+</ul>
+
+<p>Before you send a campaign from any new inbox, prewarmed or not, run it through the <a href="/test">free BurnedInbox auth + placement test</a>. Two minutes confirms the authentication is real and the domain isn't on a blacklist.</p>
+
+<h2>The real cost of warming inboxes yourself</h2>
+
+<p>Warming your own inboxes looks free because there's no line item called "warmup". The costs are spread out:</p>
+
+<ul>
+<li><strong>Domains.</strong> Usually $12 to $20 each per year at retail. At 3 inboxes per domain, 30 inboxes means 10 domains.</li>
+<li><strong>Mailbox seats</strong> for the whole warmup period, while nothing productive is being sent.</li>
+<li><strong>A warmup tool subscription,</strong> unless your sending platform includes one.</li>
+<li><strong>Setup time:</strong> registering domains, publishing SPF, DKIM and DMARC for each one, creating inboxes, connecting them to your sequencer. The <a href="/blog/new-domain-cold-email-provisioning-sop">full provisioning checklist</a> is a few hours per batch for someone who has done it before.</li>
+<li><strong>The wait itself.</strong> Two to three weeks with no pipeline from those inboxes. For an agency, that's a client paying for a campaign that hasn't started. For a founder, it's three weeks of meetings that didn't happen.</li>
+</ul>
+
+<p>The wait is usually the biggest cost, and it's the one people leave out. If one month of outbound is worth even a handful of meetings to you, three weeks of dead time costs far more than the inboxes do. You can run your own numbers with the <a href="/tools/warmup-time-saved">warmup time-saved calculator</a>.</p>
+
+<h2>How free domains change the math</h2>
+
+<p>Most inbox providers charge for domains separately, on top of the per-inbox price. WarmInboxes includes the domain free with prewarmed inboxes: each comes on a prewarmed .com or .co domain at no extra charge, and WarmInboxes estimates the saving at $12 to $20 per domain.</p>
+
+<p>At 3 inboxes per domain, that adds up quickly:</p>
+
+<table>
+<thead><tr><th>Inboxes</th><th>Domains needed</th><th>Domain cost avoided (at $12–$20 each)</th></tr></thead>
+<tbody>
+<tr><td>15</td><td>5</td><td>$60 – $100</td></tr>
+<tr><td>30</td><td>10</td><td>$120 – $200</td></tr>
+<tr><td>90</td><td>30</td><td>$360 – $600</td></tr>
+<tr><td>300</td><td>100</td><td>$1,200 – $2,000</td></tr>
+</tbody>
+</table>
+
+<p>The domain also isn't just a registration. A prewarmed domain arrives with DNS configured and its own sending history, which is the part that takes the time. A new domain you register yourself still has to go through the whole warmup.</p>
+
+<h2>Longer billing cycles: up to 25% cheaper</h2>
+
+<p>WarmInboxes bills prewarmed inboxes per inbox per month, with three billing cycles. Paying for longer up front lowers the monthly rate:</p>
+
+<table>
+<thead><tr><th>Billing cycle</th><th>Google Workspace or Microsoft 365, per inbox per month</th><th>Saving vs monthly</th></tr></thead>
+<tbody>
+<tr><td>Monthly</td><td>$8</td><td>—</td></tr>
+<tr><td>Every 2 months</td><td>$7</td><td>12.5%</td></tr>
+<tr><td>Quarterly</td><td>$6</td><td>25%</td></tr>
+</tbody>
+</table>
+
+<p>Azure is priced per tenant rather than per inbox, and a tenant holds up to 100 inboxes: $69 a month on monthly billing, $60 on the two-month cycle, and $50 a month quarterly.</p>
+
+<h3>Worked example: 30 prewarmed Google Workspace inboxes for a year</h3>
+
+<ul>
+<li><strong>Monthly billing:</strong> 30 × $8 = $240 a month, or $2,880 a year.</li>
+<li><strong>Every 2 months:</strong> 30 × $7 = $210 a month, or $2,520 a year.</li>
+<li><strong>Quarterly:</strong> 30 × $6 = $180 a month (charged as $540 every three months), or $2,160 a year.</li>
+</ul>
+
+<p>Quarterly saves $720 a year on 30 inboxes compared with monthly billing, and the 10 domains are included on every cycle. At 300 inboxes the same difference is $7,200 a year.</p>
+
+<p>The catch is commitment. Quarterly billing makes sense for inboxes you know you'll keep using: your core sending fleet, or a standby pool you maintain permanently. For a short test, or inboxes you expect to rotate out quickly, monthly gives you more flexibility for a higher rate.</p>
+
+<h2>Cost per email, not just per inbox</h2>
+
+<p>Per-inbox price only tells half the story, because each platform can safely send a different number of cold emails per inbox per day. WarmInboxes publishes a safe daily pace for each, based on 22 sending days a month:</p>
+
+<table>
+<thead><tr><th>Platform</th><th>Safe cold sends per inbox per day</th><th>Sends per inbox per month</th><th>Prewarmed cost per send (quarterly)</th></tr></thead>
+<tbody>
+<tr><td>Google Workspace</td><td>15</td><td>330</td><td>about $0.018</td></tr>
+<tr><td>Microsoft 365</td><td>8</td><td>176</td><td>about $0.034</td></tr>
+<tr><td>Azure (100 inboxes per tenant)</td><td>2</td><td>44 per inbox, 4,400 per tenant</td><td>about $0.011</td></tr>
+</tbody>
+</table>
+
+<p>Which platform is cheapest per send isn't the whole decision. Your prospects' providers matter more: if most of your list is on Microsoft 365, sending from Microsoft infrastructure is usually worth the higher cost per send. You can check a list's provider split with the WarmInboxes <a href="https://warminboxes.com/esp-segmenter" target="_blank" rel="noopener">ESP Segmentation tool</a>, and size a fleet for a target volume with the <a href="https://warminboxes.com/calculator" target="_blank" rel="noopener">Infrastructure Calculator</a>.</p>
+
+<h2>The generic domain and generic name question</h2>
+
+<p>This is the part buyers most often misunderstand. Because a prewarmed inbox has to be warmed before anyone buys it, the provider can't know your brand in advance. So prewarmed inboxes come on <strong>generic domains</strong> (brand-neutral names chosen to look like real businesses, not your company name) with <strong>generic inbox names</strong> already set up.</p>
+
+<p>That has real consequences:</p>
+
+<ul>
+<li><strong>Prospects see an unfamiliar domain.</strong> An email from a domain that isn't recognisably yours can feel less trustworthy, and it doesn't build your brand.</li>
+<li><strong>Replies go to that domain.</strong> You'll want forwarding or a unified inbox so replies reach your team. WarmInboxes configures forwarding as part of setup.</li>
+<li><strong>Names may not match your team.</strong> A prospect who looks up "Michael Brown" on LinkedIn should find someone real.</li>
+</ul>
+
+<p>It is also exactly why prewarmed inboxes are useful. A generic domain keeps cold outreach separate from your main company domain, so if a campaign goes badly the damage stays on a replaceable domain. You should never send cold email from your primary domain, prewarmed or not.</p>
+
+<h3>How to make generic inboxes work</h3>
+
+<ul>
+<li><strong>Rename the inboxes</strong> to match the real people sending. WarmInboxes allows customer-side renaming, and the sending history stays with the mailbox.</li>
+<li><strong>Set the display name, signature and profile photo</strong> to match your real team and company.</li>
+<li><strong>Point the domain's website at your real site</strong> with a redirect, so anyone who visits the domain lands somewhere legitimate.</li>
+<li><strong>Write the email as your company.</strong> The domain is infrastructure; the brand comes from the sender, the signature and the message.</li>
+</ul>
+
+<h3>When you want branded domains instead</h3>
+
+<p>If brand matters more than speed, use fresh inboxes on domains you own, for example getyourcompany.com or tryyourcompany.com. WarmInboxes builds these on your domains and warms them for 14 to 21 days before handover, at about $3 to $3.50 per inbox per month plus $20 per domain, once. That's roughly a third of the prewarmed price at volume, in exchange for the wait.</p>
+
+<p>Many teams use both: prewarmed inboxes to start sending now and to keep a standby pool, and fresh branded inboxes for the long-term fleet. The <a href="/blog/pre-warmed-inboxes-vs-diy-warmup">prewarmed vs DIY warmup comparison</a> covers that hybrid model in detail.</p>
+
+<h2>Prewarmed vs fresh vs doing it yourself</h2>
+
+<table>
+<thead><tr><th></th><th>Prewarmed (WarmInboxes)</th><th>Fresh (WarmInboxes)</th><th>DIY</th></tr></thead>
+<tbody>
+<tr><td>Time to first campaign</td><td>48–72 hours</td><td>14–21 days warming, plus delivery</td><td>2–3+ weeks, plus your setup time</td></tr>
+<tr><td>Domain</td><td>Free generic .com or .co</td><td>Your own, $20 each once</td><td>Your own, $12–$20 a year each</td></tr>
+<tr><td>Inbox price</td><td>$6–$8 per month (Google, M365)</td><td>$3–$3.50 per month</td><td>Your seat price plus warmup tool</td></tr>
+<tr><td>Branding</td><td>Generic domain; inboxes can be renamed</td><td>Your brand</td><td>Your brand</td></tr>
+<tr><td>Setup work for you</td><td>Connect to your sequencer</td><td>Connect to your sequencer</td><td>Everything</td></tr>
+<tr><td>Best for</td><td>Launching now, replacing burned inboxes, standby pools</td><td>Planned scaling on branded domains</td><td>Low volume with no deadline</td></tr>
+</tbody>
+</table>
+
+<h2>When prewarmed inboxes make sense, and when they don't</h2>
+
+<p><strong>They make sense when:</strong></p>
+<ul>
+<li>Your current inboxes are burned and campaigns can't pause for weeks while they recover. Run the <a href="/test">placement test</a> first to confirm it's really the infrastructure.</li>
+<li>You're launching a new client or product and need to send this week, not next month.</li>
+<li>You run a rotation and need standby capacity ready the day an inbox degrades. See the <a href="/blog/inbox-rotation-sop-cold-email">inbox rotation SOP</a>.</li>
+<li>You're testing a new market and want to learn quickly before committing to branded domains.</li>
+</ul>
+
+<p><strong>They're less useful when:</strong></p>
+<ul>
+<li>You send a small volume, have no deadline, and are happy to warm your own inboxes.</li>
+<li>Your brand requires every email to come from your own domain.</li>
+<li>The real problem is your list or your copy. New inboxes won't fix a bad list; they'll just burn faster. Clean the list and check your content first.</li>
+</ul>
+
+<h2>How to choose a provider</h2>
+
+<p>The prewarmed inbox market has a quality problem: cheap "warmed" accounts that collapse under real volume are common. Before buying from anyone, check:</p>
+
+<ul>
+<li><strong>Real business accounts</strong> on Google Workspace, Microsoft 365 or Azure, with full admin access, not shared or consumer accounts.</li>
+<li><strong>Isolated workspaces,</strong> so another customer's sending can't get your tenant suspended.</li>
+<li><strong>Clean domains.</strong> Run any domain you receive through a blacklist check before sending.</li>
+<li><strong>Verified authentication.</strong> SPF, DKIM and DMARC should pass on arrival. Confirm it with the <a href="/test">BurnedInbox test</a>.</li>
+<li><strong>A real warmup period,</strong> measured in weeks, not a few days in a bot network.</li>
+<li><strong>Published safe sending limits</strong> and a ramp plan.</li>
+<li><strong>Clear pricing</strong>, including whether domains cost extra.</li>
+</ul>
+
+<p>The <a href="/blog/best-place-to-buy-pre-warmed-inboxes">full buyer's checklist</a> goes deeper on each point.</p>
+
+<h2>Why we recommend WarmInboxes</h2>
+
+<p>WarmInboxes is the provider we recommend, and as disclosed above, it's built by the same team as BurnedInbox. Measured against the checklist:</p>
+
+<ul>
+<li>Prewarmed inboxes on <a href="https://warminboxes.com/google-workspace-inboxes" target="_blank" rel="noopener">Google Workspace</a>, <a href="https://warminboxes.com/microsoft-365-inboxes" target="_blank" rel="noopener">Microsoft 365</a> and Azure, so you can match your prospects' providers.</li>
+<li>Free prewarmed .com or .co domains with every prewarmed inbox.</li>
+<li>Quarterly billing 25% below monthly on Google and Microsoft 365.</li>
+<li>Delivery within 48 to 72 hours, with SPF, DKIM, DMARC and forwarding configured.</li>
+<li>Customer-side inbox renaming, so generic inboxes can carry your team's real names.</li>
+<li>Fresh inboxes on your own domains when you're ready to scale on your brand.</li>
+<li>Built and used by a cold email agency running its own outbound on the same infrastructure.</li>
+</ul>
+
+<p>See current plans and pricing at <a href="https://warminboxes.com" target="_blank" rel="noopener">warminboxes.com</a>.</p>
+
+<h2>Your first 30 days with prewarmed inboxes</h2>
+
+<ol>
+<li><strong>Verify on arrival.</strong> Run each domain through the <a href="/test">BurnedInbox auth + placement test</a>: authentication passing, no blacklist listings.</li>
+<li><strong>Rename and brand.</strong> Real names, display names, signatures, profile photos, and a redirect from the domain to your website.</li>
+<li><strong>Connect and ramp.</strong> Connect the inboxes to your sending platform and start at roughly half the safe daily pace for the first week, then build up.</li>
+<li><strong>Stay within the safe pace.</strong> Around 15 cold sends per inbox per day on Google Workspace and 8 on Microsoft 365. Exceeding it is the fastest way to burn a good inbox.</li>
+<li><strong>Keep warmup running</strong> alongside campaigns, at a low level.</li>
+<li><strong>Monitor weekly.</strong> Reply rates per inbox, bounce rates, and a placement test every week. The <a href="/blog/weekly-deliverability-monitoring-sop">weekly monitoring SOP</a> lays it out.</li>
+<li><strong>Plan your standby pool.</strong> Decide now how many spare inboxes you'll keep ready, so a burned inbox is a swap, not an emergency.</li>
+</ol>
+
+<h2>Frequently asked questions</h2>
+
+<h3>What is a prewarmed inbox?</h3>
+<p>A business email inbox that has already completed warmup, so it has sending history and can send cold email on the day you receive it, without the usual two-to-three-week wait.</p>
+
+<h3>How much do prewarmed inboxes cost?</h3>
+<p>At WarmInboxes, prewarmed Google Workspace and Microsoft 365 inboxes cost $8 per inbox per month on monthly billing, $7 on two-month billing and $6 on quarterly billing, with domains included. Azure is billed per tenant of up to 100 inboxes: $69, $60 or $50 a month depending on the cycle.</p>
+
+<h3>Are the domains really free?</h3>
+<p>Yes, for prewarmed inboxes at WarmInboxes. Each prewarmed inbox comes on a prewarmed .com or .co domain at no extra charge. Fresh inboxes on your own domains are different: those domains cost $20 each, once.</p>
+
+<h3>Why are prewarmed inboxes on generic domains?</h3>
+<p>Because the warming happens before you buy, the provider can't use your brand name in advance. The generic domain also protects your main company domain: if a campaign damages a sending domain, your real domain is unaffected.</p>
+
+<h3>Can I change the names on prewarmed inboxes?</h3>
+<p>At WarmInboxes, yes. Renaming is included, and the sending history stays with the mailbox. Not every provider allows it, so ask before you buy elsewhere.</p>
+
+<h3>How much can I save with quarterly billing?</h3>
+<p>25% on Google Workspace and Microsoft 365 inboxes: $6 instead of $8 per inbox per month. On 30 inboxes that's $720 a year.</p>
+
+<h3>How many emails can a prewarmed inbox send?</h3>
+<p>WarmInboxes publishes a safe pace of about 15 cold emails per inbox per day on Google Workspace, 8 on Microsoft 365, and 2 per inbox on a 100-inbox Azure tenant.</p>
+
+<h3>Do prewarmed inboxes guarantee inbox placement?</h3>
+<p>No. They give you a clean, warmed starting point. Placement still depends on your list quality, your content and how you send. Test placement before you scale, and keep monitoring after.</p>
+
+<h3>Are prewarmed inboxes worth it?</h3>
+<p>When the cost of waiting is higher than the price difference, yes: replacing burned inboxes, launching quickly, or keeping a standby pool. For low volume with no deadline, warming your own is fine. There's a <a href="/blog/are-pre-warmed-inboxes-worth-it">full cost-benefit breakdown here</a>.</p>
+
+<h2>Sources</h2>
+<ul>
+<li><a href="https://warminboxes.com/price.md" target="_blank" rel="noopener">WarmInboxes price list</a> (prices, billing cycles, safe daily sends, delivery time; checked 27 October 2026)</li>
+<li><a href="https://warminboxes.com/blog/prewarmed-inboxes-guide" target="_blank" rel="noopener">WarmInboxes: Complete Guide to Prewarmed Email Inboxes</a> (renaming, domains, warmup process)</li>
+<li><a href="https://warminboxes.com/microsoft-365-inboxes" target="_blank" rel="noopener">WarmInboxes: Prewarmed Microsoft 365 Inboxes</a> (domain saving estimate)</li>
+</ul>
+`
+},
+
 ];
