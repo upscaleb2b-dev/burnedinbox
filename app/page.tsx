@@ -68,6 +68,13 @@ export default function Home() {
     <div style={{ background: "var(--paper)" }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }} />
 
+      {/* Announcement banner */}
+      <div style={{ background: "var(--ink)", color: "#fff", textAlign: "center", padding: "9px 16px", fontSize: 13, lineHeight: 1.4 }}>
+        <span style={{ fontWeight: 600 }}>Free placement tests</span>
+        <span style={{ margin: "0 8px", padding: "2px 8px", borderRadius: 100, background: "var(--red)", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Coming soon</span>
+        <span style={{ color: "rgba(255,255,255,0.65)" }}>See exactly where your email lands at Gmail, Outlook, Yahoo and more.</span>
+      </div>
+
       {/* ── 1. HEADER ── */}
       <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid var(--border)" }}>
         <style>{`
