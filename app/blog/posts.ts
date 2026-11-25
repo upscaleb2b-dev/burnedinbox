@@ -2363,7 +2363,7 @@ export const posts: Post[] = [
 
 <h2>Minutes 3–6: Infrastructure checks</h2>
 
-<p><strong>Blacklist check (1.5 minutes)</strong>: Open the <a href="/tools/blacklist">blacklist checker</a>. Enter the domain. Confirm: clean on all 16 RBLs. If any hits, note the blacklist name and severity.</p>
+<p><strong>Blacklist check (1.5 minutes)</strong>: Open the <a href="/tools/blacklist">blacklist checker</a>. Enter the domain. Confirm the domain is clean on every list that answers. If any hits, note the blacklist name and severity.</p>
 
 <p><strong>Redirect check (1 minute)</strong>: Open the <a href="/tools/redirect">redirect checker</a>. Enter the domain. Confirm: all four variants work (http and https, root and www), no redirect chains, final destination is SSL.</p>
 

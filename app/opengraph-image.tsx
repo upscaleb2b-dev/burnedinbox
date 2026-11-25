@@ -25,7 +25,7 @@ export default function Image() {
             Is your cold email landing in spam?
           </div>
           <div style={{ display: "flex", fontSize: 32, color: "#555555" }}>
-            Free placement test · SPF · DKIM · DMARC · 16 blacklists
+            Free placement test · SPF · DKIM · DMARC · blacklists
           </div>
         </div>
         <div style={{ display: "flex", fontSize: 26, color: "#888888" }}>burnedinbox.com</div>

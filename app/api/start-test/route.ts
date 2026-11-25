@@ -15,28 +15,32 @@ function normalizeSPF(data: Record<string, unknown>): { check: DnsCheck; pts: nu
   if (!data.found) {
     return {
       check: { label: "SPF Record", status: "fail", value: "No SPF record found",
-        detail: "No SPF record exists. Any server can send email claiming to be you. Add v=spf1 ... -all to your DNS." },
+        detail: "No SPF record exists, so nothing tells receivers which servers may send as you. Publish one that includes your email provider, e.g. v=spf1 include:_spf.google.com ~all." },
       pts: 0,
     };
   }
-  const parsed = data.parsed as { all?: string } | undefined;
-  const allTag = parsed?.all ?? "";
-  const issues = (data.grade as { issues?: string[] } | undefined)?.issues ?? [];
-  let pts: number; let status: DnsCheck["status"]; let detail: string;
-  if (allTag === "-all") {
-    status = issues.length ? "warn" : "pass"; pts = issues.length ? 18 : 25;
-    detail = issues.join(" ") || "SPF hardfail (-all) active. Only your authorized servers can send as this domain.";
-  } else if (allTag === "~all") {
-    status = "warn"; pts = 15;
-    detail = issues.join(" ") || "SPF softfail (~all) — unauthorized senders aren't rejected. Upgrade to -all for stricter enforcement.";
-  } else if (allTag === "+all" || allTag === "all") {
-    status = "fail"; pts = 3;
-    detail = "SPF uses +all — any server can send as your domain. Change to -all immediately.";
-  } else {
-    status = "warn"; pts = 10;
-    detail = issues.join(" ") || "SPF record found but missing an 'all' qualifier. Add -all to complete the policy.";
+  const allTag = (data.parsed as { all?: string } | undefined)?.all ?? "";
+  const grade = data.grade as { issues?: string[]; tips?: string[] } | undefined;
+  const issues = grade?.issues ?? [];
+  const lookups = data.lookupCount as number | undefined;
+  const record = (data.record as string) || "No record";
+  const lookupNote = typeof lookups === "number" ? ` Uses ${lookups} of 10 DNS lookups.` : "";
+
+  if ((typeof lookups === "number" && lookups > 10) || ((data.recordCount as number) ?? 1) > 1) {
+    return { check: { label: "SPF Record", status: "fail", value: record, detail: issues.join(" ") }, pts: 5 };
   }
-  return { check: { label: "SPF Record", status, value: (data.record as string) || "No record", detail }, pts };
+  if (allTag === "+all" || allTag === "all") {
+    return { check: { label: "SPF Record", status: "fail", value: record, detail: "SPF uses +all, which lets any server send as your domain. Change it to ~all or -all." }, pts: 3 };
+  }
+  if (!allTag || allTag === "?all") {
+    return { check: { label: "SPF Record", status: "warn", value: record, detail: (issues.join(" ") || "SPF has no effective default policy.") + lookupNote }, pts: 12 };
+  }
+  if (allTag === "~all") {
+    return { check: { label: "SPF Record", status: "pass", value: record,
+      detail: `Published, so receivers can tell which servers may send as you.${lookupNote} Optional: move ~all to -all for stricter enforcement once all your senders are listed.` }, pts: 23 };
+  }
+  return { check: { label: "SPF Record", status: "pass", value: record,
+    detail: `Published with -all, so only the servers listed may send as you.${lookupNote}` }, pts: 25 };
 }
 
 function normalizeDKIM(data: Record<string, unknown>): { check: DnsCheck; pts: number } {
@@ -72,52 +76,59 @@ function normalizeDMARC(data: Record<string, unknown>): { check: DnsCheck; pts: 
   if (!data.found) {
     return {
       check: { label: "DMARC Policy", status: "fail", value: "No DMARC record found",
-        detail: "No DMARC policy set. Your domain has no protection against spoofing. Add _dmarc TXT — start with p=none, then upgrade to p=quarantine or p=reject." },
+        detail: "No DMARC record. Gmail and Yahoo require one from bulk senders. Add a TXT record at _dmarc with v=DMARC1; p=none; rua=mailto:you@yourdomain.com to start." },
       pts: 0,
     };
   }
   const tags = data.tags as Record<string, string> | undefined;
   const policy = tags?.p ?? "none";
-  let pts: number; let status: DnsCheck["status"]; let detail: string;
+  const record = (data.record as string) || "No record";
+  const ruaTip = tags && !tags.rua ? " Add rua= to receive aggregate reports." : "";
   if (policy === "reject") {
-    status = "pass"; pts = 30;
-    detail = "DMARC p=reject — unauthorized emails blocked outright. Maximum domain protection.";
-  } else if (policy === "quarantine") {
-    status = "warn"; pts = 20;
-    detail = "DMARC p=quarantine — unauthorized emails go to spam. Consider upgrading to p=reject.";
-  } else {
-    status = "warn"; pts = 8;
-    detail = "DMARC p=none — monitoring only, no enforcement. Upgrade to p=quarantine or p=reject.";
+    return { check: { label: "DMARC Policy", status: "pass", value: record, detail: "Published at p=reject: mail that fails authentication is rejected. Strongest protection." + ruaTip }, pts: 30 };
   }
-  if (tags && !tags.rua) detail += " No aggregate report address (rua=) set — add one to receive DMARC reports.";
-  return { check: { label: "DMARC Policy", status, value: (data.record as string) || "No record", detail }, pts };
+  if (policy === "quarantine") {
+    return { check: { label: "DMARC Policy", status: "pass", value: record, detail: "Published at p=quarantine: mail that fails authentication goes to spam." + ruaTip }, pts: 29 };
+  }
+  return { check: { label: "DMARC Policy", status: "pass", value: record,
+    detail: "Published at p=none. Monitoring only, which meets Gmail and Yahoo's requirement and is fine for cold email. Optional: p=quarantine if you want enforcement." + ruaTip }, pts: 27 };
 }
 
+interface ListResult { name: string; status: "clean" | "listed" | "unavailable"; note?: string | null }
+
 function normalizeBlacklist(data: Record<string, unknown>): { check: DnsCheck; pts: number } {
-  const listedCount = (data.listed as number) ?? 0;
-  const verdict = (data.verdict as string) ?? "clean";
-  const checks = (data.checks as Array<{ name: string; listed: boolean; severity: string }>) ?? [];
-  const hits = checks.filter(c => c.listed);
-  let pts: number; let status: DnsCheck["status"]; let value: string; let detail: string;
-  if (listedCount === 0) {
-    pts = 20; status = "pass";
-    value = `Clean across ${data.total as number} blacklists`;
-    detail = "Not listed on any major IP or domain blacklist databases. Reputation is clean.";
-  } else if (verdict === "critical") {
-    pts = 0; status = "fail";
-    value = hits.map(h => h.name).join(", ");
-    const critNames = hits.filter(h => h.severity === "critical").map(h => h.name).join(", ");
-    detail = `Listed on ${listedCount} blacklist(s) including critical databases (${critNames}). Primary driver of spam delivery — request delisting immediately.`;
-  } else if (verdict === "warning") {
-    pts = 4; status = "fail";
-    value = hits.map(h => h.name).join(", ");
-    detail = `Listed on ${listedCount} high-severity blacklist(s): ${hits.map(h => h.name).join(", ")}. Significant deliverability impact — request delisting.`;
-  } else {
-    pts = 12; status = "warn";
-    value = hits.map(h => h.name).join(", ");
-    detail = `Listed on ${listedCount} low/medium blacklist(s): ${hits.map(h => h.name).join(", ")}. Minor impact — monitor and request delisting.`;
+  const domainLists = (data.domainLists as ListResult[] | undefined) ?? [];
+  const ipLists = (data.ipLists as ListResult[] | undefined) ?? [];
+  const verdict = (data.verdict as string) ?? "unchecked";
+  const fmt = (l: ListResult) => `${l.name} ${l.status === "unavailable" ? "not checked" : l.status}`;
+  const value = domainLists.map(fmt).join(" · ") || "Not checked";
+
+  const ipListed = ipLists.filter(l => l.status === "listed").map(l => l.name);
+  const ipChecked = ipLists.filter(l => l.status !== "unavailable").length;
+  const ipNote = data.ip
+    ? ipListed.length
+      ? ` The website's IP (${data.ip}) is listed on ${ipListed.join(", ")}. Mail sent through Google Workspace or Microsoft 365 leaves from their servers, so this describes the web host and isn't counted.`
+      : ` The website's IP (${data.ip}) is clean on the ${ipChecked} IP lists that answered.`
+    : "";
+  const unavailable = domainLists.filter(l => l.status === "unavailable").map(l => l.name);
+  const unavailableNote = unavailable.length
+    ? ` ${unavailable.join(" and ")} refused the lookup, so ${unavailable.length > 1 ? "they weren't" : "it wasn't"} checked either way${unavailable.includes("Spamhaus DBL") ? "; check it free by hand at check.spamhaus.org" : ""}.`
+    : "";
+
+  if (verdict === "critical") {
+    return { check: { label: "Blacklist Status", status: "fail", value,
+      detail: "The domain is on the Spamhaus Domain Block List, which major providers use to filter mail. Fix the cause and request removal at check.spamhaus.org before sending more." + ipNote }, pts: 0 };
   }
-  return { check: { label: "Blacklist Status", status, value, detail }, pts };
+  if (verdict === "warning" || verdict === "minor") {
+    return { check: { label: "Blacklist Status", status: "warn", value,
+      detail: "The domain is on SURBL, which lists domains seen in spam message bodies. In WarmInboxes' study of 2,817 sending domains, reply rates stayed flat after a SURBL listing while bounces rose slightly, so it's worth fixing but rarely the main problem. Request removal at surbl.org." + unavailableNote + ipNote }, pts: 14 };
+  }
+  if (verdict === "unchecked") {
+    return { check: { label: "Blacklist Status", status: "warn", value,
+      detail: "No domain blacklist answered this lookup, so blacklist status couldn't be checked either way. This isn't a listing." + unavailableNote + ipNote }, pts: 20 };
+  }
+  return { check: { label: "Blacklist Status", status: "pass", value,
+    detail: "Not listed on the domain blacklists that answered." + unavailableNote + ipNote }, pts: 20 };
 }
 
 // ── Handler ───────────────────────────────────────────────────────────────────

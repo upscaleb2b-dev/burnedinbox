@@ -99,10 +99,10 @@ async function checkSelector(selector: string, domain: string) {
 
 // Common selectors used by major ESPs
 const COMMON_SELECTORS = [
-  "default", "google", "mail", "k1", "k2", "k3",
-  "selector1", "selector2", "dkim", "email", "smtp",
-  "mimecast", "mailjet", "sendgrid", "ses", "mandrill",
-  "s1", "s2", "sig1", "everlytickey1", "zendesk1",
+  "google", "selector1", "selector2", "default", "mail", "dkim",
+  "k1", "k2", "k3", "s1", "s2", "sig1", "smtp", "email",
+  "mandrill", "mailjet", "sendgrid", "ses", "amazonses", "key1",
+  "mimecast", "zendesk1", "zoho", "protonmail", "everlytickey1", "everlytickey2",
 ];
 
 export async function POST(req: NextRequest) {
@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Otherwise auto-discover by scanning common selectors (parallel, with timeout)
-    const toScan = COMMON_SELECTORS.slice(0, 16);
+    const toScan = COMMON_SELECTORS;
     const results = await Promise.all(toScan.map(s => checkSelector(s, domain)));
     const found = results.filter(r => r.found);
 
