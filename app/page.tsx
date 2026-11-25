@@ -30,7 +30,7 @@ const homeJsonLd = {
       name: "BurnedInbox",
       url: "https://burnedinbox.com",
       logo: "https://burnedinbox.com/icon.png",
-      description: "Free cold email placement tester and deliverability tools for cold emailers, agencies and outbound teams.",
+      description: "Free email authentication and blacklist check for cold emailers, agencies and outbound teams. Free placement tests coming soon.",
     },
     {
       "@type": "WebSite",
@@ -42,8 +42,8 @@ const homeJsonLd = {
     },
     {
       "@type": "WebApplication",
-      "@id": "https://burnedinbox.com/#placement-test",
-      name: "BurnedInbox Cold Email Placement Tester",
+      "@id": "https://burnedinbox.com/#domain-check",
+      name: "BurnedInbox Email Authentication & Blacklist Check",
       url: "https://burnedinbox.com/test",
       applicationCategory: "BusinessApplication",
       operatingSystem: "Any",
@@ -192,7 +192,7 @@ export default function Home() {
               <div className="drop">
                 <p className="drop-head">BurnedInbox</p>
                 {[
-                  { href: "/test",               label: "Auth + placement test", desc: "Free · inbox or spam?" },
+                  { href: "/test",               label: "Free domain check",     desc: "Auth & blacklists" },
                   { href: "/tools/burn-score",   label: "Burn score calculator", desc: "Domain health" },
                   { href: "/tools/warmup-ready", label: "Warmup readiness",      desc: "Ready to send?" },
                 ].map(({ href, label, desc }) => (
@@ -560,7 +560,7 @@ export default function Home() {
           </h1>
 
           <p style={{ ...S.body, fontSize: 17, maxWidth: 540, margin: "0 auto 36px" }}>
-            BurnedInbox helps cold emailers test inbox placement, check core DNS and authentication signals, and spot setup issues before they hurt campaigns.
+            BurnedInbox checks your SPF, DKIM, DMARC and domain blacklists in seconds, so you can spot setup issues before they hurt campaigns. Free inbox placement tests are coming soon.
           </p>
 
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
@@ -568,7 +568,7 @@ export default function Home() {
               <Flame size={15} /> Test my inbox
             </Link>
             <Link href="/test" className="btn btn-ghost" style={{ padding: "12px 22px", fontSize: 15 }}>
-              Run free placement test <ArrowRight size={14} />
+              Check my domain free <ArrowRight size={14} />
             </Link>
           </div>
 
@@ -613,9 +613,9 @@ export default function Home() {
           <h2 style={{ ...S.h2, marginBottom: 48 }}>Three steps to know where you stand</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" }}>
             {[
-              { n: "01", title: "Enter your domain", desc: "Type your domain or email. We generate a unique seed address so only you receive the results." },
-              { n: "02", title: "Send us an email", desc: "Send an email from your actual ESP, SMTP, or email client to the seed address. Use your real setup." },
-              { n: "03", title: "Get your verdict", desc: "We detect where it lands — inbox, promotions, or spam — plus a full DNS and setup diagnostic." },
+              { n: "01", title: "Enter your domain", desc: "Type your domain or email address. No account, no email to send." },
+              { n: "02", title: "Get your results", desc: "SPF, DKIM, DMARC and domain blacklists checked live, with a health score and what to fix first." },
+              { n: "03", title: "Check your own inbox", desc: "Send a test to your own Gmail and Outlook to see where it lands. Free seed placement tests are coming soon." },
             ].map(({ n, title, desc }, i) => (
               <div key={n} style={{ padding: "40px 36px", background: "var(--paper)", borderRight: i < 2 ? "1px solid var(--border)" : "none" }}>
                 <p style={{ fontFamily: "'Geist Mono', monospace", fontSize: 12, fontWeight: 600, color: "var(--red)", marginBottom: 20 }}>{n}</p>
@@ -633,7 +633,7 @@ export default function Home() {
           <p style={S.eyebrow}>Comprehensive analysis</p>
           <h2 style={{ ...S.h2, marginBottom: 14 }}>The signals that decide placement</h2>
           <p style={{ ...S.body, maxWidth: 520, marginBottom: 48 }}>
-            Every placement test checks authentication and the domain blacklists that matter for cold email. The rest have their own free tool. Nothing here can read Gmail’s or Outlook’s private reputation data, and no honest tool claims to.
+            Every check covers authentication and the domain blacklists that matter for cold email. The rest have their own free tool. Nothing here can read Gmail’s or Outlook’s private reputation data, and no honest tool claims to.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 10 }}>
             {[
@@ -767,7 +767,7 @@ export default function Home() {
               <Flame size={15} style={{ color: "var(--red)" }} /> Test my inbox
             </Link>
             <Link href="/test" className="btn" style={{ background: "rgba(255,255,255,0.1)", color: "#fff", border: "1px solid rgba(255,255,255,0.15)", padding: "13px 24px", fontSize: 15 }}>
-              Run free placement test
+              Check my domain free
             </Link>
           </div>
           <a href="https://warminboxes.com" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>
@@ -835,7 +835,7 @@ export default function Home() {
 
             {[
               { title: "BurnedInbox", links: [
-                { href: "/test",                  label: "Auth + placement test" },
+                { href: "/test",                  label: "Free domain check" },
                 { href: "/burned-domain-checker", label: "Is my domain burned?" },
                 { href: "/tools/burn-score",      label: "Burn score" },
                 { href: "/tools/warmup-ready",    label: "Warmup readiness" },
@@ -882,7 +882,7 @@ export default function Home() {
           {/* Bottom bar */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, paddingTop: 20, borderTop: "1px solid var(--border)" }}>
             <p style={{ fontSize: 12, color: "var(--ink-4)" }}>
-              © {new Date().getFullYear()} BurnedInbox · Free auth + placement test · No account, no credit card
+              © {new Date().getFullYear()} BurnedInbox · Free authentication & blacklist check · No account, no credit card
             </p>
             <a href="https://warminboxes.com" target="_blank" rel="noopener" style={{ fontSize: 12, color: "var(--ink-4)", textDecoration: "none" }}>
               Infrastructure by WarmInboxes

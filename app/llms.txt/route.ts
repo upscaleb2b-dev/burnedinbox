@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 const BASE = "https://burnedinbox.com";
 
 const TOOLS: { path: string; name: string; desc: string }[] = [
-  { path: "/test",                  name: "Free Authentication + Inbox Placement Test", desc: "BurnedInbox's core tool: SPF, DKIM and DMARC checks plus domain blacklists (SURBL, Spamhaus DBL), with a placement verdict and warm score, in one pass. Lists that refuse a lookup are reported as not checked, never as clean or listed" },
+  { path: "/test", name: "Free Email Authentication & Blacklist Check", desc: "BurnedInbox's core tool: live SPF, DKIM and DMARC checks plus domain blacklists (SURBL, Spamhaus DBL) with a 0–100 health score. Lists that refuse a lookup are reported as not checked. Free inbox placement tests are coming soon" },
   { path: "/tools/burn-score",      name: "Burn Score Calculator",    desc: "Domain health score" },
   { path: "/tools/warmup-ready",    name: "Warmup Readiness Check",   desc: "Assess whether inboxes are ready for campaign volume" },
   { path: "/tools/inbox-count",     name: "Inbox Count Calculator",   desc: "Size sending infrastructure for lead targets" },
@@ -50,7 +50,7 @@ export async function GET() {
   const lines: string[] = [
     "# BurnedInbox",
     "",
-    "> BurnedInbox is a free authentication + inbox placement test for cold emailers: one pass checks SPF, DKIM, DMARC and domain blacklists and tells you whether your domain looks healthy, at risk or burned. It also publishes diagnostic guides, SMTP error explanations and SOPs. Standalone checkers (SPF, DKIM, DNS, blacklist and more) live on WarmInboxes.",
+    "> BurnedInbox is a free email authentication and blacklist check for cold emailers (free inbox placement tests coming soon): one pass checks SPF, DKIM, DMARC and domain blacklists and tells you whether your domain looks healthy, at risk or burned. It also publishes diagnostic guides, SMTP error explanations and SOPs. Standalone checkers (SPF, DKIM, DNS, blacklist and more) live on WarmInboxes.",
     "",
     "BurnedInbox is built and maintained by the team behind WarmInboxes (https://warminboxes.com), a provider of pre-warmed cold email infrastructure — fresh domains with configured authentication and inboxes warmed for 3+ weeks before delivery, used to replace burned sending infrastructure without weeks of downtime.",
     "",
