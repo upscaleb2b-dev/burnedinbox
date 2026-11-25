@@ -633,14 +633,14 @@ export default function Home() {
           <p style={S.eyebrow}>Comprehensive analysis</p>
           <h2 style={{ ...S.h2, marginBottom: 14 }}>The signals that decide placement</h2>
           <p style={{ ...S.body, maxWidth: 520, marginBottom: 48 }}>
-            Every placement test checks authentication and 16 blacklists. The rest have their own free tool. Nothing here can read Gmail’s or Outlook’s private reputation data, and no honest tool claims to.
+            Every placement test checks authentication and the domain blacklists that matter for cold email. The rest have their own free tool. Nothing here can read Gmail’s or Outlook’s private reputation data, and no honest tool claims to.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 10 }}>
             {[
               { icon: Shield, label: "SPF Record", tag: "In every test", desc: "Authorizes your sending servers", href: "/tools/spf" },
               { icon: Lock, label: "DKIM Signature", tag: "In every test", desc: "Cryptographic email authentication", href: "/tools/dkim" },
               { icon: Shield, label: "DMARC Policy", tag: "In every test", desc: "Tells receivers how to treat failures", href: "/tools/dmarc" },
-              { icon: Globe, label: "16 Blacklists", tag: "In every test", desc: "Spamhaus, SURBL, Barracuda and more", href: "/tools/blacklist" },
+              { icon: Globe, label: "Domain blacklists", tag: "In every test", desc: "SURBL and Spamhaus DBL", href: "/tools/blacklist" },
               { icon: Mail, label: "MX Records", tag: "Free tool", desc: "Mail routing and provider", href: "/tools/mx" },
               { icon: Zap, label: "Reverse DNS", tag: "Free tool", desc: "PTR record for your sending IP", href: "/tools/rdns" },
               { icon: Lock, label: "MTA-STS / TLS", tag: "Free tool", desc: "Enforced in-transit encryption", href: "/tools/mta-sts" },

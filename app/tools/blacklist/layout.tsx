@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Free Email Blacklist Checker — 16 RBLs",
-  description: "Check any domain or IP against 16 blacklists including Spamhaus, SURBL, Barracuda and SpamCop. Severity-ranked results with delisting guidance.",
+  title: "Free Email Blacklist Checker",
+  description: "Check any domain or IP against 20+ major email blacklists on WarmInboxes, including Spamhaus, Barracuda and SpamCop. Severity-ranked results with delisting guidance.",
   robots: { index: false, follow: true },
   alternates: { canonical: "/tools/blacklist" },
   openGraph: {
-    title: "Free Email Blacklist Checker — 16 RBLs",
-    description: "Check any domain or IP against 16 blacklists including Spamhaus, SURBL, Barracuda and SpamCop. Severity-ranked results with delisting guidance.",
+    title: "Free Email Blacklist Checker",
+    description: "Check any domain or IP against 20+ major email blacklists on WarmInboxes, including Spamhaus, Barracuda and SpamCop. Severity-ranked results with delisting guidance.",
     url: "https://burnedinbox.com/tools/blacklist",
     siteName: "Burned Inbox",
     type: "website",
@@ -20,8 +20,8 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "WebPage",
-      "name": "Free Email Blacklist Checker \u2014 16 RBLs",
-      "description": "Check any domain or IP against 16 blacklists including Spamhaus, SURBL, Barracuda and SpamCop. Severity-ranked results with delisting guidance.",
+      "name": "Free Email Blacklist Checker",
+      "description": "Check any domain or IP against 20+ major email blacklists on WarmInboxes, including Spamhaus, Barracuda and SpamCop. Severity-ranked results with delisting guidance.",
       "url": "https://burnedinbox.com/tools/blacklist",
       "relatedLink": "https://warminboxes.com/blacklist-checker",
       "publisher": {
@@ -42,7 +42,7 @@ const jsonLd = {
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "Free Email Blacklist Checker \u2014 16 RBLs",
+          "name": "Free Email Blacklist Checker",
           "item": "https://burnedinbox.com/tools/blacklist"
         }
       ]

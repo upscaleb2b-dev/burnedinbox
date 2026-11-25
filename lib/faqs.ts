@@ -4,7 +4,7 @@ export const FAQS = [
   { q: "How do I know if my cold email domain is burned?",
     a: "A burned domain shows three signs together: emails landing in spam at Gmail or Outlook, a listing on a major blacklist such as Spamhaus or Barracuda, and reply rates that dropped sharply while volume stayed the same. Run the free BurnedInbox test to check all three in one pass." },
   { q: "What does BurnedInbox check?",
-    a: "BurnedInbox checks SPF, DKIM and DMARC authentication, scans 16 blacklists including Spamhaus, SURBL and Barracuda, and combines them into a 0–100 warm score with a placement verdict. Separate free tools cover BIMI, MTA-STS, MX, reverse DNS, tracking domains and email content." },
+    a: "BurnedInbox checks SPF, DKIM and DMARC authentication, checks the domain against SURBL and the Spamhaus Domain Block List (reporting honestly when a list refuses the lookup), and combines them into a 0–100 warm score with a placement verdict. Separate free tools cover BIMI, MTA-STS, MX, reverse DNS, tracking domains and email content." },
   { q: "Is BurnedInbox free?",
     a: "Yes. Every BurnedInbox tool, including the placement test, is free to use with no account and no credit card." },
   { q: "Can a burned domain recover?",
