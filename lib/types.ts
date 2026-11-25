@@ -7,19 +7,4 @@ export interface DnsCheck {
   detail: string;
 }
 
-export interface SeedAddress {
-  provider: string;
-  address: string;
-}
 
-export interface TestSession {
-  id: string;
-  domain: string;
-  seedAddresses: SeedAddress[];
-  createdAt: number;
-  status: "waiting" | "received" | "timeout";
-  verdict?: Verdict;
-  score?: number;
-  dnsChecks?: DnsCheck[];
-  folder?: "inbox" | "spam" | "promotions";
-}

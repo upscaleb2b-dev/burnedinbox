@@ -1,58 +1,24 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import {
   Flame, ArrowLeft, CheckCircle2, XCircle, AlertTriangle,
-  Copy, Check, Shield, ExternalLink, ChevronDown,
-  RefreshCw, Mail, Clock, Zap, Globe, Lock, BarChart3,
-  Inbox, ArrowRight
+  Check, Shield, ExternalLink, ChevronDown,
+  RefreshCw, Mail, Zap, Globe, Lock, BarChart3, Inbox,
 } from "lucide-react";
 import { track, rememberDiagnosis, type DiagnosisClass } from "@/lib/track";
 import type { DnsCheck } from "@/lib/types";
 
-type Stage = "form" | "waiting" | "result";
-type Folder = "inbox" | "promotions" | "spam";
-
-interface SeedAddress {
-  provider: string;
-  address: string;
-}
+type Stage = "form" | "result";
 
 interface TestState {
   id: string;
   domain: string;
-  seedAddresses: SeedAddress[];
   score: number;
   checks: DnsCheck[];
 }
 
-// Checks + score come from start-test (TestState); result only carries placement
-interface Result {
-  verdict: "inbox" | "spam";
-  folder: Folder;
-}
-
 // ── Small components ──────────────────────────────────────────────────────────
-
-function CopyBtn({ text }: { text: string }) {
-  const [done, setDone] = useState(false);
-  return (
-    <button
-      onClick={() => { navigator.clipboard.writeText(text); setDone(true); setTimeout(() => setDone(false), 2000); }}
-      style={{
-        display: "inline-flex", alignItems: "center", gap: 5,
-        padding: "6px 12px", borderRadius: 6, fontSize: 12, fontWeight: 500, cursor: "pointer",
-        border: `1px solid ${done ? "var(--green)" : "var(--border-2)"}`,
-        background: done ? "var(--green-dim)" : "var(--paper-2)",
-        color: done ? "var(--green)" : "var(--ink-3)",
-        transition: "all 0.15s",
-      }}
-    >
-      {done ? <Check size={11} /> : <Copy size={11} />}
-      {done ? "Copied" : "Copy"}
-    </button>
-  );
-}
 
 function StatusIcon({ s }: { s: DnsCheck["status"] }) {
   if (s === "pass") return <CheckCircle2 size={15} style={{ color: "var(--green)", flexShrink: 0 }} />;
@@ -128,8 +94,8 @@ function FormStage({ onSubmit }: { onSubmit: (domain: string) => Promise<void> }
             <Inbox size={17} style={{ color: "var(--red)" }} />
           </div>
           <div>
-            <p style={{ fontWeight: 600, fontSize: 15 }}>All-Inclusive Deliverability Test</p>
-            <p style={{ fontSize: 12, color: "var(--ink-4)" }}>Free · No account · DNS + inbox placement</p>
+            <p style={{ fontWeight: 600, fontSize: 15 }}>Free Authentication + Blacklist Check</p>
+            <p style={{ fontSize: 12, color: "var(--ink-4)" }}>Free · No account · Results in seconds</p>
           </div>
         </div>
 
@@ -154,8 +120,8 @@ function FormStage({ onSubmit }: { onSubmit: (domain: string) => Promise<void> }
 
         <button onClick={go} disabled={loading || !val.trim()} className="btn btn-red" style={{ width: "100%", justifyContent: "center", padding: "12px 20px", fontSize: 14 }}>
           {loading
-            ? <><div style={{ width: 14, height: 14, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", flexShrink: 0 }} className="spin" /> Setting up…</>
-            : <><Flame size={14} /> Start free test</>
+            ? <><div style={{ width: 14, height: 14, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", flexShrink: 0 }} className="spin" /> Checking…</>
+            : <><Flame size={14} /> Check my domain</>
           }
         </button>
       </div>
@@ -163,145 +129,82 @@ function FormStage({ onSubmit }: { onSubmit: (domain: string) => Promise<void> }
       <div className="card" style={{ padding: 20, marginTop: 12, background: "var(--paper-2)" }}>
         <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--ink-4)", marginBottom: 14 }}>What happens</p>
         {[
-          { icon: Shield, t: "SPF, DKIM, DMARC & blacklist checks run instantly" },
-          { icon: Zap, t: "Seed addresses generated for Gmail, Outlook, Yahoo & iCloud" },
-          { icon: Mail, t: "You send once from your real ESP to all 4 inboxes" },
-          { icon: BarChart3, t: "Per-provider placement results + full warm score" },
+          { icon: Shield, t: "SPF, DKIM and DMARC checked live against your DNS" },
+          { icon: Globe, t: "Domain blacklists checked (SURBL, Spamhaus DBL)" },
+          { icon: BarChart3, t: "A 0–100 health score with what to fix first" },
+          { icon: Mail, t: "How to check placement yourself, in your own inbox" },
         ].map(({ icon: I, t }) => (
           <div key={t} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, color: "var(--ink-3)", marginBottom: 10 }}>
             <I size={13} style={{ color: "var(--red)", flexShrink: 0 }} /> {t}
           </div>
         ))}
-      </div>
-    </div>
-  );
-}
-
-function WaitingStage({ test, elapsed, onForce }: { test: TestState; elapsed: number; onForce: () => void }) {
-  return (
-    <div style={{ maxWidth: 480, margin: "0 auto" }} className="fade-up">
-      <div className="card" style={{ padding: 32 }}>
-        {/* Spinning icon */}
-        <div style={{ textAlign: "center", marginBottom: 28 }}>
-          <div style={{ position: "relative", width: 56, height: 56, margin: "0 auto 16px" }}>
-            <div style={{ width: 56, height: 56, background: "var(--red-dim)", borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Mail size={22} style={{ color: "var(--red)" }} />
-            </div>
-            <div style={{ position: "absolute", inset: -6, borderRadius: 20, border: "2px dashed var(--red)", opacity: 0.3, animation: "spin 4s linear infinite" }} />
-          </div>
-          <p style={{ fontWeight: 600, fontSize: 16, marginBottom: 6 }}>Send your test email</p>
-          <p style={{ fontSize: 13, color: "var(--ink-3)" }}>We're listening — send from your real setup to the address below</p>
-        </div>
-
-        {/* Seed addresses — one per provider */}
-        <div style={{ padding: 16, borderRadius: 10, background: "var(--paper-2)", border: "1px solid var(--border)", marginBottom: 16 }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-            <p style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-4)", textTransform: "uppercase", letterSpacing: "0.07em" }}>
-              Send to all 4 seed inboxes
-            </p>
-            <button
-              onClick={() => navigator.clipboard.writeText(test.seedAddresses.map(s => s.address).join(", "))}
-              style={{ fontSize: 11, fontWeight: 500, color: "var(--ink-4)", background: "var(--paper-3)", border: "1px solid var(--border-2)", borderRadius: 6, padding: "3px 10px", cursor: "pointer" }}
-            >
-              Copy all
-            </button>
-          </div>
-          {test.seedAddresses.map(s => (
-            <div key={s.provider} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
-              <span style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-3)", width: 54, flexShrink: 0 }}>{s.provider}</span>
-              <code className="mono" style={{ fontSize: 11, color: "var(--red)", flex: 1, wordBreak: "break-all" }}>{s.address}</code>
-              <CopyBtn text={s.address} />
-            </div>
-          ))}
-        </div>
-
-        {/* Steps */}
-        <div style={{ marginBottom: 24 }}>
-          {[
-            "Open your ESP, email client, or SMTP tool",
-            `Send from your ${test.domain} address`,
-            "Add all 4 seed addresses as recipients",
-            "Results appear per provider within 30 seconds",
-          ].map((t, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 12, fontSize: 13, color: "var(--ink-3)" }}>
-              <div style={{ width: 20, height: 20, borderRadius: "50%", background: "var(--red)", color: "#fff", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
-                {i + 1}
-              </div>
-              {t}
-            </div>
-          ))}
-        </div>
-
-        {/* Timer */}
-        <div style={{ paddingTop: 16, borderTop: "1px solid var(--border)" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "var(--ink-4)" }}>
-              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--red)", display: "inline-block", animation: "blink-dot 1.5s ease-in-out infinite" }} />
-              Listening for your email
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 12, color: "var(--ink-4)" }}>
-              <Clock size={11} /> {Math.floor(elapsed / 1000)}s
-            </div>
-          </div>
-          <div style={{ height: 3, borderRadius: 2, background: "var(--paper-3)", overflow: "hidden" }}>
-            <div style={{ height: "100%", background: "var(--red)", borderRadius: 2, width: `${Math.min(95, (elapsed / 300000) * 100)}%`, transition: "width 1s linear" }} />
-          </div>
-        </div>
-
-        {elapsed > 60000 && (
-          <button onClick={onForce} style={{ width: "100%", marginTop: 16, padding: "10px", borderRadius: 8, border: "1px solid var(--border-2)", background: "transparent", fontSize: 13, color: "var(--ink-4)", cursor: "pointer" }}>
-            Taking too long? Show results anyway →
-          </button>
-        )}
-      </div>
-
-      {/* DNS preview */}
-      <div className="card" style={{ padding: 20, marginTop: 12 }}>
-        <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--ink-4)", marginBottom: 14 }}>
-          DNS pre-check — {test.domain}
+        <p style={{ fontSize: 12, color: "var(--ink-4)", marginTop: 4 }}>
+          Free placement tests across Gmail, Outlook, Yahoo and iCloud are coming soon.
         </p>
-        {test.checks.slice(0, 4).map(c => (
-          <div key={c.label} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-            <StatusIcon s={c.status} />
-            <span style={{ fontSize: 13, flex: 1, color: "var(--ink-2)" }}>{c.label}</span>
-            <span style={{ fontSize: 11, fontWeight: 600, color: c.status === "pass" ? "var(--green)" : c.status === "fail" ? "var(--red)" : "var(--yellow)", textTransform: "uppercase", letterSpacing: "0.06em" }}>{c.status}</span>
-          </div>
-        ))}
       </div>
     </div>
   );
 }
 
-function diagnose(test: TestState, result: Result): DiagnosisClass {
+function diagnose(test: TestState): DiagnosisClass {
   const failed = (re: RegExp) => test.checks.some(c => re.test(c.label) && c.status === "fail");
-  const blacklisted = failed(/blacklist/i);
-  if (result.folder === "inbox" && test.score >= 65) return "healthy";
-  if (blacklisted && result.folder === "spam") return "consider_replacement";
-  if (blacklisted) return "investigate_reputation";
+  const blacklist = test.checks.find(c => /blacklist/i.test(c.label));
+  if (blacklist?.status === "fail") return "consider_replacement";
+  if (blacklist?.status === "warn" && / listed/.test(blacklist.value)) return "investigate_reputation";
   if (failed(/SPF|DKIM|DMARC/)) return "repair_dns";
+  if (test.score >= 80) return "healthy";
   return "inconclusive";
 }
 
 const reportedTests = new Set<string>();
 
-function reportResult(test: TestState, result: Result) {
+function reportResult(test: TestState) {
   if (reportedTests.has(test.id)) return;
   reportedTests.add(test.id);
-  const diagnosis_class = diagnose(test, result);
+  const diagnosis_class = diagnose(test);
   rememberDiagnosis(diagnosis_class);
-  track("bi_diagnostic_complete", { tool_name: "placement", diagnosis_class, score_band: test.score >= 80 ? "80+" : test.score >= 45 ? "45-79" : "0-44" });
-  track("bi_diagnostic_outcome", { tool_name: "placement", diagnosis_class });
+  track("bi_diagnostic_complete", { tool_name: "domain_check", diagnosis_class, score_band: test.score >= 80 ? "80+" : test.score >= 45 ? "45-79" : "0-44" });
+  track("bi_diagnostic_outcome", { tool_name: "domain_check", diagnosis_class });
   if (diagnosis_class === "consider_replacement") {
-    track("bi_replacement_recommended", { tool_name: "placement", recommendation_reason: "blacklisted_and_spam_risk" });
+    track("bi_replacement_recommended", { tool_name: "domain_check", recommendation_reason: "domain_blacklisted" });
   }
 }
 
-function ResultStage({ result, test, onReset, onRetest }: { result: Result; test: TestState; onReset: () => void; onRetest: () => void }) {
-  const inboxed = result.folder !== "spam";
-  const folderLabel = result.folder === "inbox" ? "Likely Primary Inbox" : result.folder === "promotions" ? "Promotions Risk" : "Spam Risk";
-  const folderColor = result.folder === "spam" ? "var(--red)" : result.folder === "promotions" ? "var(--yellow)" : "var(--green)";
-  const folderBg = result.folder === "spam" ? "var(--red-dim)" : result.folder === "promotions" ? "var(--yellow-dim)" : "var(--green-dim)";
-  const FolderIc = result.folder === "spam" ? XCircle : result.folder === "promotions" ? AlertTriangle : CheckCircle2;
+function SelfTestCard() {
+  return (
+    <div className="card" style={{ padding: 24 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap", marginBottom: 6 }}>
+        <p style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)" }}>Now check where your email actually lands</p>
+        <span style={{ fontSize: 10, fontWeight: 700, padding: "3px 9px", borderRadius: 100, background: "var(--red-dim)", color: "var(--red)", textTransform: "uppercase", letterSpacing: "0.06em" }}>Free placement tests coming soon</span>
+      </div>
+      <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7, marginBottom: 14 }}>
+        This check reads your DNS; it doesn&apos;t send an email. To see placement today, send a test to your own inboxes:
+      </p>
+      <ol style={{ margin: "0 0 14px 18px", display: "flex", flexDirection: "column", gap: 8 }}>
+        {[
+          <>From the inbox you send campaigns with, email a <strong>personal Gmail</strong> and a <strong>personal Outlook.com</strong> address (not addresses on this domain).</>,
+          <>Use your real campaign copy, links and signature, so you test what prospects will get.</>,
+          <>Check where it lands: Gmail <strong>Primary, Promotions or Spam</strong>; Outlook <strong>Focused, Other or Junk</strong>.</>,
+          <>In Gmail, open the message, choose <strong>Show original</strong>, and confirm SPF, DKIM and DMARC all say <strong>PASS</strong>.</>,
+        ].map((t, i) => (
+          <li key={i} style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.65 }}>{t}</li>
+        ))}
+      </ol>
+      <p style={{ fontSize: 12, color: "var(--ink-4)", lineHeight: 1.6 }}>
+        One inbox is one data point: your own mailbox already knows you, so a prospect&apos;s may filter differently. Free placement tests across Gmail, Outlook, Yahoo and iCloud seed inboxes are coming soon.
+      </p>
+    </div>
+  );
+}
+
+function ResultStage({ test, onReset, onRetest }: { test: TestState; onReset: () => void; onRetest: () => void }) {
+  const failCount = test.checks.filter(c => c.status === "fail").length;
+  const level = failCount > 0 || test.score < 45 ? "risk" : test.score < 80 ? "attention" : "healthy";
+  const verdictLabel = level === "healthy" ? "Domain looks healthy" : level === "attention" ? "Needs attention" : "Domain at risk";
+  const folderColor = level === "risk" ? "var(--red)" : level === "attention" ? "var(--yellow)" : "var(--green)";
+  const folderBg = level === "risk" ? "var(--red-dim)" : level === "attention" ? "var(--yellow-dim)" : "var(--green-dim)";
+  const FolderIc = level === "risk" ? XCircle : level === "attention" ? AlertTriangle : CheckCircle2;
+  const diagnosis = diagnose(test);
   const score = test.score;
   const grade = score >= 90 ? "A" : score >= 75 ? "B" : score >= 55 ? "C" : score >= 35 ? "D" : "F";
   const pass = test.checks.filter(c => c.status === "pass").length;
@@ -316,9 +219,9 @@ function ResultStage({ result, test, onReset, onRetest }: { result: Result; test
         <div style={{ padding: "20px 24px", background: folderBg, borderBottom: `2px solid ${folderColor}`, display: "flex", alignItems: "center", gap: 14 }}>
           <FolderIc size={24} style={{ color: folderColor, flexShrink: 0 }} />
           <div style={{ flex: 1 }}>
-            <p style={{ fontWeight: 700, fontSize: 18, color: folderColor, marginBottom: 3 }}>{folderLabel}</p>
+            <p style={{ fontWeight: 700, fontSize: 18, color: folderColor, marginBottom: 3 }}>{verdictLabel}</p>
             <p style={{ fontSize: 13, color: "var(--ink-3)" }}>
-              DNS &amp; authentication analysis for <strong style={{ color: "var(--ink)" }}>{test.domain}</strong>
+              Authentication &amp; blacklist check for <strong style={{ color: "var(--ink)" }}>{test.domain}</strong>
             </p>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -347,46 +250,43 @@ function ResultStage({ result, test, onReset, onRetest }: { result: Result; test
       </div>
 
       <p style={{ fontSize: 12, color: "var(--ink-4)", lineHeight: 1.6, padding: "0 4px" }}>
-        <strong style={{ color: "var(--ink-3)" }}>How this verdict works:</strong> the authentication and blacklist results above are live lookups. The placement verdict is an estimate from those results, not a reading of where your email landed — mailbox providers don&apos;t share that data.
+        <strong style={{ color: "var(--ink-3)" }}>What this checks:</strong> live DNS lookups of your SPF, DKIM and DMARC records and domain blacklists. It doesn&apos;t send an email or measure where yours lands, so it isn&apos;t a placement result.
       </p>
 
       {/* Recommendation */}
-      {(!inboxed || score < 65) ? (
+      {level !== "healthy" ? (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          <div className="card" style={{ padding: 24, borderLeft: "3px solid var(--red)" }}>
+          <div className="card" style={{ padding: 24, borderLeft: `3px solid ${folderColor}` }}>
             <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 16 }}>
-              <Flame size={18} style={{ color: "var(--red)", flexShrink: 0, marginTop: 2 }} />
+              <Flame size={18} style={{ color: folderColor, flexShrink: 0, marginTop: 2 }} />
               <div>
-                <p style={{ fontWeight: 700, fontSize: 15, color: "var(--red)", marginBottom: 8 }}>
-                  {result.folder === "spam" ? "High spam risk." : "Inbox placement at risk."}
+                <p style={{ fontWeight: 700, fontSize: 15, color: folderColor, marginBottom: 8 }}>
+                  {level === "risk" ? "Fix this before you send more." : "A few things to tighten."}
                 </p>
                 <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
-                  {result.folder === "spam"
-                    ? "Your authentication and blacklist results look like a setup that lands in spam. If that is what is happening, recipients never see your email, replies stop, and continued sending makes recovery slower."
-                    : "Promotions tab means lower visibility and engagement. Usually caused by missing authentication, thin sending history, or content triggers."}
-                </p>
-                <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7, marginTop: 8 }}>
-                  <strong style={{ color: "var(--ink)" }}>Test again to make sure.</strong> One result can be a fluke — send a fresh test from the same inbox before you change anything.
+                  {level === "risk"
+                    ? "At least one check failed. Authentication failures and domain blacklist listings are the most common reasons cold email goes to spam. Work through the list below, then check again."
+                    : "Nothing failed, but some checks could be stronger. See the list below, then check again."}
                 </p>
               </div>
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               <button onClick={onRetest} className="btn btn-primary" style={{ fontSize: 13 }}>
-                <RefreshCw size={13} /> Test {test.domain} again
+                <RefreshCw size={13} /> Check {test.domain} again
               </button>
               <button onClick={onReset} className="btn btn-ghost" style={{ fontSize: 13 }}>
-                Test another domain
+                Check another domain
               </button>
             </div>
           </div>
 
-          {diagnose(test, result) === "consider_replacement" && (
+          {diagnosis === "consider_replacement" && (
           <div className="card" style={{ padding: "20px 24px", background: "var(--ink)", border: "none" }}>
             <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase" as const, letterSpacing: "0.08em", color: "rgba(255,255,255,0.55)", marginBottom: 8 }}>
               Need to start sending again quickly?
             </p>
             <p style={{ fontSize: 14, color: "#fff", lineHeight: 1.65, marginBottom: 14 }}>
-              This domain is blacklisted and showing a high spam risk. If a retest confirms it, the fastest fix is fresh infrastructure. Get pre-warmed inboxes from WarmInboxes — <strong>free domains included</strong> — and be back in the inbox in days, not the weeks a damaged domain takes to recover.
+              This domain is on a domain blacklist. Delisting takes time, and the fastest way to keep campaigns running is fresh infrastructure. Get pre-warmed inboxes from WarmInboxes — <strong>free domains included</strong> — and keep sending while this domain recovers.
             </p>
             <a href="https://warminboxes.com" target="_blank" rel="noopener" data-cta="result-replace"
               style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 600, color: "var(--ink)", background: "#fff", padding: "9px 16px", borderRadius: 8, textDecoration: "none" }}>
@@ -401,14 +301,14 @@ function ResultStage({ result, test, onReset, onRetest }: { result: Result; test
             <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 16 }}>
               <CheckCircle2 size={18} style={{ color: "var(--green)", flexShrink: 0, marginTop: 2 }} />
               <div>
-                <p style={{ fontWeight: 700, fontSize: 15, color: "var(--green)", marginBottom: 6 }}>Looks healthy.</p>
+                <p style={{ fontWeight: 700, fontSize: 15, color: "var(--green)", marginBottom: 6 }}>Your domain setup looks healthy.</p>
                 <p style={{ fontSize: 13, color: "var(--ink-3)", lineHeight: 1.7 }}>
-                  Authentication passes and no blacklist listings were found, the signals that usually point to inbox placement. Deliverability can shift quietly, so test again before major campaigns.
+                  Authentication passes and the domain isn&apos;t on the blacklists that answered. That rules out the setup problems that most often send cold email to spam. Placement still depends on your list, content and sending volume, so check it in your own inbox below.
                 </p>
               </div>
             </div>
             <button onClick={onReset} className="btn btn-ghost" style={{ fontSize: 13 }}>
-              <RefreshCw size={13} /> Test another domain
+              <RefreshCw size={13} /> Check another domain
             </button>
           </div>
 
@@ -421,6 +321,8 @@ function ResultStage({ result, test, onReset, onRetest }: { result: Result; test
           </div>
         </div>
       )}
+
+      <SelfTestCard />
 
       {/* What to fix */}
       {needsFix.length > 0 && (
@@ -447,79 +349,34 @@ function ResultStage({ result, test, onReset, onRetest }: { result: Result; test
 export default function TestPage() {
   const [stage, setStage] = useState<Stage>("form");
   const [test, setTest] = useState<TestState | null>(null);
-  const [result, setResult] = useState<Result | null>(null);
-  const [elapsed, setElapsed] = useState(0);
-  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const startRef = useRef<number>(0);
-
-  const stop = useCallback(() => {
-    if (pollRef.current) clearInterval(pollRef.current);
-    if (tickRef.current) clearInterval(tickRef.current);
-  }, []);
-
-  useEffect(() => () => stop(), [stop]);
-
-  const getResult = useCallback(async (t: TestState, el: number) => {
-    const res = await fetch(`/api/check-result?id=${t.id}&domain=${encodeURIComponent(t.domain)}&elapsed=${el}&score=${t.score}`);
-    const data = await res.json();
-    if (data.status === "received") {
-      stop();
-      reportResult(t, data);
-      setResult(data);
-      setStage("result");
-    }
-  }, [stop]);
-
-  const startPolling = useCallback((t: TestState) => {
-    startRef.current = Date.now();
-    tickRef.current = setInterval(() => setElapsed(Date.now() - startRef.current), 1000);
-    pollRef.current = setInterval(() => getResult(t, Date.now() - startRef.current), 3000);
-  }, [getResult]);
 
   const handleSubmit = async (raw: string) => {
     const domain = raw.includes("@") ? raw.split("@")[1] : raw.replace(/^https?:\/\//, "").split("/")[0].toLowerCase().trim();
+    track("bi_diagnostic_start", { tool_name: "domain_check" });
     const res = await fetch("/api/start-test", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ domain }),
     });
-    if (!res.ok) throw new Error("Failed to start test. Try again.");
+    if (!res.ok) throw new Error("The check failed. Try again.");
     const data = await res.json();
-    const t: TestState = { id: data.id, domain: data.domain, seedAddresses: data.seedAddresses, score: data.score, checks: data.checks };
-    track("bi_diagnostic_start", { tool_name: "placement" });
+    const t: TestState = { id: data.id, domain: data.domain, score: data.score, checks: data.checks };
+    reportResult(t);
     setTest(t);
-    setElapsed(0);
-    setStage("waiting");
-    startPolling(t);
-  };
-
-  const handleForce = async () => {
-    if (!test) return;
-    stop();
-    const res = await fetch(`/api/check-result?id=${test.id}&domain=${encodeURIComponent(test.domain)}&elapsed=15000&score=${test.score}`);
-    const data = await res.json();
-    if (data.status === "received") reportResult(test, data);
-    setResult(data);
     setStage("result");
   };
 
   const handleRetest = async () => {
     if (!test) return;
-    stop();
-    setResult(null);
     await handleSubmit(test.domain);
   };
 
   const handleReset = () => {
-    stop();
     setStage("form");
     setTest(null);
-    setResult(null);
-    setElapsed(0);
   };
 
-  const stageIdx = stage === "form" ? 0 : stage === "waiting" ? 1 : 2;
+  const stageIdx = stage === "form" ? 0 : 1;
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--paper-2)" }}>
@@ -547,14 +404,14 @@ export default function TestPage() {
         </div>
         {/* Progress bar */}
         <div style={{ height: 2, background: "var(--border)" }}>
-          <div style={{ height: "100%", background: "var(--red)", transition: "width 0.5s ease", width: stageIdx === 0 ? "10%" : stageIdx === 1 ? "50%" : "100%" }} />
+          <div style={{ height: "100%", background: "var(--red)", transition: "width 0.5s ease", width: stageIdx === 0 ? "10%" : "100%" }} />
         </div>
       </nav>
 
       {/* Step indicators */}
       <div style={{ borderBottom: "1px solid var(--border)", background: "var(--paper)" }}>
         <div style={{ maxWidth: 640, margin: "0 auto", padding: "14px 24px", display: "flex", alignItems: "center", gap: 8 }}>
-          {[{ l: "Setup" }, { l: "Send Email" }, { l: "Results" }].map(({ l }, i) => {
+          {[{ l: "Your domain" }, { l: "Results" }].map(({ l }, i) => {
             const active = stageIdx === i, done = stageIdx > i;
             return (
               <div key={l} style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -568,19 +425,13 @@ export default function TestPage() {
               </div>
             );
           })}
-          {stage === "waiting" && (
-            <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 4, fontSize: 12, color: "var(--ink-4)" }}>
-              <Clock size={11} /> {Math.floor(elapsed / 1000)}s
-            </div>
-          )}
         </div>
       </div>
 
       {/* Content */}
       <main style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 24px 64px" }}>
         {stage === "form" && <FormStage onSubmit={handleSubmit} />}
-        {stage === "waiting" && test && <WaitingStage test={test} elapsed={elapsed} onForce={handleForce} />}
-        {stage === "result" && result && test && <ResultStage result={result} test={test} onReset={handleReset} onRetest={handleRetest} />}
+        {stage === "result" && test && <ResultStage test={test} onReset={handleReset} onRetest={handleRetest} />}
       </main>
 
       <div style={{ textAlign: "center", paddingBottom: 32, fontSize: 12, color: "var(--ink-4)" }}>

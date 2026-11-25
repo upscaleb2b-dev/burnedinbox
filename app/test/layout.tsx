@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Free Inbox Placement Test & Warm Score",
-  description: "Run an all-inclusive email deliverability test: real SPF, DKIM, DMARC and blacklist checks plus inbox placement testing across Gmail, Outlook, Yahoo and iCloud.",
+  title: "Free Email Authentication & Blacklist Check",
+  description: "Check your cold email domain free: live SPF, DKIM, DMARC and domain blacklist checks with a 0–100 health score, plus how to check placement in your own inbox.",
   alternates: { canonical: "/test" },
   openGraph: {
-    title: "Free Inbox Placement Test & Warm Score",
-    description: "Run an all-inclusive email deliverability test: real SPF, DKIM, DMARC and blacklist checks plus inbox placement testing across Gmail, Outlook, Yahoo and iCloud.",
+    title: "Free Email Authentication & Blacklist Check",
+    description: "Check your cold email domain free: live SPF, DKIM, DMARC and domain blacklist checks with a 0–100 health score, plus how to check placement in your own inbox.",
     url: "https://burnedinbox.com/test",
     siteName: "Burned Inbox",
     type: "website",
@@ -19,8 +19,8 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "WebApplication",
-      "name": "Free Inbox Placement Test & Warm Score",
-      "description": "Run an all-inclusive email deliverability test: real SPF, DKIM, DMARC and blacklist checks plus inbox placement testing across Gmail, Outlook, Yahoo and iCloud.",
+      "name": "Free Email Authentication & Blacklist Check",
+      "description": "Check your cold email domain free: live SPF, DKIM, DMARC and domain blacklist checks with a 0–100 health score, plus how to check placement in your own inbox.",
       "url": "https://burnedinbox.com/test",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Any",
@@ -48,7 +48,7 @@ const jsonLd = {
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "Free Inbox Placement Test & Warm Score",
+          "name": "Free Email Authentication & Blacklist Check",
           "item": "https://burnedinbox.com/test"
         }
       ]

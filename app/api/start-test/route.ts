@@ -2,13 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import type { DnsCheck } from "@/lib/types";
 
-const SEED_PROVIDERS = [
-  { provider: "Gmail",   tag: "gmail" },
-  { provider: "Outlook", tag: "outlook" },
-  { provider: "Yahoo",   tag: "yahoo" },
-  { provider: "iCloud",  tag: "icloud" },
-];
-
 // ── Normalizers: map each tool API response → DnsCheck + score points ─────────
 
 function normalizeSPF(data: Record<string, unknown>): { check: DnsCheck; pts: number } {
@@ -143,11 +136,6 @@ export async function POST(req: NextRequest) {
     const clean = domain.trim().toLowerCase().replace(/^https?:\/\//, "").split("/")[0];
     const id = uuidv4().replace(/-/g, "").slice(0, 16);
 
-    // One seed address per provider — user sends directly to all of them
-    const seedAddresses = SEED_PROVIDERS.map(p => ({
-      provider: p.provider,
-      address: `seed+${id}+${p.tag}@burnedinbox.com`,
-    }));
 
     // Call deployed tool APIs in parallel — same logic powering the standalone tools
     const origin = new URL(req.url).origin;
@@ -170,7 +158,7 @@ export async function POST(req: NextRequest) {
     const score: number = Math.min(100, spf.pts + dkim.pts + dmarc.pts + bl.pts);
     const checks: DnsCheck[] = [spf.check, dkim.check, dmarc.check, bl.check];
 
-    return NextResponse.json({ id, domain: clean, seedAddresses, score, checks, createdAt: Date.now() });
+    return NextResponse.json({ id, domain: clean, score, checks, createdAt: Date.now() });
   } catch {
     return NextResponse.json({ error: "Internal error" }, { status: 500 });
   }
